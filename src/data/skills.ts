@@ -10,18 +10,18 @@ export const skillCategories: SkillCategory[] = [
   },
   {
     title: "Frameworks & Libraries",
-    skills: ["PyTorch", "TensorFlow", "Scikit-learn", "Pandas", "NumPy", "React", "Next.js", "Flask"]
+    skills: ["FastAPI", "Streamlit", "React", "Next.js", "Flask", "Node.js", "Django", "Matplotlib", "Seaborn", "Plotly", "dplyr", "ggplot2", "tidyr2", "readr", "BeautifulSoup"]
   },
   {
     title: "Tools & Technologies",
-    skills: ["Git", "Docker", "AWS", "Google Cloud", "PostgreSQL", "MongoDB", "Supabase", "DigitalOcean"]
+    skills: ["Git", "Docker", "AWS", "Google Cloud", "PostgreSQL", "MongoDB", "Supabase", "DigitalOcean", "MLFlow", "Keras", "CUDA", "Android Studio", "Vercel"]
   },
   {
     title: "Data Science & ML",
-    skills: ["Scikit-learn", "PyTorch", "TensorFlow", "Scipy", "Autograd", "Jax"]
+    skills: ["Scikit-learn", "PyTorch", "TensorFlow", "Scipy", "Autograd", "Jax", "Pandas", "NumPy", "HuggingFace"]
   },
   {
     title: "Beyond the Code",
-    skills: ["Project Management", "Technical Writing", "Science Communication", "Mentorship"]
+    skills: ["Tableau", "PowerBI", "Excel", "Salesforce", "Qualtrics", "PowerPoint", "Canva", "Power Query", "Figma"]
   }
 ];

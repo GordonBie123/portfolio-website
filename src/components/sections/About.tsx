@@ -108,21 +108,6 @@ export default function About() {
                     ))}
                 </div>
               </div>
-
-              {/* Other Experience */}
-              <div className="space-y-6">
-                <h3 className="text-xl font-bold text-medium-gray flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-medium-gray/40" />
-                  Other Experience
-                </h3>
-                <div>
-                  {experiences
-                    .filter((exp) => exp.type === "other")
-                    .map((exp, index) => (
-                      <ExperienceCard key={index} experience={exp} />
-                    ))}
-                </div>
-              </div>
             </div>
           </motion.div>
         </div>

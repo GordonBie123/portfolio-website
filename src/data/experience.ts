@@ -5,7 +5,7 @@ export interface Experience {
   location: string;
   responsibilities: string[];
   skills: string[];
-  type: "professional" | "research" | "other";
+  type: "professional" | "research";
   logo?: string;
 }
 
@@ -61,6 +61,18 @@ export const experiences: Experience[] = [
     logo: "/logos/generate.jpg"
   },
   {
+    role: "Technical Product Manager",
+    company: "Cutis Intelligence",
+    duration: "Nov 2025 - Present",
+    location: "Boston, MA",
+    responsibilities: [
+      "Leading team of engineers to develop CV powered skin analysis software to prescribe acne medications.",
+    ],
+    skills: ["OpenCV", "Python", "Docker", "FastAPI", "SQL", "PostgreSQL", "pgvector", "PyTorch", "LLM Integration", "Streamlit", "Slack"],
+    type: "professional",
+    logo: "/logos/cutis.jpg"
+  },
+  {
     role: "Peer Tutor",
     company: "Northeastern University",
     duration: "Jan 2024 - May 2025",
@@ -71,17 +83,5 @@ export const experiences: Experience[] = [
     skills: ["Python", "pandas", "numpy", "scipy","scikit-learn", "matplotlib", "seaborn", "statsmodels", "autograd"],
     type: "professional",
     logo: "/logos/neu.jpg"
-  },
-  {
-    role: "Restaurant Server",
-    company: "The Daily Grill",
-    duration: "May 2023 - Aug 2023",
-    location: "Vancouver, BC",
-    responsibilities: [
-      "Provided high-quality service in a fast-paced dining environment.",
-      "Managed tables, handled payments, and ensured guest satisfaction."
-    ],
-    skills: ["Communication", "Multi-tasking", "Customer Service"],
-    type: "other"
   }
 ];
