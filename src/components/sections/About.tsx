@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Section from "@/components/ui/Section";
 import { ExperienceCard } from "@/components/ui/ExperienceCard";
@@ -9,7 +10,43 @@ import { topTracks } from "@/data/spotify";
 import { SpotifyCard } from "@/components/ui/SpotifyCard";
 import { profile } from "@/data/profile";
 
+interface NowPlaying {
+  isPlaying: boolean;
+  title?: string;
+  artist?: string;
+  albumImageUrl?: string;
+  songUrl?: string;
+}
+
 export default function About() {
+  const [nowPlaying, setNowPlaying] = useState<NowPlaying | null>(null);
+
+  useEffect(() => {
+    const fetchNowPlaying = async () => {
+      try {
+        const res = await fetch("/api/now-playing");
+        const data = await res.json();
+        setNowPlaying(data);
+      } catch (e) {
+        console.error("Error fetching Spotify data", e);
+      }
+    };
+
+    fetchNowPlaying();
+    const interval = setInterval(fetchNowPlaying, 30000); // Update every 30s
+    return () => clearInterval(interval);
+  }, []);
+
+  const displayTracks = (nowPlaying?.isPlaying && nowPlaying.title && nowPlaying.artist && nowPlaying.albumImageUrl && nowPlaying.songUrl)
+    ? [{ 
+        title: nowPlaying.title, 
+        artist: nowPlaying.artist, 
+        albumArt: nowPlaying.albumImageUrl, 
+        url: nowPlaying.songUrl,
+        isNowPlaying: true 
+      }, ...topTracks.slice(0, 3)]
+    : topTracks;
+
   return (
     <Section id="about" variant="off-white">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
@@ -46,7 +83,7 @@ export default function About() {
               Currently Listening To
             </h3>
             <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4 gap-4">
-              {topTracks.map((song) => (
+              {displayTracks.map((song) => (
                 <SpotifyCard key={song.title} song={song} />
               ))}
             </div>

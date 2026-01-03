@@ -83,5 +83,17 @@ export const experiences: Experience[] = [
     skills: ["Python", "pandas", "numpy", "scipy","scikit-learn", "matplotlib", "seaborn", "statsmodels", "autograd"],
     type: "professional",
     logo: "/logos/neu.jpg"
+  },
+  {
+    role: "Student Researcher",
+    company: "Northeastern University College of Engineering",
+    duration: "Oct 2025 - Present",
+    location: "Boston, MA",
+    responsibilities: [
+      "Developing self-supervised transformers for predictive maintenance on 500K+ sensor rows using PyTorch, collaborating with Seagate Technologies and PhD researchers to co-author a peer-reviewed paper."
+    ],
+    skills: ["PyTorch"],
+    type: "research",
+    logo: "/logos/neu.jpg"
   }
 ];
