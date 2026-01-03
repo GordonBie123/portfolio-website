@@ -27,7 +27,7 @@ export default function About() {
                 <p 
                   key={index} 
                   dangerouslySetInnerHTML={{ __html: paragraph }}
-                  className="[&>strong]:text-charcoal [&>strong]:font-bold"
+                  className="[&>strong]:text-charcoal/80 [&>strong]:font-semibold"
                 />
               ))}
             </div>
@@ -93,12 +93,35 @@ export default function About() {
           >
             <h2 className="text-3xl md:text-4xl font-display font-bold mb-12">My Journey</h2>
             
-            <div className="space-y-4">
-              <h3 className="text-xl font-bold text-matcha mb-8">Professional & Research</h3>
-              <div>
-                {experiences.map((exp, index) => (
-                  <ExperienceCard key={index} experience={exp} />
-                ))}
+            <div className="space-y-12">
+              {/* Relevant Experience */}
+              <div className="space-y-6">
+                <h3 className="text-xl font-bold text-matcha flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-matcha" />
+                  Relevant Experience
+                </h3>
+                <div>
+                  {experiences
+                    .filter((exp) => exp.type === "professional")
+                    .map((exp, index) => (
+                      <ExperienceCard key={index} experience={exp} />
+                    ))}
+                </div>
+              </div>
+
+              {/* Other Experience */}
+              <div className="space-y-6">
+                <h3 className="text-xl font-bold text-medium-gray flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-medium-gray/40" />
+                  Other Experience
+                </h3>
+                <div>
+                  {experiences
+                    .filter((exp) => exp.type === "other")
+                    .map((exp, index) => (
+                      <ExperienceCard key={index} experience={exp} />
+                    ))}
+                </div>
               </div>
             </div>
           </motion.div>

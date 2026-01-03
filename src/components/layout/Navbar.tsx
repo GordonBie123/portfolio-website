@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { navLinks } from "@/data/links";
+import { profile } from "@/data/profile";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -33,7 +34,9 @@ export default function Navbar() {
           href="#home"
           className="text-2xl font-display font-bold text-charcoal flex items-center"
         >
-          <span className="text-matcha">G</span>ordon<span className="text-matcha">.</span>
+          <span className="text-matcha">{profile.logoText.split("'")[0]}</span>
+          {profile.logoText.slice(profile.logoText.split("'")[0].length)}
+          <span className="text-matcha">.</span>
         </Link>
 
         {/* Desktop Links */}

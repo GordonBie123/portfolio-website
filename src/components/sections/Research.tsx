@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import Section from "@/components/ui/Section";
 import { researchTopics, researchOverview } from "@/data/research";
 import { Button } from "@/components/ui/Button";
+import { ExperienceCard } from "@/components/ui/ExperienceCard";
+import { experiences } from "@/data/experience";
 
 export default function Research() {
   return (
@@ -47,6 +49,27 @@ export default function Research() {
           </motion.div>
         ))}
       </div>
+
+      {/* Research Experience Subsection */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="mt-32"
+      >
+        <div className="flex flex-col items-center text-center mb-12">
+          <h3 className="text-2xl md:text-3xl font-display font-bold mb-4">Academic & Research Journey</h3>
+          <div className="w-12 h-1 bg-matcha rounded-full" />
+        </div>
+        
+        <div className="max-w-4xl mx-auto">
+          {experiences
+            .filter((exp) => exp.type === "research")
+            .map((exp, index) => (
+              <ExperienceCard key={index} experience={exp} />
+            ))}
+        </div>
+      </motion.div>
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}

@@ -6,33 +6,82 @@ export interface Experience {
   responsibilities: string[];
   skills: string[];
   type: "professional" | "research" | "other";
+  logo?: string;
 }
 
 export const experiences: Experience[] = [
   {
-    role: "ML Researcher (Contract)",
-    company: "Healthcare AI Solutions",
-    duration: "May 2025 - Present",
-    location: "Vancouver, BC",
+    role: "Incoming Data Science Intern / Co-op",
+    company: "Johnson & Johnson",
+    duration: "Jan 2026 - May 2026",
+    location: "Cambridge, MA",
     responsibilities: [
-      "Developing predictive models for early detection of chronic diseases using multi-modal patient data.",
-      "Optimizing deep learning architectures for clinical decision support systems.",
-      "Collaborating with medical professionals to validate model outputs and ensure clinical relevance."
+      "Selected for co-op program on the innovative medicine team, will apply AI & deep learning to drug development"
     ],
-    skills: ["Python", "PyTorch", "Medical Imaging", "Clinical Data"],
-    type: "professional"
+    skills: ["TBD"],
+    type: "professional",
+    logo: "/logos/j&j.jpg" 
   },
   {
-    role: "Research Assistant",
-    company: "Bioinformatics Lab, UBC",
-    duration: "Jan 2024 - Apr 2025",
+    role: "AI Engineer Intern / Co-op",
+    company: "State Street Corporation",
+    duration: "Oct 2025 - Dec 2025",
+    location: "Boston, MA",
+    responsibilities: [
+      "Shipped an AI audit-report generation app using LLMs that transforms transaction data and document notes into GAAP-compliant reports, reducing preparation time by 95%."
+    ],
+    skills: ["Python", "FastAPI", "MLFlow", "LLM Integration", "Base64"],
+    type: "professional",
+    logo: "/logos/ssc.png" 
+  },
+  {
+    role: "Data Analytics Intern / Co-op",
+    company: "State Street Investment Management",
+    duration: "Jul 2025 - Sep 2025",
+    location: "Boston, MA",
+    responsibilities: [
+      "Analyzed satisfaction survey data from clients creating executive dashboards and presentations that informed product enhancements and helped retain $10M+ in revenue."
+    ],
+    skills: ["Salesforce", "Qualtrics", "PowerBI", "Powerpoint","Excel"],
+    type: "professional",
+    logo: "/logos/ssim.jpg" 
+  },
+  {
+    role: "Technical Lead",
+    company: "Generate Product Studio",
+    duration: "Aug 2025 - Present",
+    location: "Boston, MA",
+    responsibilities: [
+      "Leading team of engineers to deliver data products for our clients.",
+      "Current Project: Axiris, AI Powered portable autorefractor with the JHU Eye Institute.",
+      "Previous Project: Unsprawl, AI B2B SaaS Workflow Optimization Startup."
+    ],
+    skills: ["OpenCV", "Python", "Docker", "FastAPI", "SQL", "PostgreSQL", "pgvector", "SBERT", "LLM Integration", "Streamlit", "Alembic", "Digital Ocean"],
+    type: "professional",
+    logo: "/logos/generate.jpg"
+  },
+  {
+    role: "Peer Tutor",
+    company: "Northeastern University",
+    duration: "Jan 2024 - May 2025",
+    location: "Boston, MA",
+    responsibilities: [
+      "Led weekly study groups for Python programming, linear algebra, and machine learning courses."
+    ],
+    skills: ["Python", "pandas", "numpy", "scipy","scikit-learn", "matplotlib", "seaborn", "statsmodels", "autograd"],
+    type: "professional",
+    logo: "/logos/neu.jpg"
+  },
+  {
+    role: "Restaurant Server",
+    company: "The Daily Grill",
+    duration: "May 2023 - Aug 2023",
     location: "Vancouver, BC",
     responsibilities: [
-      "Implemented genomic analysis pipelines using R and Python for large-scale sequencing datasets.",
-      "Automated data preprocessing steps, reducing processing time by 40%.",
-      "Contributed to research papers on gene expression patterns in rare diseases."
+      "Provided high-quality service in a fast-paced dining environment.",
+      "Managed tables, handled payments, and ensured guest satisfaction."
     ],
-    skills: ["R", "Python", "Genomics", "Nextflow"],
-    type: "research"
+    skills: ["Communication", "Multi-tasking", "Customer Service"],
+    type: "other"
   }
 ];
