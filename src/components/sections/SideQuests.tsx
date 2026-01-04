@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Section from "@/components/ui/Section";
-import { sideQuests } from "@/data/sidequests";
+import { sideQuests, sideQuestsContent } from "@/data/sidequests";
 import { ExperienceCard } from "@/components/ui/ExperienceCard";
 
 export default function SideQuests() {
@@ -24,7 +24,7 @@ export default function SideQuests() {
             viewport={{ once: true }}
             className="text-lg text-medium-gray max-w-2xl leading-relaxed"
           >
-            Ventures, initiatives, and creative pursuits outside the standard path.
+            {sideQuestsContent.subtitle}
           </motion.p>
           <div className="w-12 h-1 bg-matcha rounded-full mt-8" />
         </div>

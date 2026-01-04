@@ -16,7 +16,7 @@ export const experiences: Experience[] = [
     duration: "Jan 2026 - May 2026",
     location: "Cambridge, MA",
     responsibilities: [
-      "Selected for co-op program on the innovative medicine team, will apply AI & deep learning to drug development"
+      "Selected for co-op program on the innovative medicine team, will apply AI & deep learning to drug development."
     ],
     skills: ["TBD"],
     type: "professional",
@@ -79,7 +79,7 @@ export const experiences: Experience[] = [
     duration: "Jun 2025 - Present",
     location: "Remote",
     responsibilities: [
-      "Freelance labelling image and video data for ethical generative AI model training and validation"
+      "Freelance labelling image and video data for ethical generative AI model training and validation."
     ],
     skills: ["Labelbox", "CVAT"],
     type: "professional",
