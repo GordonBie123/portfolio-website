@@ -47,6 +47,18 @@ export const experiences: Experience[] = [
     logo: "/logos/ssim.jpg" 
   },
   {
+    role: "Technical Product Manager",
+    company: "Cutis Intelligence",
+    duration: "Nov 2025 - Present",
+    location: "Boston, MA",
+    responsibilities: [
+      "Leading team of engineers to develop CV powered skin analysis software to prescribe acne medications.",
+    ],
+    skills: ["OpenCV", "Python", "Docker", "FastAPI", "SQL", "PostgreSQL", "pgvector", "PyTorch", "LLM Integration", "Streamlit", "Slack"],
+    type: "professional",
+    logo: "/logos/cutis.jpg"
+  },
+  {
     role: "Technical Lead",
     company: "Generate Product Studio",
     duration: "Aug 2025 - Present",
@@ -60,29 +72,18 @@ export const experiences: Experience[] = [
     type: "professional",
     logo: "/logos/generate.jpg"
   },
+
   {
-    role: "Technical Product Manager",
-    company: "Cutis Intelligence",
-    duration: "Nov 2025 - Present",
-    location: "Boston, MA",
+    role: "Data Annotator",
+    company: "Handshake AI",
+    duration: "Jun 2025 - Present",
+    location: "Remote",
     responsibilities: [
-      "Leading team of engineers to develop CV powered skin analysis software to prescribe acne medications.",
+      "Freelance labelling image and video data for ethical generative AI model training and validation"
     ],
-    skills: ["OpenCV", "Python", "Docker", "FastAPI", "SQL", "PostgreSQL", "pgvector", "PyTorch", "LLM Integration", "Streamlit", "Slack"],
+    skills: ["Labelbox", "CVAT"],
     type: "professional",
-    logo: "/logos/cutis.jpg"
-  },
-  {
-    role: "Peer Tutor",
-    company: "Northeastern University",
-    duration: "Jan 2024 - May 2025",
-    location: "Boston, MA",
-    responsibilities: [
-      "Led weekly study groups for Python programming, linear algebra, and machine learning courses."
-    ],
-    skills: ["Python", "pandas", "numpy", "scipy","scikit-learn", "matplotlib", "seaborn", "statsmodels", "autograd"],
-    type: "professional",
-    logo: "/logos/neu.jpg"
+    logo: "/logos/handshake.jpg"
   },
   {
     role: "Student Researcher",
@@ -94,6 +95,18 @@ export const experiences: Experience[] = [
     ],
     skills: ["PyTorch"],
     type: "research",
+    logo: "/logos/neu.jpg"
+  },
+  {
+    role: "Peer Tutor",
+    company: "Northeastern University",
+    duration: "Jan 2024 - May 2025",
+    location: "Boston, MA",
+    responsibilities: [
+      "Led weekly study groups for Python programming, linear algebra, and machine learning courses."
+    ],
+    skills: ["Python", "pandas", "numpy", "scipy","scikit-learn", "matplotlib", "seaborn", "statsmodels", "autograd"],
+    type: "professional",
     logo: "/logos/neu.jpg"
   }
 ];

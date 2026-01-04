@@ -4,29 +4,28 @@ export type SideQuest = Omit<Experience, 'type'> & { type?: "professional" | "re
 
 export const sideQuests: Experience[] = [
   {
-    role: "Hackathon Organizer",
-    company: "HackNU",
-    duration: "Oct 2024",
-    location: "Boston, MA",
-    responsibilities: [
-      "Coordinated logistics for a 500+ participant student hackathon.",
-      "Managed sponsor relations and technical workshops during the 24-hour event."
-    ],
-    skills: ["Leadership", "Event Planning", "Public Speaking"],
-    type: "professional", // Dummy type for compatibility
-    logo: "https://logo.clearbit.com/northeastern.edu"
-  },
-  {
-    role: "Open Source Contributor",
-    company: "ML Community",
-    duration: "Jun 2024 - Present",
+    role: "Business Owner",
+    company: "eBay",
+    duration: "Jul 2024",
     location: "Remote",
     responsibilities: [
-      "Contributing bug fixes and feature enhancements to popular machine learning libraries.",
-      "Engaging in code reviews and documentation improvements."
+      "Curating and selling vintage watches and watch parts on eBay, 20K MRR",
     ],
-    skills: ["Git", "Python", "OSS Compliance"],
-    type: "professional"
+    skills: ["SEO", "Choosing Cool Items"],
+    type: "professional",
+    logo: "/logos/ebay.jpg"
+  },
+  {
+    role: "English Writing Tutor",
+    company: "Indigo Education",
+    duration: "Jun 2023 - Present",
+    location: "Remote",
+    responsibilities: [
+      "Helping high school students improve their writing and express themselves better in my free time",
+    ],
+    skills: ["English"],
+    type: "professional",
+    logo: "/logos/IndigoeducationLogo.jpg"
   },
   {
     role: "Marketing Associate",
@@ -41,16 +40,16 @@ export const sideQuests: Experience[] = [
     logo: "/logos/disruptlogo.jpg"
   },
   {
-    role: "CRM & Sales Intern",
-    company: "Indigo Education",
-    duration: "May 2024 - Aug 2024",
-    location: "Vancouver, BC",
+    role: "Program Ambassador",
+    company: "Northeastern University",
+    duration: "Jan 2024 - Jul 2025",
+    location: "Boston, MA",
     responsibilities: [
-      "Assisted in the management of customer relationships and closing deals with prospective clients."
+      "Created social media marketing content and spoke at information session events for 90,000 prospective students"
     ],
-    skills: ["Sales Pitching", "Customer Service", "CRM Management"],
+    skills: ["Instagram", "TikTok", "Public Speaking", "Canva"],
     type: "professional",
-    logo: "/logos/IndigoeducationLogo.jpg"
+    logo: "/logos/neu.jpg"
   },
   {
     role: "Strategy Consultant",
@@ -63,5 +62,41 @@ export const sideQuests: Experience[] = [
     skills: ["PowerPoint", "Excel", "RocketReach"],
     type: "professional",
     logo: "/logos/grc.jpg"
+  },
+  {
+    role: "CRM & Sales Intern",
+    company: "Indigo Education",
+    duration: "May 2024 - Aug 2024",
+    location: "Vancouver, BC",
+    responsibilities: [
+      "Assisted in the management of customer relationships and closing deals with prospective clients."
+    ],
+    skills: ["Sales Pitching", "CRM Management"],
+    type: "professional",
+    logo: "/logos/IndigoeducationLogo.jpg"
+  },
+  {
+    role: "Bartender + Waiter",
+    company: "Noodle and Beer Ltd.",
+    duration: "Oct 2023 - Apr 2024",
+    location: "London, UK",
+    responsibilities: [
+      "Served a lot of pints, made cool cocktails, and served a lot of noodles to customers, very busy and stressful. Amazing restaurant."
+    ],
+    skills: ["Bartending", "Upselling", "Customer Service"],
+    type: "professional",
+    logo: "/logos/nnbl.jpg"
+  },
+  {
+    role: "Pastry Chef",
+    company: "Swan Bakery",
+    duration: "Sep 2023 - Apr 2024",
+    location: "London, UK",
+    responsibilities: [
+      "Made a lot of pastries, cakes, tarts, and more. Very fun, also learned that professional baking was not all sunshine and rainbows"
+    ],
+    skills: ["Baking", "Dish Washing"],
+    type: "professional",
+    logo: "/logos/swan.jpg"
   }
 ];
