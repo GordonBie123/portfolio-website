@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Github, Linkedin, Mail, ArrowUp } from "lucide-react";
 import { navLinks } from "@/data/links";
+import { profile } from "@/data/profile";
 
 export default function Footer() {
   const scrollToTop = () => {
@@ -42,7 +43,7 @@ export default function Footer() {
             <Linkedin size={20} />
           </Link>
           <Link
-            href="mailto:contact@example.com"
+            href={`mailto:${profile.email}`}
             className="p-3 bg-white/5 rounded-full hover:bg-matcha hover:text-white transition-all duration-300"
           >
             <Mail size={20} />

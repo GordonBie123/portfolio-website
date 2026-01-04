@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { ArrowDown } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { profile } from "@/data/profile";
+import Image from "next/image";
 
 export default function Hero() {
   const containerVariants = {
@@ -22,7 +23,7 @@ export default function Hero() {
     visible: { 
       opacity: 1, 
       y: 0,
-      transition: { duration: 0.8, ease: "easeOut" }
+      transition: { duration: 0.8, ease: "easeOut" as const }
     },
   };
 
@@ -57,7 +58,7 @@ export default function Hero() {
             variants={itemVariants}
             className="text-5xl md:text-7xl xl:text-8xl font-display font-bold text-charcoal mb-6 leading-[1.1]"
           >
-            Hello, I&apos;m <span className="text-matcha relative underline-offset-8 decoration-matcha/10">
+            Hello, I&apos;m <span className="text-matcha relative underline decoration-matcha/20 underline-offset-8">
               {profile.name}
             </span>
           </motion.h1>
@@ -100,7 +101,7 @@ export default function Hero() {
         <motion.div
           initial={{ opacity: 0, scale: 0.8, x: 50 }}
           animate={{ opacity: 1, scale: 1, x: 0 }}
-          transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
+          transition={{ duration: 1, ease: "easeOut" as const, delay: 0.2 }}
           className="lg:col-span-5 order-1 lg:order-2 flex justify-center relative"
         >
           <div className="relative w-64 h-64 md:w-80 md:h-80 lg:w-[450px] lg:h-[450px]">
@@ -110,23 +111,25 @@ export default function Hero() {
                 scale: [1, 1.05, 1],
                 rotate: [0, 5, 0] 
               }}
-              transition={{ repeat: Infinity, duration: 8, ease: "linear" }}
+              transition={{ repeat: Infinity, duration: 8, ease: "linear" as const }}
               className="absolute inset-0 bg-matcha/5 rounded-[40px] -rotate-6 blur-2xl"
             />
             
             {/* Image Container */}
             <motion.div 
               animate={{ y: [0, -15, 0] }}
-              transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
+              transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" as const }}
               className="relative w-full h-full rounded-[40px] overflow-hidden border-2 border-matcha/10 shadow-2xl shadow-matcha/20 group bg-off-white"
             >
-              <img
+              <Image
                 src={profile.headshot}
                 alt={profile.name}
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                fill
+                priority
+                className="object-cover transition-transform duration-700 group-hover:scale-110"
               />
               {/* Overlay Gradient */}
-              <div className="absolute inset-0 bg-gradient-to-tr from-matcha/10 to-transparent opacity-40 mix-blend-overlay" />
+              <div className="absolute inset-0 bg-gradient-to-tr from-matcha/10 to-transparent opacity-40 mix-blend-overlay pointer-events-none" />
             </motion.div>
 
             {/* Decorative Elements */}

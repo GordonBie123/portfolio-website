@@ -3,7 +3,7 @@ export const profile = {
   logoText: "Gordon's Story",
   welcomeMessage: "Welcome to my portfolio!",
   role: "Student, Data Scientist & Applied ML Researcher",
-  summary: "I'm a 3rd year Information Systems and International Business student at Northeastern University. I'm passionate about applying ML and AI to solve real-world problems and deliver meaningful impact.",
+  summary: "I'm a 3rd year Information Systems and International Business student at Northeastern University. I'm passionate about applying ML and AI to solve real-world problems and deliver postitive meaningful impact to the world.",
   thankYouMessage: "Thank you for visiting my portfolio (I spent a lot of time on this)",
   location: "Boston, MA / Vancouver, BC",
   email: "gordonbie2@gmail.com",

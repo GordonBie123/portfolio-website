@@ -4,5 +4,5 @@ export const navLinks = [
   { label: "Research", href: "#research" },
   { label: "Side Quests", href: "#side-quests" },
   { label: "Projects", href: "#projects" },
-  { label: "Contact", href: "#contact" },
+  { label: "Matcha", href: "#matcha" },
 ];

@@ -5,6 +5,7 @@ import About from "@/components/sections/About";
 import Research from "@/components/sections/Research";
 import SideQuests from "@/components/sections/SideQuests";
 import Projects from "@/components/sections/Projects";
+import Matcha from "@/components/sections/Matcha";
 import Contact from "@/components/sections/Contact";
 
 export default function Home() {
@@ -17,6 +18,7 @@ export default function Home() {
       <Research />
       <SideQuests />
       <Projects />
+      <Matcha />
       <Contact />
 
       <Footer />
