@@ -31,7 +31,8 @@ export async function GET() {
       title,
     });
   } catch (error) {
-    console.error("Spotify API Route Error:", error);
-    return NextResponse.json({ isPlaying: false, error: "Failed to fetch Spotify status" }, { status: 500 });
+    console.error("Spotify API Route Error (Likely due to no credentials or network):", error);
+    // Return a clean fallback so the frontend doesn't break
+    return NextResponse.json({ isPlaying: false });
   }
 }

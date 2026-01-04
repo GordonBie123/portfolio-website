@@ -25,10 +25,15 @@ export default function About() {
     const fetchNowPlaying = async () => {
       try {
         const res = await fetch("/api/now-playing");
-        const data = await res.json();
-        setNowPlaying(data);
+        if (res.ok) {
+          const data = await res.json();
+          setNowPlaying(data);
+        } else {
+          setNowPlaying({ isPlaying: false });
+        }
       } catch (e) {
         console.error("Error fetching Spotify data", e);
+        setNowPlaying({ isPlaying: false });
       }
     };
 

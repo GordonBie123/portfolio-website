@@ -18,6 +18,10 @@ const getAccessToken = async () => {
     }),
   });
 
+  if (!response.ok) {
+    throw new Error('Failed to get Spotify access token');
+  }
+
   return response.json() as Promise<{ access_token: string }>;
 };
 
