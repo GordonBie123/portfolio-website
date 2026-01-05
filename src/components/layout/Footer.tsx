@@ -29,14 +29,14 @@ export default function Footer() {
         {/* Social Icons */}
         <div className="flex gap-6 mb-12">
           <Link
-            href="https://github.com"
+            href={profile.links.github}
             target="_blank"
             className="p-3 bg-white/5 rounded-full hover:bg-matcha hover:text-white transition-all duration-300"
           >
             <Github size={20} />
           </Link>
           <Link
-            href="https://linkedin.com"
+            href={profile.links.linkedin}
             target="_blank"
             className="p-3 bg-white/5 rounded-full hover:bg-matcha hover:text-white transition-all duration-300"
           >

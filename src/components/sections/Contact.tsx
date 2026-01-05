@@ -21,12 +21,6 @@ export default function Contact() {
       value: profile.email,
       href: `mailto:${profile.email}`,
     },
-    {
-      icon: Linkedin,
-      label: "LinkedIn",
-      value: "Gordon Profile",
-      href: "https://linkedin.com",
-    },
   ];
 
   return (
@@ -38,7 +32,7 @@ export default function Contact() {
           viewport={{ once: true }}
           className="text-3xl md:text-5xl font-display font-bold mb-4"
         >
-          Get In Touch
+          {profile.contactTitle}
         </motion.h2>
         <motion.p
           initial={{ opacity: 0, y: 20 }}
@@ -47,7 +41,7 @@ export default function Contact() {
           transition={{ delay: 0.1 }}
           className="text-lg text-medium-gray max-w-2xl"
         >
-          Let&apos;s collaborate or just chat about data science and healthcare AI!
+          {profile.contactDescription}
         </motion.p>
       </div>
 
@@ -89,14 +83,14 @@ export default function Contact() {
             </h4>
             <div className="flex gap-4">
               <Link
-                href="https://github.com"
+                href={profile.links.github}
                 target="_blank"
                 className="p-3 border border-light-gray rounded-full text-charcoal hover:bg-matcha hover:text-white hover:border-matcha transition-all duration-300"
               >
                 <Github size={20} />
               </Link>
               <Link
-                href="https://linkedin.com"
+                href={profile.links.linkedin}
                 target="_blank"
                 className="p-3 border border-light-gray rounded-full text-charcoal hover:bg-matcha hover:text-white hover:border-matcha transition-all duration-300"
               >
@@ -108,7 +102,7 @@ export default function Contact() {
           <div className="p-6 bg-matcha/5 rounded-2xl border border-matcha/10">
             <p className="text-sm font-medium text-matcha-dark flex items-center gap-2">
               <span className="w-2 h-2 bg-matcha rounded-full animate-pulse" />
-              Currently open to research opportunities
+              {profile.contactStatus}
             </p>
           </div>
         </motion.div>

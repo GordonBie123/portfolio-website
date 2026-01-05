@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Github, ExternalLink } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import Section from "@/components/ui/Section";
 import { projects } from "@/data/projects";
 import Link from "next/link";
@@ -54,13 +54,6 @@ export default function Projects() {
                 <h3 className="text-xl font-bold text-charcoal group-hover:text-matcha transition-colors">
                   {project.title}
                 </h3>
-                <Link
-                  href={project.githubUrl}
-                  target="_blank"
-                  className="text-medium-gray hover:text-matcha transition-colors"
-                >
-                  <Github size={20} />
-                </Link>
               </div>
               <p className="text-medium-gray text-sm leading-relaxed mb-6 line-clamp-3">
                 {project.description}

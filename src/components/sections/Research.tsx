@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Section from "@/components/ui/Section";
-import { researchTopics, researchOverview } from "@/data/research";
+import { researchTopics, researchOverview, researchCTA } from "@/data/research";
 import { Button } from "@/components/ui/Button";
 import { ExperienceCard } from "@/components/ui/ExperienceCard";
 import { experiences } from "@/data/experience";
@@ -24,12 +24,11 @@ export default function Research() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="text-lg text-medium-gray max-w-3xl leading-relaxed"
-        >
-          {researchOverview}
-        </motion.p>
+          dangerouslySetInnerHTML={{ __html: researchOverview }}
+        />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
         {researchTopics.map((topic, index) => (
           <motion.div
             key={topic.title}
@@ -50,6 +49,16 @@ export default function Research() {
         ))}
       </div>
 
+      <motion.p
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.5 }}
+        className="mt-12 text-center text-medium-gray italic max-w-2xl mx-auto"
+      >
+        I am open to and interested in researching more and learning more as long as it can help make the world a better place and is somewhat related to AI.
+      </motion.p>
+
       {/* Research Experience Subsection */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -58,7 +67,7 @@ export default function Research() {
         className="mt-32"
       >
         <div className="flex flex-col items-center text-center mb-12">
-          <h3 className="text-2xl md:text-3xl font-display font-bold mb-4">Academic & Research Journey</h3>
+          <h3 className="text-2xl md:text-3xl font-display font-bold mb-4">Research Journey</h3>
           <div className="w-12 h-1 bg-matcha rounded-full" />
         </div>
         
@@ -86,9 +95,9 @@ export default function Research() {
             📝
           </motion.span>
         </div>
-        <h3 className="text-xl font-bold mb-2">Currently building my research portfolio</h3>
+        <h3 className="text-xl font-bold mb-2">{researchCTA.title}</h3>
         <p className="text-medium-gray text-sm mb-6 max-w-lg">
-          Interested in collaborating on applied ML or bioinformatics projects? I&apos;m always looking for new research opportunities and partnerships.
+          {researchCTA.description}
         </p>
         <Button 
           variant="outline" 

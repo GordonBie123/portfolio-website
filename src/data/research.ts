@@ -1,4 +1,4 @@
-import { LucideIcon, Dna, Hospital, Pill, Activity, Microscope, BrainCircuit } from "lucide-react";
+import { LucideIcon, Hospital, Factory, MessageSquare, Pill } from "lucide-react";
 
 export interface ResearchTopic {
   title: string;
@@ -8,35 +8,30 @@ export interface ResearchTopic {
 
 export const researchTopics: ResearchTopic[] = [
   {
-    title: "Healthcare AI",
-    description: "Developing intelligent systems to support clinical decisions and improve patient outcomes in hospital settings.",
+    title: "Healthcare AI & Decision Support",
+    description: "Developing intelligent systems and predictive models to support clinical decisions and improve patient outcomes.",
     icon: Hospital
   },
   {
-    title: "Bioinformatics",
-    description: "Analyzing large-scale biological datasets to uncover genetic patterns and disease mechanisms.",
-    icon: Dna
+    title: "Industrial Engineering",
+    description: "Applying AI to optimize manufacturing processes, supply chains, and operational efficiency.",
+    icon: Factory
   },
   {
-    title: "Clinical Decision Support",
-    description: "Building predictive models that assist healthcare professionals in early diagnosis and personalized treatment.",
-    icon: Activity
-  },
-  {
-    title: "Medical Imaging",
-    description: "Using deep learning to enhance medical image analysis for faster and more accurate diagnostics.",
-    icon: BrainCircuit
-  },
-  {
-    title: "Drug Discovery",
-    description: "Leveraging machine learning to accelerate the search for novel therapeutic compounds.",
+    title: "Medicine Development",
+    description: "Leveraging machine learning to accelerate drug discovery and the development of novel therapeutics.",
     icon: Pill
   },
   {
-    title: "Genomic Analysis",
-    description: "Exploring variations in human genomes to predict susceptibility to rare and common diseases.",
-    icon: Microscope
+    title: "Linguistics & Emotion",
+    description: "Exploring Natural Language Processing to better understand human communication and emotional processing.",
+    icon: MessageSquare
   }
 ];
 
-export const researchOverview = "My research focuses on the intersection of deep learning and biological sciences. I am driven by the potential of AI to transform healthcare from a reactive system to a proactive and personalized one. By developing robust models for genomic analysis and clinical predictions, I aim to bridge the gap between computational innovation and real-world medical impact.";
+export const researchOverview = "I'm early in my research journey, but hooked on how AI can transform different fields—from healthcare to manufacturing to business. I love exploring where deep learning and NLP can make a real impact. <strong>Ultimate goal?</strong> Making the world a little better, one project at a time.";
+
+export const researchCTA = {
+  title: "Currently building my research portfolio",
+  description: "Interested in collaborating on any AI/ML projects? I'm always looking for new research opportunities and partnerships."
+};

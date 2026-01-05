@@ -123,6 +123,27 @@ export default function About() {
               ))}
             </div>
           </motion.div>
+
+          {/* Spoken Languages */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="space-y-6"
+          >
+            <h3 className="text-2xl font-display font-bold">Languages (Non Programming)</h3>
+            <div className="flex flex-wrap gap-2">
+              {profile.languages.map((language) => (
+                <span
+                  key={language}
+                  className="px-4 py-2 bg-white text-charcoal text-sm font-medium rounded-lg border border-light-gray hover:border-matcha hover:text-matcha transition-colors"
+                >
+                  {language}
+                </span>
+              ))}
+            </div>
+          </motion.div>
         </div>
 
         {/* Right Column: Experience */}
