@@ -22,7 +22,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Data Science & ML Portfolio | Bioinformatics Research",
+  title: "Gordon's Portfolio",
   description: "Personal portfolio showcasing research interests in healthcare AI, bioinformatics, and technical projects in machine learning.",
 };
 
