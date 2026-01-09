@@ -96,6 +96,31 @@ export default function Projects() {
           </motion.div>
         ))}
       </div>
+
+      {/* Currently Building Section */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.3 }}
+        className="mt-12"
+      >
+        <div className="bg-gradient-to-br from-matcha/5 to-matcha-light/5 rounded-2xl p-6 border-2 border-dashed border-matcha/30">
+          <div className="flex items-start gap-4">
+            <div className="flex-shrink-0">
+              <div className="w-12 h-12 rounded-full bg-matcha/10 flex items-center justify-center">
+                <span className="text-2xl">🚧</span>
+              </div>
+            </div>
+            <div>
+              <h3 className="text-lg font-bold text-charcoal mb-2">Currently Building</h3>
+              <p className="text-medium-gray leading-relaxed">
+                A mobile iOS and Android <span className="font-semibold text-matcha-dark">AI Voice Journaling App</span> with Expo and Node.js
+              </p>
+            </div>
+          </div>
+        </div>
+      </motion.div>
     </Section>
   );
 }

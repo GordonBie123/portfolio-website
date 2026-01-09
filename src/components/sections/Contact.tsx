@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { MapPin, Mail, Linkedin, Github } from "lucide-react";
+import { MapPin, Mail, Linkedin, Github, Music } from "lucide-react";
 import Section from "@/components/ui/Section";
 import ContactForm from "@/components/ui/ContactForm";
 import { profile } from "@/data/profile";
@@ -95,6 +95,13 @@ export default function Contact() {
                 className="p-3 border border-light-gray rounded-full text-charcoal hover:bg-matcha hover:text-white hover:border-matcha transition-all duration-300"
               >
                 <Linkedin size={20} />
+              </Link>
+              <Link
+                href={profile.links.spotify}
+                target="_blank"
+                className="p-3 border border-light-gray rounded-full text-charcoal hover:bg-matcha hover:text-white hover:border-matcha transition-all duration-300"
+              >
+                <Music size={20} />
               </Link>
             </div>
           </div>

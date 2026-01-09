@@ -16,8 +16,8 @@ export default function Home() {
       <Hero />
       <About />
       <Research />
-      <SideQuests />
       <Projects />
+      <SideQuests />
       <Matcha />
       <Contact />
 

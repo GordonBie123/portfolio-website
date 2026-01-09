@@ -1,56 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Section from "@/components/ui/Section";
 import { ExperienceCard } from "@/components/ui/ExperienceCard";
 import { experiences } from "@/data/experience";
 import { skillCategories } from "@/data/skills";
-import { topTracks } from "@/data/spotify";
-import { SpotifyCard } from "@/components/ui/SpotifyCard";
 import { profile } from "@/data/profile";
 
-interface NowPlaying {
-  isPlaying: boolean;
-  title?: string;
-  artist?: string;
-  albumImageUrl?: string;
-  songUrl?: string;
-}
-
 export default function About() {
-  const [nowPlaying, setNowPlaying] = useState<NowPlaying | null>(null);
-
-  useEffect(() => {
-    const fetchNowPlaying = async () => {
-      try {
-        const res = await fetch("/api/now-playing");
-        if (res.ok) {
-          const data = await res.json();
-          setNowPlaying(data);
-        } else {
-          setNowPlaying({ isPlaying: false });
-        }
-      } catch (e) {
-        console.error("Error fetching Spotify data", e);
-        setNowPlaying({ isPlaying: false });
-      }
-    };
-
-    fetchNowPlaying();
-    const interval = setInterval(fetchNowPlaying, 30000); // Update every 30s
-    return () => clearInterval(interval);
-  }, []);
-
-  const displayTracks = (nowPlaying?.isPlaying && nowPlaying.title && nowPlaying.artist && nowPlaying.albumImageUrl && nowPlaying.songUrl)
-    ? [{ 
-        title: nowPlaying.title, 
-        artist: nowPlaying.artist, 
-        albumArt: nowPlaying.albumImageUrl, 
-        url: nowPlaying.songUrl,
-        isNowPlaying: true 
-      }, ...topTracks.slice(0, 3)]
-    : topTracks;
 
   return (
     <Section id="about" variant="off-white">
@@ -75,22 +32,23 @@ export default function About() {
             </div>
           </motion.div>
 
-          {/* Spotify Integration */}
+          {/* Spotify Integration - Coming Soon */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="space-y-6"
+            className="space-y-4"
           >
             <h3 className="text-xl font-display font-bold text-matcha flex items-center gap-2">
               <span className="w-8 h-[2px] bg-matcha" />
               Currently Listening To
             </h3>
-            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4 gap-4">
-              {displayTracks.map((song) => (
-                <SpotifyCard key={song.title} song={song} />
-              ))}
+            <div className="bg-white rounded-xl p-6 border border-light-gray">
+              <p className="text-medium-gray text-sm leading-relaxed">
+                🎵 <span className="font-semibold text-charcoal">Coming Soon!</span> This feature will be implemented once the Spotify Web API is working again. 
+                Currently, Spotify is not allowing new API key creation, but I&apos;ll integrate real-time music tracking as soon as it&apos;s available.
+              </p>
             </div>
           </motion.div>
 

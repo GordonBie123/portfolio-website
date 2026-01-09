@@ -16,9 +16,10 @@ export const profile = {
   languages: ["English (Native)", "Mandarin (Native)", "Spanish (Professional)", "Japanese (Elementary)", "French (Elementary)"],
   contactTitle: "Get In Touch",
   contactDescription: "Let's collaborate or just chat about data science, AI, or literally anything else!",
-  contactStatus: "Currently open to research opportunities",
+  contactStatus: "Currently open to research and anything else that is cool",
   links: {
     linkedin: "https://www.linkedin.com/in/gordon-bie/",
-    github: "https://github.com/GordonBie123"
+    github: "https://github.com/GordonBie123",
+    spotify: "https://open.spotify.com/user/ew91333p1t3gn8os12ormaj5d?si=222ef9add24143ea"
   }
 };
