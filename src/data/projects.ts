@@ -12,31 +12,32 @@ export interface Project {
 
 export const projects: Project[] = [
   {
-    id: "AI Voice Journaling Mobile App",
-    title: "AI Voice Journaling Mobile App",
-    description: "Built a machine learning model to predict patient readmission rates using clinical data with XGBoost and Scikit-learn.",
-    image: "/images/projects/healthcare.jpg",
-    githubUrl: "https://github.com",
-    techStack: ["Python", "XGBoost", "Scikit-learn", "Pandas"],
+    id: "sp500",
+    title: "SP500 Stock Price Predictor",
+    description: "Built a system that uses and compares multiple machine learning models to predict SP500 stock prices.",
+    image: "/images/projects/sp500s.jpg",
+    githubUrl: "https://github.com/GordonBie123/sp500_predictor_v2",
+    techStack: ["Python", "TensorFlow", "Keras", "Sci-kit Learn","Pandas", "NumPy", "Plotly", "Streamlit"],
     category: "ML",
     featured: true
   },
   {
-    id: "Relaylist",
+    id: "relaylist",
     title: "Relaylist",
-    description: "Distributed genomic sequence analysis tool using Nextflow and Python for large-scale bioinformatics research.",
-    image: "/images/projects/bioinfo.jpg",
-    githubUrl: "https://github.com",
-    techStack: ["Python", "Nextflow", "Docker", "R"],
-    category: "Bioinformatics"
+    description: "Built a web app that analyzes conversation sentiment to generate emotion-based Spotify playlists.",
+    image: "/images/projects/relaylist4.jpg",
+    githubUrl: "https://github.com/GordonBie123/relaylist",
+    techStack: ["Python", "Streamlit", "Plotly", "Spotify API", "NLTK", "VADER", "SQLite"],
+    category: "ML"
   },
   {
-    id: "SP500 Stock Price Predictor",
-    title: "SP500 Stock Price Predictor",
-    description: "Segmenting MRI brain tumors using U-Net architecture implemented in PyTorch.",
-    image: "/images/projects/imaging.jpg",
-    githubUrl: "https://github.com",
-    techStack: ["PyTorch", "OpenCV", "Matplotlib"],
-    category: "ML"
+    id: "portfolio",
+    title: "Portfolio Website",
+    description: "A modern and simple portfolio website made with Next.js and Tailwind CSS. Wnated to learn frontend and web development.",
+    image: "/images/projects/portfolio1.jpg",
+    githubUrl: "https://github.com/GordonBie123/portfolio-website",
+    techStack: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Framer Motion"],
+    category: "Web Dev",
+    featured: true
   }
 ];

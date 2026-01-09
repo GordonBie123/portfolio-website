@@ -5,6 +5,7 @@ import { ExternalLink } from "lucide-react";
 import Section from "@/components/ui/Section";
 import { projects } from "@/data/projects";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Projects() {
   return (
@@ -42,8 +43,21 @@ export default function Projects() {
             {/* Image Section */}
             <div className="relative h-48 overflow-hidden bg-matcha-light/10">
               <div className="absolute inset-0 bg-matcha/5 group-hover:bg-matcha/0 transition-colors duration-500" />
-              {/* Fallback pattern if no image */}
-              <div className="w-full h-full flex items-center justify-center text-matcha-light">
+              {project.image ? (
+                <Image
+                  src={project.image}
+                  alt={project.title}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  onError={(e) => {
+                    // Hide image on error and show fallback
+                    e.currentTarget.style.display = 'none';
+                  }}
+                />
+              ) : null}
+              {/* Fallback pattern if no image or image fails to load */}
+              <div className="absolute inset-0 w-full h-full flex items-center justify-center text-matcha-light pointer-events-none">
                 <span className="text-4xl font-bold opacity-20">{project.category}</span>
               </div>
             </div>
