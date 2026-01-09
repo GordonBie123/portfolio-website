@@ -30,7 +30,7 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="relative min-h-screen flex flex-col pt-24 overflow-hidden bg-white"
+      className="relative min-h-screen flex flex-col pt-20 md:pt-24 overflow-hidden bg-white"
     >
       {/* Background Visual Element */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
@@ -57,7 +57,7 @@ export default function Hero() {
             
             <motion.h1
               variants={itemVariants}
-              className="text-5xl md:text-7xl xl:text-8xl font-display font-bold text-charcoal mb-6 leading-[1.1]"
+              className="text-4xl sm:text-5xl md:text-7xl xl:text-8xl font-display font-bold text-charcoal mb-6 leading-[1.1] tracking-tight"
             >
               Hello, I&apos;m <span className="text-matcha relative underline decoration-matcha/20 underline-offset-8">
                 {profile.name}
