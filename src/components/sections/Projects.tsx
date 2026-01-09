@@ -1,9 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, Github } from "lucide-react";
 import Section from "@/components/ui/Section";
 import { projects } from "@/data/projects";
+import { profile } from "@/data/profile";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -120,6 +121,27 @@ export default function Projects() {
             </div>
           </div>
         </div>
+      </motion.div>
+
+      {/* More Projects Link */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.4 }}
+        className="mt-12 text-center"
+      >
+        <p className="text-medium-gray text-lg mb-4">
+          I have more projects! You can view them on my GitHub.
+        </p>
+        <Link
+          href={profile.links.github}
+          target="_blank"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-charcoal text-white rounded-full font-bold hover:bg-matcha transition-colors duration-300"
+        >
+          <Github size={20} />
+          Visit My GitHub
+        </Link>
       </motion.div>
     </Section>
   );

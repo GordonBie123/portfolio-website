@@ -89,12 +89,7 @@ export default function Hero() {
             </Button>
           </motion.div>
 
-          <motion.p
-            variants={itemVariants}
-            className="text-xs uppercase tracking-[0.2em] font-bold text-medium-gray/40 mt-12 hidden lg:block"
-          >
-            {profile.thankYouMessage}
-          </motion.p>
+
         </motion.div>
 
         {/* Right Column: Headshot */}
@@ -139,21 +134,36 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      {/* Scroll Indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2, duration: 1 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 text-medium-gray flex flex-col items-center gap-2"
-      >
-        <span className="text-xs uppercase tracking-widest font-medium opacity-50">Scroll</span>
-        <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ repeat: Infinity, duration: 2 }}
-        >
-          <ArrowDown size={20} className="text-matcha" />
-        </motion.div>
-      </motion.div>
+      {/* Hero Footer Elements */}
+      <div className="absolute bottom-8 left-0 w-full z-20 pointer-events-none">
+        <div className="max-w-7xl mx-auto px-6 relative flex items-end justify-between">
+          {/* Thank You Message - Left Aligned */}
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.5, duration: 1 }}
+            className="hidden lg:block text-xs uppercase tracking-[0.2em] font-bold text-medium-gray/40 max-w-[200px] xl:max-w-xs text-left"
+          >
+            {profile.thankYouMessage}
+          </motion.p>
+
+          {/* Scroll Indicator - Centered */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 2, duration: 1 }}
+            className="absolute left-1/2 -translate-x-1/2 bottom-0 text-medium-gray flex flex-col items-center gap-2"
+          >
+            <span className="text-xs uppercase tracking-widest font-medium opacity-50">Scroll</span>
+            <motion.div
+              animate={{ y: [0, 8, 0] }}
+              transition={{ repeat: Infinity, duration: 2 }}
+            >
+              <ArrowDown size={20} className="text-matcha" />
+            </motion.div>
+          </motion.div>
+        </div>
+      </div>
     </section>
   );
 }

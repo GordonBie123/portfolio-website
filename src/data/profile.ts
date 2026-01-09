@@ -4,7 +4,7 @@ export const profile = {
   welcomeMessage: "Welcome to my portfolio!",
   role: "Student, Data Scientist & Applied ML Researcher",
   summary: "I'm a 3rd year Information Systems and International Business student at Northeastern University. I'm passionate about applying ML and AI to solve real-world problems and deliver postitive meaningful impact to the world. I'm currently a tech lead at Generate, will be interning at Johnson & Johnson, and previously interned at State Street.",
-  thankYouMessage: "Thank you for visiting my portfolio (I spent a lot of time on this)",
+  thankYouMessage: "Thank you for visiting my portfolio!",
   location: "Boston, MA / Vancouver, BC",
   email: "gordonbie2@gmail.com",
   headshot: "/LinkedinHeafshot.jpg",
