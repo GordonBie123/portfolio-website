@@ -23,6 +23,7 @@ export default function Navbar() {
   const toggleMenu = () => setIsOpen(!isOpen);
 
   return (
+    <>
     <nav
       className={`fixed top-0 w-full z-[999] transition-all duration-500 ${
         scrolled ? "bg-white/80 backdrop-blur-md shadow-sm h-16" : "bg-transparent h-20"
@@ -55,11 +56,12 @@ export default function Navbar() {
           </Button>
         </div>
 
-        {/* Mobile Toggle */}
+      {/* Mobile Toggle */}
         <button className="md:hidden text-charcoal" onClick={toggleMenu}>
           {isOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
       </div>
+    </nav>
 
       {/* Mobile Drawer */}
       <AnimatePresence>
@@ -104,6 +106,6 @@ export default function Navbar() {
           </>
         )}
       </AnimatePresence>
-    </nav>
+    </>
   );
 }
