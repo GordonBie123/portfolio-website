@@ -33,7 +33,7 @@ export const projects: Project[] = [
   {
     id: "portfolio",
     title: "Portfolio Website",
-    description: "A modern and simple portfolio website made with Next.js and Tailwind CSS. Wnated to learn frontend and web development.",
+    description: "A modern and simple portfolio website made with Next.js and Tailwind CSS. Wanted to learn frontend and web development.",
     image: "/images/projects/portfolio1.jpg",
     githubUrl: "https://github.com/GordonBie123/portfolio-website",
     techStack: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Framer Motion"],
