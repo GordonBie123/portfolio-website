@@ -13,7 +13,7 @@ export const experiences: Experience[] = [
   {
     role: "Incoming Data Science Intern / Co-op",
     company: "Johnson & Johnson",
-    duration: "Jan 2026 - May 2026",
+    duration: "Aug 2026 - Dec 2026",
     location: "Cambridge, MA",
     responsibilities: [
       "Selected for co-op program on the innovative medicine team, will apply AI & deep learning to drug development."
