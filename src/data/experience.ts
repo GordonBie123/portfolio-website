@@ -48,7 +48,7 @@ export const experiences: Experience[] = [
   },
   {
     role: "Technical Product Manager",
-    company: "Cutis Intelligence",
+    company: "Skinapse",
     duration: "Nov 2025 - Present",
     location: "Boston, MA",
     responsibilities: [
@@ -56,7 +56,7 @@ export const experiences: Experience[] = [
     ],
     skills: ["OpenCV", "Python", "Docker", "FastAPI", "SQL", "PostgreSQL", "pgvector", "PyTorch", "LLM Integration", "Streamlit", "Slack"],
     type: "professional",
-    logo: "/logos/cutis.jpg"
+    logo: "/logos/skinapse.jpg"
   },
   {
     role: "Technical Lead",
