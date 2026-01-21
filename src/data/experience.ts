@@ -10,18 +10,18 @@ export interface Experience {
 }
 
 export const experiences: Experience[] = [
-  {
-    role: "Incoming Data Science Intern / Co-op",
-    company: "Johnson & Johnson",
-    duration: "Jan 2026 - May 2026",
-    location: "Cambridge, MA",
-    responsibilities: [
-      "Selected for co-op program on the innovative medicine team, will apply AI & deep learning to drug development."
-    ],
-    skills: ["TBD"],
-    type: "professional",
-    logo: "/logos/j&j.jpg" 
-  },
+  // {
+  //   role: "Incoming Data Science Intern / Co-op",
+  //   company: "Johnson & Johnson",
+  //   duration: "Jan 2026 - May 2026",
+  //   location: "Cambridge, MA",
+  //   responsibilities: [
+  //     "Selected for co-op program on the innovative medicine team, will apply AI & deep learning to drug development."
+  //   ],
+  //   skills: ["TBD"],
+  //   type: "professional",
+  //   logo: "/logos/j&j.jpg" 
+  // },
   {
     role: "AI Engineer Intern / Co-op",
     company: "State Street Corporation",
