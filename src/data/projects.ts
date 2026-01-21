@@ -19,7 +19,6 @@ export const projects: Project[] = [
     githubUrl: "https://github.com/GordonBie123/sp500_predictor_v2",
     techStack: ["Python", "TensorFlow", "Keras", "Sci-kit Learn","Pandas", "NumPy", "Plotly", "Streamlit"],
     category: "ML",
-    featured: true
   },
   {
     id: "relaylist",
@@ -28,6 +27,25 @@ export const projects: Project[] = [
     image: "/images/projects/relaylist4.jpg",
     githubUrl: "https://github.com/GordonBie123/relaylist",
     techStack: ["Python", "Streamlit", "Plotly", "Spotify API", "NLTK", "VADER", "SQLite"],
+    category: "ML",
+    featured: true
+  },
+  {
+    id: "Opvol",
+    title: "Black Scholes Options Volatility Surface",
+    description: "Built a web app that visualizes stock options volatility surface using Black Scholes model.",
+    image: "/images/projects/opvol.jpg",
+    githubUrl: "https://github.com/GordonBie123/Options-Volatility-Surface",
+    techStack: ["Python", "Streamlit", "Plotly", "Pandas", "NumPy", "SciPy", "Yfinance"],
+    category: "ML"
+  },
+  {
+    id: "trading",
+    title: "Coke Pepsi Pairs Trading Strategy",
+    description: "A market-neutral pairs trading strategy using cointegration and z-score signals to exploit mean-reverting price relationships between KO and PEP.",
+    image: "/images/projects/cokepep.jpg",
+    githubUrl: "https://github.com/GordonBie123/Coke-Pepsi-Pairs-Trading",
+    techStack: ["Python", "Matplotlib", "Scikit-learn", "Pandas", "NumPy", "Seaborn", "Yfinance", "Statsmodels"],
     category: "ML"
   },
   {
