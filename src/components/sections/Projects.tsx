@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { ExternalLink, Github } from "lucide-react";
-import Section from "@/components/ui/Section";
 import { projects } from "@/data/projects";
 import { profile } from "@/data/profile";
 import Link from "next/link";
@@ -10,28 +9,10 @@ import Image from "next/image";
 
 export default function Projects() {
   return (
-    <Section id="projects" variant="off-white">
-      <div className="flex flex-col items-center text-center mb-16">
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-3xl md:text-5xl font-display font-bold mb-4"
-        >
-          Projects
-        </motion.h2>
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.1 }}
-          className="text-lg text-medium-gray"
-        >
-          Bringing ideas to life through code
-        </motion.p>
-      </div>
+    <section id="projects" className="scroll-mt-32">
+      <h2 className="text-3xl font-display font-bold text-charcoal mb-8">Projects</h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+      <div className="flex flex-col gap-8 md:gap-10">
         {projects.map((project, index) => (
           <motion.div
             key={project.id}
@@ -39,110 +20,74 @@ export default function Projects() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: index * 0.1 }}
-            className="group bg-white rounded-2xl overflow-hidden border border-light-gray hover:border-matcha/30 transition-all duration-500 hover:shadow-2xl hover:shadow-matcha/10"
+            className="group relative flex flex-col sm:flex-row gap-6 p-4 -space-x-4 sm:-mx-4 sm:space-x-0 rounded-2xl hover:bg-black/5 transition-all"
           >
-            {/* Image Section */}
-            <div className="relative h-48 overflow-hidden bg-matcha-light/10">
-              <div className="absolute inset-0 bg-matcha/5 group-hover:bg-matcha/0 transition-colors duration-500" />
+            {/* Image */}
+            <div className="relative z-10 w-full sm:w-1/3 shrink-0 h-32 overflow-hidden rounded border border-light-gray bg-matcha-light/10">
               {project.image ? (
                 <Image
                   src={project.image}
                   alt={project.title}
                   fill
                   className="object-cover"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  onError={(e) => {
-                    // Hide image on error and show fallback
-                    e.currentTarget.style.display = 'none';
-                  }}
+                  sizes="(max-width: 640px) 100vw, 33vw"
+                  onError={(e) => { e.currentTarget.style.display = 'none'; }}
                 />
-              ) : null}
-              {/* Fallback pattern if no image or image fails to load */}
-              <div className="absolute inset-0 w-full h-full flex items-center justify-center text-matcha-light pointer-events-none">
-                <span className="text-4xl font-bold opacity-20">{project.category}</span>
-              </div>
+              ) : (
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <span className="text-xs font-bold opacity-20 text-matcha-light">{project.category}</span>
+                </div>
+              )}
             </div>
 
-            {/* Content Section */}
-            <div className="p-6">
-              <div className="flex justify-between items-start mb-4">
-                <h3 className="text-xl font-bold text-charcoal group-hover:text-matcha transition-colors">
+            {/* Content */}
+            <div className="z-10 flex flex-col justify-center sm:w-2/3">
+              <h3 className="font-medium leading-snug text-charcoal group-hover:text-matcha transition-colors">
+                <Link
+                  href={project.githubUrl}
+                  target="_blank"
+                  className="inline-flex items-center gap-1.5 focus-visible:text-matcha"
+                >
                   {project.title}
-                </h3>
-              </div>
-              <p className="text-medium-gray text-sm leading-relaxed mb-6 line-clamp-3">
+                  <ExternalLink size={14} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                </Link>
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-medium-gray line-clamp-3">
                 {project.description}
               </p>
 
-              <div className="flex flex-wrap gap-2 mb-6">
+              <ul className="mt-4 flex flex-wrap gap-2 text-[10px] font-bold uppercase tracking-wider">
                 {project.techStack.map((tech) => (
-                  <span
+                  <li
                     key={tech}
-                    className="px-3 py-1 bg-matcha/10 text-matcha-dark text-[10px] font-bold uppercase tracking-wider rounded-full"
+                    className="px-3 py-1 bg-white border border-light-gray text-charcoal rounded-full"
                   >
                     {tech}
-                  </span>
+                  </li>
                 ))}
-              </div>
-
-              <Link
-                href={project.githubUrl}
-                target="_blank"
-                className="inline-flex items-center gap-2 text-sm font-bold text-matcha hover:text-matcha-dark transition-colors group/link"
-              >
-                View Repository
-                <ExternalLink size={14} className="group-hover/link:translate-x-1 group-hover/link:-translate-y-1 transition-transform" />
-              </Link>
+              </ul>
             </div>
           </motion.div>
         ))}
       </div>
-
-      {/* Currently Building Section */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.3 }}
-        className="mt-12"
-      >
-        <div className="bg-gradient-to-br from-matcha/5 to-matcha-light/5 rounded-2xl p-6 border-2 border-dashed border-matcha/30">
-          <div className="flex items-start gap-4">
-            <div className="flex-shrink-0">
-              <div className="w-12 h-12 rounded-full bg-matcha/10 flex items-center justify-center">
-                <span className="text-2xl">🚧</span>
-              </div>
-            </div>
-            <div>
-              <h3 className="text-lg font-bold text-charcoal mb-2">Currently Building</h3>
-              <p className="text-medium-gray leading-relaxed">
-                A mobile iOS and Android <span className="font-semibold text-matcha-dark">AI Voice Journaling App</span> with Expo and Node.js
-              </p>
-            </div>
-          </div>
-        </div>
-      </motion.div>
 
       {/* More Projects Link */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ delay: 0.4 }}
-        className="mt-12 text-center"
+        transition={{ delay: 0.2 }}
+        className="mt-12"
       >
-        <p className="text-medium-gray text-lg mb-4">
-          I have more projects! You can view them on my GitHub.
-        </p>
         <Link
           href={profile.links.github}
           target="_blank"
-          className="inline-flex items-center gap-2 px-6 py-3 bg-charcoal text-white rounded-full font-bold hover:bg-matcha transition-colors duration-300"
+          className="inline-flex items-center gap-2 group text-sm font-semibold text-charcoal hover:text-matcha transition-colors"
         >
-          <Github size={20} />
-          Visit My GitHub
+          View Full Project Archive
+          <span className="group-hover:translate-x-1 transition-transform">→</span>
         </Link>
       </motion.div>
-    </Section>
+    </section>
   );
 }

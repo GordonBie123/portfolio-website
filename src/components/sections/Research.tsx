@@ -1,34 +1,29 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Section from "@/components/ui/Section";
-import { researchTopics, researchOverview, researchCTA } from "@/data/research";
-import { Button } from "@/components/ui/Button";
+import { researchTopics, researchOverview } from "@/data/research";
 import { ExperienceCard } from "@/components/ui/ExperienceCard";
 import { experiences } from "@/data/experience";
 
 export default function Research() {
   return (
-    <Section id="research" variant="white">
-      <div className="flex flex-col items-center text-center mb-20">
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-3xl md:text-5xl font-display font-bold mb-6"
-        >
-          Research Interests
-        </motion.h2>
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-lg text-medium-gray max-w-3xl leading-relaxed"
+    <section id="research" className="scroll-mt-32">
+      <h2 className="text-3xl font-display font-bold text-charcoal mb-8">Research</h2>
+      
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="mb-10"
+      >
+        <p
+          className="text-medium-gray text-base leading-relaxed"
           dangerouslySetInnerHTML={{ __html: researchOverview }}
         />
-      </div>
+      </motion.div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
+      {/* Research Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-12">
         {researchTopics.map((topic, index) => (
           <motion.div
             key={topic.title}
@@ -36,12 +31,12 @@ export default function Research() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: index * 0.1 }}
-            className="group bg-off-white p-8 rounded-2xl border border-transparent hover:border-matcha/30 hover:bg-white transition-all duration-300 hover:shadow-xl hover:shadow-matcha/5"
+            className="group bg-off-white/50 p-6 rounded-2xl border border-light-gray hover:border-matcha/30 hover:bg-white transition-all duration-300"
           >
-            <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-matcha mb-6 shadow-sm group-hover:scale-110 transition-transform">
-              <topic.icon size={24} />
+            <div className="w-10 h-10 bg-white rounded-lg border border-light-gray flex items-center justify-center text-matcha mb-4 shadow-sm group-hover:scale-110 transition-transform">
+              <topic.icon size={20} />
             </div>
-            <h3 className="text-xl font-bold text-charcoal mb-3">{topic.title}</h3>
+            <h3 className="text-lg font-bold text-charcoal mb-2">{topic.title}</h3>
             <p className="text-medium-gray text-sm leading-relaxed">
               {topic.description}
             </p>
@@ -53,8 +48,8 @@ export default function Research() {
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ delay: 0.5 }}
-        className="mt-12 text-center text-medium-gray italic max-w-2xl mx-auto"
+        transition={{ delay: 0.2 }}
+        className="text-medium-gray italic text-sm mb-12"
       >
         I am open to and interested in researching more and learning more as long as it can help make the world a better place and is somewhat related to AI.
       </motion.p>
@@ -64,14 +59,9 @@ export default function Research() {
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="mt-32"
       >
-        <div className="flex flex-col items-center text-center mb-12">
-          <h3 className="text-2xl md:text-3xl font-display font-bold mb-4">Research Journey</h3>
-          <div className="w-12 h-1 bg-matcha rounded-full" />
-        </div>
-        
-        <div className="max-w-4xl mx-auto">
+        <h3 className="text-xl font-bold text-charcoal mb-6">Research Experience</h3>
+        <div className="space-y-6 flex flex-col">
           {experiences
             .filter((exp) => exp.type === "research")
             .map((exp, index) => (
@@ -79,33 +69,6 @@ export default function Research() {
             ))}
         </div>
       </motion.div>
-
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="mt-20 p-8 rounded-2xl border-2 border-dashed border-light-gray flex flex-col items-center text-center"
-      >
-        <div className="text-matcha mb-4">
-          <motion.span
-            animate={{ scale: [1, 1.2, 1] }}
-            transition={{ repeat: Infinity, duration: 2 }}
-            className="inline-block"
-          >
-            📝
-          </motion.span>
-        </div>
-        <h3 className="text-xl font-bold mb-2">{researchCTA.title}</h3>
-        <p className="text-medium-gray text-sm mb-6 max-w-lg">
-          {researchCTA.description}
-        </p>
-        <Button 
-          variant="outline" 
-          onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
-        >
-          Let&apos;s Connect
-        </Button>
-      </motion.div>
-    </Section>
+    </section>
   );
 }

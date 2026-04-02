@@ -32,7 +32,7 @@ export const experiences: Experience[] = [
     ],
     skills: ["Python", "FastAPI", "MLFlow", "LLM Integration", "Base64"],
     type: "professional",
-    logo: "/logos/ssc.png" 
+    logo: "/logos/ssc.png"
   },
   {
     role: "Data Analytics Intern / Co-op",
@@ -42,9 +42,9 @@ export const experiences: Experience[] = [
     responsibilities: [
       "Analyzed satisfaction survey data from clients creating executive dashboards and presentations that informed product enhancements and helped retain $10M+ in revenue."
     ],
-    skills: ["Salesforce", "Qualtrics", "PowerBI", "Powerpoint","Excel"],
+    skills: ["Salesforce", "Qualtrics", "PowerBI", "Powerpoint", "Excel"],
     type: "professional",
-    logo: "/logos/ssim.jpg" 
+    logo: "/logos/ssim.jpg"
   },
   {
     role: "Technical Product Manager",
@@ -105,7 +105,7 @@ export const experiences: Experience[] = [
     responsibilities: [
       "Led weekly study groups for Python programming, linear algebra, and machine learning courses."
     ],
-    skills: ["Python", "pandas", "numpy", "scipy","scikit-learn", "matplotlib", "seaborn", "statsmodels", "autograd"],
+    skills: ["Python", "pandas", "numpy", "scipy", "scikit-learn", "matplotlib", "seaborn", "statsmodels", "autograd"],
     type: "professional",
     logo: "/logos/neu.jpg"
   }
