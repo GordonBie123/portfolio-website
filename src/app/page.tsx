@@ -20,11 +20,11 @@ export default function Home() {
         
         <div className="flex flex-col gap-20 w-full">
           <About />
+          <ExperienceSection />
           <Research />
           <Projects />
           <Skills />
           <SideQuests />
-          <ExperienceSection />
           <Matcha />
           <Contact />
         </div>

@@ -5,23 +5,23 @@ export interface SkillCategory {
 
 export const skillCategories: SkillCategory[] = [
   {
-    title: "Programming Languages",
-    skills: ["Python", "R", "SQL", "TypeScript", "JavaScript", "HTML", "CSS"]
+    title: "Programming & Query Languages",
+    skills: ["Python", "C++", "R", "SQL", "JavaScript", "TypeScript", "CSS/HTML", "Cypher"]
   },
   {
     title: "Frameworks & Libraries",
-    skills: ["FastAPI", "Streamlit", "React", "Next.js", "Flask", "Node.js", "Django", "Matplotlib", "Seaborn", "Plotly", "dplyr", "ggplot2", "tidyr2", "readr", "BeautifulSoup"]
+    skills: ["Sklearn", "TensorFlow", "PyTorch", "Jax", "NumPy", "Pandas", "Seaborn", "FastAPI", "React.js", "Node.js"]
   },
   {
-    title: "Tools & Technologies",
-    skills: ["Git", "Docker", "AWS", "Google Cloud", "PostgreSQL", "MongoDB", "Supabase", "DigitalOcean", "MLFlow", "Keras", "CUDA", "Android Studio", "Vercel"]
+    title: "Tools",
+    skills: ["Git", "Docker", "Kubernetes", "Android Studio", "Expo", "MLFlow", "Keras", "Tableau", "PowerPoint", "Excel", "PowerShell", "Linux"]
   },
   {
-    title: "Data Science & ML",
-    skills: ["Scikit-learn", "PyTorch", "TensorFlow", "Scipy", "Autograd", "Jax", "Pandas", "NumPy", "HuggingFace"]
+    title: "Databases",
+    skills: ["MySQL", "PostgreSQL/pgvector", "SQLite", "MongoDB", "Neo4j", "Kuzu", "AWS S3", "OracleSQL 12"]
   },
   {
-    title: "Beyond the Code",
-    skills: ["Tableau", "PowerBI", "Excel", "Salesforce", "Qualtrics", "PowerPoint", "Canva", "Power Query", "Figma"]
+    title: "Natural Languages",
+    skills: ["English (Native)", "Mandarin (Native)", "Spanish (Professional)", "Japanese (Elementary)", "French (Elementary)"]
   }
 ];
