@@ -51,7 +51,7 @@ export default function Hero() {
           Contact me here <span className="group-hover:translate-x-1 transition-transform">→</span>
         </Link>
         <Link
-          href="/resume.pdf"
+          href="/Bie_Gordon_Resume.pdf"
           target="_blank"
           className="px-6 py-2.5 bg-white text-charcoal shadow-sm border border-light-gray border-b-2 rounded-full font-medium hover:bg-off-white hover:-translate-y-px active:translate-y-px active:border-b transition-all flex items-center gap-2"
         >
