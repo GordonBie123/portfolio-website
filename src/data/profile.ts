@@ -13,7 +13,7 @@ export const profile = {
     "I’ve developed a strong interest in <strong>Machine Learning</strong> and <strong>AI</strong>. I’m currently a <strong>Tech Lead working on an AI software tool at Cortex Ventures</strong>, and previously interned at <strong>State Street</strong> as an AI Engineer and Data Analyst. Additionally, I have worked multiple research assistant jobs and will be interning at <strong>Flow Traders</strong> as a Trading Engineer.",
     "Originally from <strong>Vancouver, BC</strong> and now based in <strong>Boston, MA</strong>, I enjoy cooking, gaming (board games and video games), matcha, and discovering new music outside of class and work."
   ],
-  shortBio: "I'm a business major who wants to become an engineer. I have SWE, AI, and ML Research experience, read more about it below!",
+  shortBio: "I'm a business major who wants to become an engineer. I have SWE, AI, and ML research experience, read more about it below!",
   contactTitle: "Get In Touch",
   contactDescription: "Let's collaborate or just chat about data science, AI, or literally anything else!",
   contactStatus: "Currently open to research and anything else that is cool",

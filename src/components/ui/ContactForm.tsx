@@ -31,13 +31,29 @@ export default function ContactForm() {
 
   const onSubmit = async (data: ContactFormData) => {
     setIsSubmitting(true);
-    // Simulate API call
-    console.log("Form Data:", data);
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    setIsSubmitting(false);
-    setIsSuccess(true);
-    reset();
-    setTimeout(() => setIsSuccess(false), 5000);
+    
+    try {
+      const response = await fetch("https://formspree.io/f/mqeglrlg", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify(data)
+      });
+
+      if (response.ok) {
+        setIsSuccess(true);
+        reset();
+        setTimeout(() => setIsSuccess(false), 5000);
+      } else {
+        alert("Oops! There was a problem submitting your form.");
+      }
+    } catch (error) {
+      alert("Oops! There was a problem submitting your form.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
