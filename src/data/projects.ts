@@ -12,12 +12,22 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    id: "unsprawl",
+    title: "Unsprawl: Workflow Optimization",
+    description: "Built a smart task management app that consolidates and deduplicates workflows across Slack, Trello, and Jira using LLMs and vector embeddings.",
+    image: "/images/projects/unsprawl.png",
+    githubUrl: "https://github.com/GordonBie123/unsprawl_project",
+    techStack: ["Python", "FastAPI", "PostgreSQL", "Docker", "Streamlit", "LLMs", "NLTK", "Scikit-learn", "Logistic Regression"],
+    category: "ML",
+    featured: true
+  },
+  {
     id: "sp500",
     title: "SP500 Stock Price Predictor",
     description: "Built a system that uses and compares multiple machine learning models to predict SP500 stock prices.",
     image: "/images/projects/sp500s.jpg",
     githubUrl: "https://github.com/GordonBie123/sp500_predictor_v2",
-    techStack: ["Python", "TensorFlow", "Keras", "Sci-kit Learn","Pandas", "NumPy", "Plotly", "Streamlit"],
+    techStack: ["Python", "TensorFlow", "Keras", "Sci-kit Learn", "Pandas", "NumPy", "Plotly", "Streamlit", "XGBoost", "LSTM", "Random Forest"],
     category: "ML",
   },
   {
