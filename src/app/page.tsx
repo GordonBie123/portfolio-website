@@ -4,6 +4,7 @@ import About from "@/components/sections/About";
 import Research from "@/components/sections/Research";
 import ExperienceSection from "@/components/sections/ExperienceSection";
 import Projects from "@/components/sections/Projects";
+import Skills from "@/components/sections/Skills";
 import SideQuests from "@/components/sections/SideQuests";
 import Matcha from "@/components/sections/Matcha";
 import Contact from "@/components/sections/Contact";
@@ -21,6 +22,7 @@ export default function Home() {
           <About />
           <Research />
           <Projects />
+          <Skills />
           <SideQuests />
           <ExperienceSection />
           <Matcha />
