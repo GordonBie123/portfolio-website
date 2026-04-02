@@ -9,9 +9,9 @@ export const profile = {
   email: "gordonbie2@gmail.com",
   headshot: "/LinkedinHeafshot.jpg",
   aboutBio: [
-    "I’m <strong>Gordon Bie</strong>, a third-year <strong>Information Systems and International Business</strong> student at <strong>Northeastern University</strong>. My path to tech was unconventional—moving from international relations to business before discovering programming, which immediately hooked me.",
-    "I’ve developed a strong interest in <strong>Machine Learning</strong> and <strong>AI</strong>. I’m currently a <strong>Tech Lead at Generate Product Studio</strong>, and previously interned at <strong>State Street</strong> as an AI Engineer.",
-    "Originally from <strong>Vancouver, BC</strong> and now based in <strong>Boston, MA</strong>, I enjoy cooking, gaming, matcha, and discovering new music outside of class and work."
+    "I’m <strong>Gordon Bie</strong>, a third-year <strong>Information Systems and International Business, Data Science Minor</strong> student at <strong>Northeastern University</strong>. My path to tech was unconventional—moving from international relations to business before discovering programming, which immediately hooked me.",
+    "I’ve developed a strong interest in <strong>Machine Learning</strong> and <strong>AI</strong>. I’m currently a <strong>Tech Lead working on an AI software tool at Cortex Ventures</strong>, and previously interned at <strong>State Street</strong> as an AI Engineer and Data Analyst. Additionally, I have worked multiple research assistant jobs and will be interning at <strong>Flow Traders</strong> as a Trading Engineer.",
+    "Originally from <strong>Vancouver, BC</strong> and now based in <strong>Boston, MA</strong>, I enjoy cooking, gaming (board games and video games), matcha, and discovering new music outside of class and work."
   ],
   shortBio: "I'm a Data Scientist & Applied ML Researcher building impactful AI solutions.",
   languages: ["English (Native)", "Mandarin (Native)", "Spanish (Professional)", "Japanese (Elementary)", "French (Elementary)"],
