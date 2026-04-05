@@ -30,6 +30,16 @@ export const experiences: Experience[] = [
     type: "research",
     logo: "/logos/neu.jpg"
   },
+    {
+    role: "Engineer",
+    company: "Skinapse Labs · Part-time",
+    duration: "Apr 2024 - Present · 25 mos",
+    location: "Boston, Massachusetts, United States · Hybrid",
+    responsibilities: [],
+    skills: [],
+    type: "professional",
+    logo: "/logos/skinapse.jpg"
+  },
   {
     role: "Engineer",
     company: "Cortex Ventures · Contract",
