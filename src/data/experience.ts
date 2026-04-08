@@ -31,7 +31,7 @@ export const experiences: Experience[] = [
     logo: "/logos/neu.jpg"
   },
     {
-    role: "Engineer",
+    role: "CPO & Engineer",
     company: "Skinapse Labs · Part-time",
     duration: "Apr 2024 - Present · 25 mos",
     location: "Boston, Massachusetts, United States · Hybrid",
@@ -51,24 +51,14 @@ export const experiences: Experience[] = [
     logo: "/logos/cortexx.jpeg"
   },
   {
-    role: "Engineer",
-    company: "State Street · Apprenticeship",
-    duration: "Oct 2025 - Dec 2025 · 3 mos",
+    role: "Analyst & Engineer",
+    company: "State Street · Internship",
+    duration: "Jul 2025 - Dec 2025 · 6 mos",
     location: "Boston, Massachusetts, United States · Hybrid",
     responsibilities: [],
     skills: [],
     type: "professional",
     logo: "/logos/ssc.png"
-  },
-  {
-    role: "Analyst",
-    company: "State Street Investment Management · Internship",
-    duration: "Jul 2025 - Sep 2025 · 3 mos",
-    location: "Boston, Massachusetts, United States · Hybrid",
-    responsibilities: [],
-    skills: [],
-    type: "professional",
-    logo: "/logos/ssim.jpg"
   },
   {
     role: "Research Assistant",
