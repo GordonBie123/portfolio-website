@@ -35,7 +35,7 @@ export default function Hero() {
         transition={{ delay: 0.2 }}
         className="text-2xl md:text-3xl font-medium leading-relaxed text-charcoal mb-8 px-4"
       >
-        <span className="font-bold">Hello, I'm {profile.name.split(" ")[0]}.</span> {profile.shortBio}
+        <span className="font-bold">Hello, I&apos;m {profile.name.split(" ")[0]}.</span> {profile.shortBio}
       </motion.p>
 
       <motion.div
