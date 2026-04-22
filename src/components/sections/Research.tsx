@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { researchTopics, researchOverview } from "@/data/research";
+import { researchOverview } from "@/data/research";
 import { ExperienceCard } from "@/components/ui/ExperienceCard";
 import { experiences } from "@/data/experience";
 
@@ -21,28 +21,6 @@ export default function Research() {
           dangerouslySetInnerHTML={{ __html: researchOverview }}
         />
       </motion.div>
-
-      {/* Research Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-12">
-        {researchTopics.map((topic, index) => (
-          <motion.div
-            key={topic.title}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: index * 0.1 }}
-            className="group bg-off-white/50 p-6 rounded-2xl border border-light-gray hover:border-matcha/30 hover:bg-white transition-all duration-300"
-          >
-            <div className="w-10 h-10 bg-white rounded-lg border border-light-gray flex items-center justify-center text-matcha mb-4 shadow-sm group-hover:scale-110 transition-transform">
-              <topic.icon size={20} />
-            </div>
-            <h3 className="text-lg font-bold text-charcoal mb-2">{topic.title}</h3>
-            <p className="text-medium-gray text-sm leading-relaxed">
-              {topic.description}
-            </p>
-          </motion.div>
-        ))}
-      </div>
 
       <motion.p
         initial={{ opacity: 0, y: 20 }}
