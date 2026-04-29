@@ -12,7 +12,7 @@ export default function Hero() {
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ type: "spring", stiffness: 125, delay: 0.1, duration: 0.7 }}
-        className="relative w-28 h-28 overflow-hidden rounded-full border-4 border-white shadow-lg bg-off-white mb-8"
+        className="relative w-28 h-28 overflow-hidden rounded-full border-4 border-off-white shadow-lg bg-off-white mb-8"
       >
         {profile.headshot ? (
           <Image
@@ -46,28 +46,28 @@ export default function Hero() {
       >
         <Link
           href="#contact"
-          className="px-6 py-2.5 bg-charcoal text-white rounded-full font-medium hover:bg-black transition-colors flex items-center gap-2 group"
+          className="px-6 py-2.5 bg-matcha text-background rounded-full font-medium hover:bg-matcha-dark transition-colors flex items-center gap-2 group"
         >
           Contact me here <span className="group-hover:translate-x-1 transition-transform">→</span>
         </Link>
         <Link
           href="/Bie_Gordon_Resume.pdf"
           target="_blank"
-          className="px-6 py-2.5 bg-white text-charcoal shadow-sm border border-light-gray border-b-2 rounded-full font-medium hover:bg-off-white hover:-translate-y-px active:translate-y-px active:border-b transition-all flex items-center gap-2"
+          className="px-6 py-2.5 bg-off-white text-charcoal shadow-sm border border-light-gray border-b-2 rounded-full font-medium hover:bg-surface-hover hover:-translate-y-px active:translate-y-px active:border-b transition-all flex items-center gap-2"
         >
           Download CV <Download size={16} />
         </Link>
         <Link
           href={profile.links.linkedin}
           target="_blank"
-          className="p-2.5 bg-white text-charcoal shadow-sm border border-light-gray border-b-2 rounded-full hover:bg-off-white hover:-translate-y-px active:translate-y-px active:border-b transition-all"
+          className="p-2.5 bg-off-white text-charcoal shadow-sm border border-light-gray border-b-2 rounded-full hover:bg-surface-hover hover:-translate-y-px active:translate-y-px active:border-b transition-all"
         >
           <Linkedin size={20} />
         </Link>
         <Link
           href={profile.links.github}
           target="_blank"
-          className="p-2.5 bg-white text-charcoal shadow-sm border border-light-gray border-b-2 rounded-full hover:bg-off-white hover:-translate-y-px active:translate-y-px active:border-b transition-all"
+          className="p-2.5 bg-off-white text-charcoal shadow-sm border border-light-gray border-b-2 rounded-full hover:bg-surface-hover hover:-translate-y-px active:translate-y-px active:border-b transition-all"
         >
           <Github size={20} />
         </Link>

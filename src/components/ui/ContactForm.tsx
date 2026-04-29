@@ -57,7 +57,7 @@ export default function ContactForm() {
   };
 
   return (
-    <div className="bg-white p-8 rounded-2xl border border-light-gray shadow-sm">
+    <div className="bg-off-white p-8 rounded-2xl border border-light-gray shadow-sm">
       {isSuccess ? (
         <div className="flex flex-col items-center justify-center py-12 text-center">
           <CheckCircle2 size={64} className="text-matcha mb-4" />
@@ -83,7 +83,7 @@ export default function ContactForm() {
                 placeholder="John Doe"
                 className={`w-full px-4 py-3 rounded-xl border ${
                   errors.name ? "border-red-500 focus:ring-red-500" : "border-light-gray focus:ring-matcha"
-                } focus:outline-none focus:ring-2 transition-all bg-off-white/50`}
+                } focus:outline-none focus:ring-2 transition-all bg-surface-hover text-charcoal`}
               />
               {errors.name && <p className="text-red-500 text-xs mt-1 ml-1">{errors.name.message}</p>}
             </div>
@@ -94,7 +94,7 @@ export default function ContactForm() {
                 placeholder="john@example.com"
                 className={`w-full px-4 py-3 rounded-xl border ${
                   errors.email ? "border-red-500 focus:ring-red-500" : "border-light-gray focus:ring-matcha"
-                } focus:outline-none focus:ring-2 transition-all bg-off-white/50`}
+                } focus:outline-none focus:ring-2 transition-all bg-surface-hover text-charcoal`}
               />
               {errors.email && <p className="text-red-500 text-xs mt-1 ml-1">{errors.email.message}</p>}
             </div>
@@ -107,7 +107,7 @@ export default function ContactForm() {
               placeholder="Collaboration Opportunity"
               className={`w-full px-4 py-3 rounded-xl border ${
                 errors.subject ? "border-red-500 focus:ring-red-500" : "border-light-gray focus:ring-matcha"
-              } focus:outline-none focus:ring-2 transition-all bg-off-white/50`}
+              } focus:outline-none focus:ring-2 transition-all bg-surface-hover text-charcoal`}
             />
             {errors.subject && <p className="text-red-500 text-xs mt-1 ml-1">{errors.subject.message}</p>}
           </div>
