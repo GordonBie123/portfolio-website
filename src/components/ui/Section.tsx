@@ -22,8 +22,8 @@ export default function Section({
   variant = "white",
 }: SectionProps) {
   const bgColors = {
-    white: "bg-white",
-    "off-white": "bg-off-white",
+    white: "bg-off-white",
+    "off-white": "bg-surface-hover",
   };
 
   return (

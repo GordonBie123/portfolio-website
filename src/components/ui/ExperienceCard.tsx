@@ -16,7 +16,7 @@ export function ExperienceCard({ experience }: { experience: Experience }) {
       {/* Timeline Dot */}
       <div className="absolute left-[-4px] top-2 w-2 h-2 rounded-full bg-matcha group-hover:scale-150 transition-transform duration-300" />
 
-      <div className="bg-white p-6 rounded-xl border border-light-gray hover:border-matcha/30 hover:shadow-lg hover:shadow-matcha/5 transition-all duration-300">
+      <div className="bg-off-white p-6 rounded-xl border border-light-gray hover:border-matcha/30 hover:shadow-lg hover:shadow-matcha/10 transition-all duration-300">
         <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-4">
           <div className="flex items-start gap-4">
             <div className="w-12 h-12 bg-off-white rounded-lg overflow-hidden border border-light-gray flex-shrink-0 flex items-center justify-center">
@@ -29,7 +29,7 @@ export function ExperienceCard({ experience }: { experience: Experience }) {
                   className="w-full h-full object-cover"
                 />
               ) : (
-                <span className="text-xl font-bold text-matcha-light">
+                <span className="text-xl font-bold text-matcha">
                   {experience.company[0]}
                 </span>
               )}

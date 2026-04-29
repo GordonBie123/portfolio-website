@@ -1,14 +1,18 @@
 @import "tailwindcss";
 
 @theme {
-  --color-background: #ffffff;
-  --color-off-white: #f8f7f4;
-  --color-matcha: #606C38;
-  --color-matcha-dark: #4a522b;
-  --color-matcha-light: #dbe1c9;
-  --color-charcoal: #2c2c2c;
-  --color-medium-gray: #666666;
-  --color-light-gray: #e5e5e5;
+  /* Tokyo Nightlife Dark Theme */
+  --color-background: #080b14;       /* Deep night-sky black */
+  --color-surface: #0e1120;          /* Card surfaces */
+  --color-surface-hover: #161929;    /* Hover state for dark cards */
+  --color-off-white: #0e1120;        /* Alias for surface */
+  --color-matcha: #00d4ff;           /* Neon cyan — primary accent */
+  --color-matcha-dark: #00a3c4;      /* Darker neon for hover */
+  --color-matcha-light: #001e2a;     /* Very dark neon tint */
+  --color-neon-pink: #ff2d78;        /* Hot pink — secondary accent */
+  --color-charcoal: #dde4f0;         /* Primary text (soft cool-white) */
+  --color-medium-gray: #6b7a99;      /* Muted text */
+  --color-light-gray: #1c2035;       /* Borders */
 
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
@@ -19,12 +23,16 @@
 }
 
 :root {
-  --background: #ffffff;
-  --foreground: #2c2c2c;
+  --background: #080b14;
+  --foreground: #dde4f0;
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
+  /* Subtle Tokyo neon glow — cyan from above, pink from below */
+  background-image:
+    radial-gradient(ellipse 100% 55% at 50% 0%, rgba(0, 212, 255, 0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 40% at 95% 95%, rgba(255, 45, 120, 0.05) 0%, transparent 55%);
   color: var(--foreground);
   font-family: var(--font-sans);
 }
@@ -37,6 +45,17 @@ h5,
 h6 {
   font-family: var(--font-display);
   font-weight: 700;
+}
+
+input,
+textarea,
+select {
+  color: var(--foreground);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #4a5568;
 }
 
 @layer base {
