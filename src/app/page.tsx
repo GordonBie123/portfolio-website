@@ -11,14 +11,11 @@ import Contact from "@/components/sections/Contact";
 
 export default function Home() {
   return (
-    <div className="relative mx-auto min-h-screen bg-background pt-28 pb-20">
+    <div className="relative min-h-screen bg-background pt-24 pb-20">
       <Navbar />
-      <main className="mx-auto max-w-3xl px-6 flex flex-col items-center">
+      <main className="mx-auto max-w-4xl px-8">
         <Hero />
-        
-        <div className="w-px h-12 md:h-16 bg-light-gray my-12" />
-        
-        <div className="flex flex-col gap-20 w-full">
+        <div className="flex flex-col gap-20">
           <About />
           <ExperienceSection />
           <Research />
