@@ -57,7 +57,7 @@ export default function ContactForm() {
   };
 
   return (
-    <div className="bg-off-white p-8 rounded-2xl border border-light-gray shadow-sm">
+    <div className="bg-off-white p-4 sm:p-8 rounded-2xl border border-light-gray shadow-sm">
       {isSuccess ? (
         <div className="flex flex-col items-center justify-center py-12 text-center">
           <CheckCircle2 size={64} className="text-matcha mb-4" />

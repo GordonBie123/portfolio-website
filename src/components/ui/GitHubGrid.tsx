@@ -34,7 +34,7 @@ export default async function GitHubGrid() {
       <p className="text-medium-gray text-sm mb-3">
         {total} contributions in the last year
       </p>
-      <div className="flex items-end gap-[3px]" style={{ height: `${MAX_HEIGHT + 4}px` }}>
+      <div className="flex items-end gap-[3px] overflow-hidden w-full" style={{ height: `${MAX_HEIGHT + 4}px` }}>
         {weeks.map((count, i) => {
           const height = count === 0 ? 2 : Math.max(4, Math.round((count / max) * MAX_HEIGHT));
           const intensity = count === 0 ? 0 : count / max;
@@ -45,8 +45,8 @@ export default async function GitHubGrid() {
             <div
               key={i}
               title={`${count} contribution${count !== 1 ? 's' : ''} this week`}
-              style={{ height: `${height}px`, backgroundColor: color }}
-              className="w-[7px] rounded-[2px] flex-shrink-0 transition-opacity"
+              style={{ height: `${height}px`, backgroundColor: color, minWidth: '3px' }}
+              className="flex-1 rounded-[2px]"
             />
           );
         })}
