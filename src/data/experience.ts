@@ -3,6 +3,7 @@ export interface Experience {
   company: string;
   duration: string;
   location: string;
+  description?: string;
   responsibilities: string[];
   skills: string[];
   type: "professional" | "research";
@@ -15,6 +16,7 @@ export const experiences: Experience[] = [
     company: "Flow Traders · Internship",
     duration: "Feb 2026 - Present · 3 mos",
     location: "New York, New York, United States · On-site",
+    description: "Trading desk tools and systems.",
     responsibilities: [],
     skills: [],
     type: "professional",
@@ -25,16 +27,18 @@ export const experiences: Experience[] = [
     company: "Northeastern University · Part-time",
     duration: "Oct 2025 - Present · 7 mos",
     location: "Boston, Massachusetts, United States · Hybrid",
+    description: "Applied AI in intelligent manufacturing degradation prediction.",
     responsibilities: [],
     skills: [],
     type: "research",
     logo: "/logos/neu.jpg"
   },
-    {
+  {
     role: "CPO & Engineer",
     company: "Skinapse Labs · Part-time",
     duration: "Apr 2024 - Present · 25 mos",
     location: "Boston, Massachusetts, United States · Hybrid",
+    description: "Machine learning for dermatology diagnostics.",
     responsibilities: [],
     skills: [],
     type: "professional",
@@ -45,6 +49,7 @@ export const experiences: Experience[] = [
     company: "Cortex Ventures · Contract",
     duration: "Jan 2026 - Apr 2026 · 4 mos",
     location: "Cambridge, Massachusetts, United States · Hybrid",
+    description: "Intelligent AI knowledge base to enhance hardware engineering.",
     responsibilities: [],
     skills: [],
     type: "professional",
@@ -55,6 +60,7 @@ export const experiences: Experience[] = [
     company: "State Street · Internship",
     duration: "Jul 2025 - Dec 2025 · 6 mos",
     location: "Boston, Massachusetts, United States · Hybrid",
+    description: "Hedge fund client CRM + AI risk and audit apps.",
     responsibilities: [],
     skills: [],
     type: "professional",
@@ -65,6 +71,7 @@ export const experiences: Experience[] = [
     company: "Massachusetts Institute of Technology · Part-time",
     duration: "Jun 2025 - Aug 2025 · 3 mos",
     location: "Cambridge, Massachusetts, United States · Hybrid",
+    description: "Applied GNN on blockchain transaction fraud detection.",
     responsibilities: [],
     skills: [],
     type: "research",
@@ -75,6 +82,7 @@ export const experiences: Experience[] = [
     company: "Apple · Contract",
     duration: "Apr 2025 - Jul 2025 · 4 mos",
     location: "Cambridge, Massachusetts, United States · Remote",
+    description: "Marketing analytics on consumer audio product performance.",
     responsibilities: [],
     skills: [],
     type: "professional",

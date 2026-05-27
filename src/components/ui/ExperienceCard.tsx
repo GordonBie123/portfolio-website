@@ -37,6 +37,9 @@ export function ExperienceCard({ experience }: { experience: Experience }) {
             <div>
               <h3 className="text-xl font-bold text-charcoal leading-tight">{experience.role}</h3>
               <p className="text-matcha font-medium">{experience.company}</p>
+              {experience.description && (
+                <p className="text-medium-gray text-sm mt-0.5">{experience.description}</p>
+              )}
             </div>
           </div>
           <div className="text-sm text-medium-gray text-left md:text-right">
