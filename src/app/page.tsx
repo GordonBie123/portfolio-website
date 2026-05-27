@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <div className="relative min-h-screen bg-background pt-24 pb-20">
       <Navbar />
-      <main className="mx-auto max-w-4xl px-8">
+      <main className="mx-auto max-w-4xl px-4 sm:px-8">
         <Hero />
         <div className="flex flex-col gap-20">
           <About />

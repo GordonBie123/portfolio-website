@@ -20,10 +20,10 @@ export default function Projects() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: index * 0.1 }}
-            className="group relative flex flex-col sm:flex-row gap-6 p-4 -space-x-4 sm:-mx-4 sm:space-x-0 rounded-2xl hover:bg-white/5 transition-all"
+            className="group relative flex flex-col sm:flex-row gap-4 sm:gap-6 p-4 sm:-mx-4 rounded-2xl hover:bg-white/5 transition-all"
           >
             {/* Image */}
-            <div className="relative z-10 w-full sm:w-1/3 shrink-0 h-32 overflow-hidden rounded border border-light-gray bg-matcha-light/10">
+            <div className="relative z-10 w-full sm:w-1/3 shrink-0 h-40 sm:h-32 overflow-hidden rounded border border-light-gray bg-matcha-light/10">
               {project.image ? (
                 <Image
                   src={project.image}
