@@ -16,8 +16,8 @@ export function ExperienceCard({ experience, index = 0 }: { experience: Experien
       <div className="p-5 sm:p-6">
 
         {/* Top row — logo + company + duration */}
-        <div className="flex items-start justify-between gap-4 mb-4">
-          <div className="flex items-center gap-3">
+        <div className="flex items-start justify-between gap-3 mb-4 overflow-hidden">
+          <div className="flex items-center gap-3 min-w-0">
             <div className="w-8 h-8 border border-border-light bg-background flex-shrink-0 flex items-center justify-center overflow-hidden">
               {experience.logo ? (
                 <Image src={experience.logo} alt={experience.company} width={32} height={32} className="w-full h-full object-cover" />
@@ -30,9 +30,9 @@ export function ExperienceCard({ experience, index = 0 }: { experience: Experien
             </p>
           </div>
 
-          <div className="text-right shrink-0">
-            <p className="font-mono text-[9px] text-fg-muted tabular-nums">{experience.duration}</p>
-            <p className="font-mono text-[9px] text-fg-subtle mt-0.5">{experience.location}</p>
+          <div className="text-right flex-shrink-0 max-w-[44%]">
+            <p className="font-mono text-[9px] text-fg-muted tabular-nums truncate">{experience.duration}</p>
+            <p className="font-mono text-[9px] text-fg-subtle mt-0.5 truncate">{experience.location}</p>
           </div>
         </div>
 
