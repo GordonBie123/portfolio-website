@@ -1,72 +1,70 @@
+"use client";
+
 import { motion } from "framer-motion";
 import { Experience } from "@/data/experience";
 import Image from "next/image";
 
-export function ExperienceCard({ experience }: { experience: Experience }) {
+export function ExperienceCard({ experience, index = 0 }: { experience: Experience; index?: number }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 12 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className="relative pl-8 pb-12 last:pb-0 group"
+      transition={{ delay: index * 0.05 }}
+      className="border border-border-light border-l-[3px] border-l-accent bg-surface hover:bg-surface-hover transition-colors duration-200"
     >
-      {/* Timeline Line */}
-      <div className="absolute left-0 top-0 bottom-0 w-px bg-light-gray group-last:bg-transparent" />
-      
-      {/* Timeline Dot */}
-      <div className="absolute left-[-4px] top-2 w-2 h-2 rounded-full bg-matcha group-hover:scale-150 transition-transform duration-300" />
+      <div className="p-5 sm:p-6">
 
-      <div className="bg-off-white p-4 sm:p-6 rounded-xl border border-light-gray hover:border-matcha/30 hover:shadow-lg hover:shadow-matcha/10 transition-all duration-300">
-        <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-4">
-          <div className="flex items-start gap-4">
-            <div className="w-12 h-12 bg-off-white rounded-lg overflow-hidden border border-light-gray flex-shrink-0 flex items-center justify-center">
+        {/* Top row — logo + company + duration */}
+        <div className="flex items-start justify-between gap-4 mb-4">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 border border-border-light bg-background flex-shrink-0 flex items-center justify-center overflow-hidden">
               {experience.logo ? (
-                <Image
-                  src={experience.logo}
-                  alt={experience.company}
-                  width={48}
-                  height={48}
-                  className="w-full h-full object-cover"
-                />
+                <Image src={experience.logo} alt={experience.company} width={32} height={32} className="w-full h-full object-cover" />
               ) : (
-                <span className="text-xl font-bold text-matcha">
-                  {experience.company[0]}
-                </span>
+                <span className="font-display italic text-sm text-accent leading-none">{experience.company[0]}</span>
               )}
             </div>
-            <div>
-              <h3 className="text-xl font-bold text-charcoal leading-tight">{experience.role}</h3>
-              <p className="text-matcha font-medium">{experience.company}</p>
-              {experience.description && (
-                <p className="text-medium-gray text-sm mt-0.5">{experience.description}</p>
-              )}
-            </div>
+            <p className="font-mono text-[9px] text-accent uppercase tracking-[0.18em] leading-tight">
+              {experience.company}
+            </p>
           </div>
-          <div className="text-sm text-medium-gray text-left md:text-right">
-            <p className="font-medium">{experience.duration}</p>
-            <p>{experience.location}</p>
+
+          <div className="text-right shrink-0">
+            <p className="font-mono text-[9px] text-fg-muted tabular-nums">{experience.duration}</p>
+            <p className="font-mono text-[9px] text-fg-subtle mt-0.5">{experience.location}</p>
           </div>
         </div>
 
-        <ul className="space-y-2 mb-6">
-          {experience.responsibilities.map((resp, i) => (
-            <li key={i} className="text-medium-gray text-sm flex gap-2">
-              <span className="text-matcha mt-1">•</span>
-              <span>{resp}</span>
-            </li>
-          ))}
-        </ul>
+        {/* Role — hero */}
+        <h3 className="font-display italic font-semibold text-2xl text-fg leading-tight mb-2">
+          {experience.role}
+        </h3>
 
-        <div className="flex flex-wrap gap-2">
-          {experience.skills.map((skill, index) => (
-            <span
-              key={`${skill}-${index}`}
-              className="px-3 py-1 bg-off-white text-medium-gray text-xs font-medium rounded-full"
-            >
-              {skill}
-            </span>
-          ))}
-        </div>
+        {/* Description or responsibilities */}
+        {experience.description ? (
+          <p className="font-sans text-sm text-fg-muted leading-relaxed">
+            {experience.description}
+          </p>
+        ) : experience.responsibilities.length > 0 && (
+          <div className="space-y-1.5">
+            {experience.responsibilities.map((r, i) => (
+              <p key={i} className="font-sans text-sm text-fg-muted leading-relaxed">{r}</p>
+            ))}
+          </div>
+        )}
+
+        {/* Skills */}
+        {experience.skills.length > 0 && (
+          <div className="flex flex-wrap gap-1.5 mt-4 pt-4 border-t border-border-light">
+            {experience.skills.map((skill) => (
+              <span key={skill} className="px-2 py-0.5 border border-border-light text-fg-muted font-mono text-[9px] uppercase tracking-wide">
+                {skill}
+              </span>
+            ))}
+          </div>
+        )}
+
       </div>
     </motion.div>
   );

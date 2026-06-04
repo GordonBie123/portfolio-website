@@ -9,9 +9,10 @@ export const profile = {
   email: "gordonbie2@gmail.com",
   headshot: "/LinkedinHeafshot.jpg",
   aboutBio: [
-    "I’m <strong>Gordon Bie</strong>, a third-year <strong>Information Systems and International Business, Data Science Minor</strong> student at <strong>Northeastern University</strong>. My path to tech was unconventional—moving from international relations to business before discovering programming, which immediately hooked me.",
-    "I’ve developed a strong interest in <strong>Machine Learning</strong> and <strong>AI</strong>. I’m currently a <strong>Tech Lead working on an AI software tool at Cortex Ventures</strong>, and previously interned at <strong>State Street</strong> as an AI Engineer and Data Analyst. Additionally, I have worked multiple research assistant jobs and will be interning at <strong>Flow Traders</strong> as a Trading Engineer.",
-    "Originally from <strong>Vancouver, BC</strong> and now based in <strong>Boston, MA</strong> and will be based in <strong>New York, NY</strong>. I enjoy cooking, gaming (board games and video games), matcha, and discovering new music outside of class and work."
+    "I’m a senior at <strong>Northeastern University</strong> studying <strong>International Business</strong>, <strong>Management Information Systems</strong>, and <strong>Data Science</strong> — an unconventional path into software engineering and tech that I wouldn’t trade for anything.",
+    "I’ve developed a deep interest in <strong>machine learning</strong> and <strong>AI</strong>, and am currently working on my <strong>startup</strong> with co-founders to build cheap, fast, and accessible <strong>medical dermatologist-grade skin diagnostics</strong>.",
+    "Previously, I worked across various <strong>research, AI/ML, and software engineering roles</strong> — see the experience section for the full picture. In a month I will be joining <strong>Flow Traders</strong> as a <strong>Trading Software Engineer</strong>.",
+    "Outside of work I enjoy <strong>cooking</strong>, <strong>gaming</strong> (board games and video games), <strong>matcha</strong>, and discovering new music. I am also deeply in love with and fascinated by <strong>contemporary fashion design</strong> — namely the art of blending <strong>heritage culture</strong>, <strong>functional engineering</strong>, and <strong>contemporary trends</strong> into something that feels both timeless and alive."
   ],
   shortBio: "I'm a business major who learned how to code. I have SWE, AI, and ML research experience, read more about it below!",
   contactTitle: "Get In Touch",

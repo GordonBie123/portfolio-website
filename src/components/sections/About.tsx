@@ -5,22 +5,32 @@ import { profile } from "@/data/profile";
 
 export default function About() {
   return (
-    <section id="about" className="scroll-mt-32">
+    <section id="about">
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
-        className="space-y-4 text-medium-gray leading-relaxed text-base"
+        transition={{ duration: 0.5 }}
       >
-        <h2 className="text-3xl font-display font-bold text-charcoal mb-8">About</h2>
-        {profile.aboutBio.map((paragraph, index) => (
-          <p 
-            key={index} 
-            dangerouslySetInnerHTML={{ __html: paragraph }}
-            className="[&>strong]:text-charcoal/90 [&>strong]:font-semibold mb-4"
-          />
-        ))}
+        {/* Pull quote */}
+        <blockquote
+          className="font-display italic font-semibold text-2xl sm:text-3xl text-fg leading-snug mb-10"
+          style={{ maxWidth: "32rem" }}
+        >
+          &ldquo;Building at the intersection of intelligence and intention.&rdquo;
+        </blockquote>
+
+        <div className="h-px bg-accent/30 mb-8" />
+
+        <div className="space-y-5 text-fg-muted leading-relaxed text-[15px]">
+          {profile.aboutBio.map((paragraph, index) => (
+            <p
+              key={index}
+              dangerouslySetInnerHTML={{ __html: paragraph }}
+              className="[&>strong]:text-fg [&>strong]:font-medium"
+            />
+          ))}
+        </div>
       </motion.div>
     </section>
   );

@@ -6,27 +6,28 @@ import { ExperienceCard } from "@/components/ui/ExperienceCard";
 
 export default function SideQuests() {
   return (
-    <section id="side-quests" className="scroll-mt-32">
-      <h2 className="text-3xl font-display font-bold text-charcoal mb-8">Side Quests</h2>
-      
-      <motion.p
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="text-medium-gray text-base leading-relaxed mb-8"
-      >
-        {sideQuestsContent.subtitle}
-      </motion.p>
-
+    <section id="side-quests">
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="space-y-6 flex flex-col"
+        transition={{ duration: 0.5 }}
       >
-        {sideQuests.map((quest, index) => (
-          <ExperienceCard key={index} experience={quest} />
-        ))}
+        <p className="font-mono text-[9px] text-accent uppercase tracking-[0.25em] mb-2">
+          Personal
+        </p>
+        <h2 className="font-display italic font-semibold text-2xl text-fg mb-6">Side Quests</h2>
+        <div className="h-px bg-accent/30 mb-8" />
+
+        <p className="font-sans text-sm text-fg-muted leading-relaxed mb-10">
+          {sideQuestsContent.subtitle}
+        </p>
+
+        <div className="flex flex-col gap-3">
+          {sideQuests.map((quest, i) => (
+            <ExperienceCard key={i} experience={quest} index={i} />
+          ))}
+        </div>
       </motion.div>
     </section>
   );

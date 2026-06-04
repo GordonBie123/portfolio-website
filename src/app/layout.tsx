@@ -1,29 +1,33 @@
 import type { Metadata } from "next";
-import { Inter, Poppins, JetBrains_Mono } from "next/font/google";
+import { Cormorant_Garamond, Instrument_Sans, Space_Mono } from "next/font/google";
+import Navbar from "@/components/layout/Navbar";
 import "./globals.css";
 
-const inter = Inter({
-  variable: "--font-inter",
+const cormorant = Cormorant_Garamond({
+  variable: "--font-cormorant",
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  style: ["normal", "italic"],
   display: "swap",
 });
 
-const poppins = Poppins({
-  variable: "--font-poppins",
+const instrumentSans = Instrument_Sans({
+  variable: "--font-instrument-sans",
   subsets: ["latin"],
-  weight: ["400", "500", "700"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
-const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-mono",
+const spaceMono = Space_Mono({
+  variable: "--font-space-mono",
   subsets: ["latin"],
+  weight: ["400", "700"],
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Gordon's Portfolio",
-  description: "Personal portfolio showcasing research interests in healthcare AI, bioinformatics, and technical projects in machine learning.",
+  title: "Gordon Bie",
+  description: "ML / AI Engineer — Northeastern '27",
 };
 
 export default function RootLayout({
@@ -34,8 +38,9 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body
-        className={`${inter.variable} ${poppins.variable} ${jetbrainsMono.variable} antialiased bg-background text-charcoal font-sans`}
+        className={`${cormorant.variable} ${instrumentSans.variable} ${spaceMono.variable} antialiased bg-background text-fg font-sans`}
       >
+        <Navbar />
         {children}
       </body>
     </html>

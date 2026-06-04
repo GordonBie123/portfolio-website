@@ -3,7 +3,7 @@ import { Experience } from "./experience";
 export type SideQuest = Omit<Experience, 'type'> & { type?: "professional" | "research" | "other" };
 
 export const sideQuestsContent = {
-  subtitle: "Random creative projects and other things I do outside of data science."
+  subtitle: "Random creative projects and other things I like to do!"
 };
 
 export const sideQuests: Experience[] = [
