@@ -32,7 +32,7 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: "Gordon Bie",
-  description: "ML / AI Engineer — Northeastern '27",
+  description: "Human — Northeastern '27",
 };
 
 export default function RootLayout({
