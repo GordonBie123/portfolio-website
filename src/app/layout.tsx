@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, Instrument_Sans, Space_Mono } from "next/font/google";
 import Navbar from "@/components/layout/Navbar";
 import "./globals.css";
@@ -24,6 +24,11 @@ const spaceMono = Space_Mono({
   weight: ["400", "700"],
   display: "swap",
 });
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+};
 
 export const metadata: Metadata = {
   title: "Gordon Bie",

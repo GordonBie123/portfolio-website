@@ -83,7 +83,7 @@ export default function Landing() {
       </div>
 
       {/* Right panel — shader */}
-      <div className="w-full md:w-[44%] border-t md:border-t-0 md:border-l border-border-light min-h-[55vw] md:min-h-0">
+      <div className="w-full md:w-[44%] border-t md:border-t-0 md:border-l border-border-light h-[72vw] md:h-auto">
         <ShaderPanel />
       </div>
     </main>

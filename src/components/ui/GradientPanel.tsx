@@ -18,7 +18,7 @@ export function GradientPanel({
   watermark,
 }: GradientPanelProps) {
   return (
-    <div className="relative w-full h-full min-h-[28vh] md:min-h-0 overflow-hidden">
+    <div className="relative w-full h-[40vw] md:h-full overflow-hidden">
       <MeshGradient
         style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
         colors={colors}

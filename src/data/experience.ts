@@ -32,7 +32,7 @@ export const experiences: Experience[] = [
     responsibilities: [],
     skills: [],
     type: "professional",
-    // logo: upload /public/logos/mercor.png to enable
+    logo: "/logos/mercor.png",
   },
   {
     role: "cpo & engineer",
