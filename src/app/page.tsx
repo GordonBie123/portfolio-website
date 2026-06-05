@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ShaderPanel } from "@/components/ui/ShaderPanel";
 import { LifeCounter } from "@/components/ui/LifeCounter";
+import ContributionHeatmap from "@/components/ui/ContributionHeatmap";
 
 const NAVBAR_H = 77;
 
@@ -70,7 +71,10 @@ export default function Landing() {
             ))}
           </div>
 
-          {/* Row 4 — Active + life counter */}
+          {/* Row 4 — GitHub contribution heatmap */}
+          <ContributionHeatmap />
+
+          {/* Row 5 — Active + life counter */}
           <div className="px-4 py-3 flex items-center justify-between">
             <div className="flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 bg-accent block animate-pulse" />
