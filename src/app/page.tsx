@@ -35,7 +35,7 @@ export default function Landing() {
               { label: "Current Base",  value: "BOS → NY",      href: null },
             ] as { label: string; value: string; href: string | null }[]).map(({ label, value, href }) => (
               <div key={label} className="px-4 py-3">
-                <p className="font-mono text-[8px] text-fg-subtle uppercase tracking-[0.15em] mb-1.5">{label}</p>
+                <p className="font-mono text-[8px] text-fg-muted uppercase tracking-[0.15em] mb-1.5">{label}</p>
                 {href ? (
                   <Link href={href} target="_blank" className="font-sans text-[13px] text-accent hover:underline underline-offset-2 leading-tight block">
                     {value}
@@ -66,7 +66,7 @@ export default function Landing() {
             ] as { n: string; label: string }[]).map(({ n, label }) => (
               <div key={label} className="px-3 py-3">
                 <p className="font-mono text-xl text-fg leading-none mb-1.5">{n}</p>
-                <p className="font-mono text-[8px] text-fg-subtle uppercase tracking-[0.1em] leading-[1.4] whitespace-pre-line">{label}</p>
+                <p className="font-mono text-[8px] text-fg-muted uppercase tracking-[0.1em] leading-[1.4] whitespace-pre-line">{label}</p>
               </div>
             ))}
           </div>
@@ -78,7 +78,7 @@ export default function Landing() {
           <div className="px-4 py-3 flex items-center justify-between">
             <div className="flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 bg-accent block animate-pulse" />
-              <span className="font-mono text-[8px] text-fg-subtle uppercase tracking-[0.15em]">Active</span>
+              <span className="font-mono text-[8px] text-fg-muted uppercase tracking-[0.15em]">Active</span>
             </div>
             <LifeCounter />
           </div>
