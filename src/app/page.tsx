@@ -25,7 +25,7 @@ export default function Landing() {
         <div className="mt-8 h-px bg-border-light" />
 
         {/* Stats card — table structure */}
-        <div className="mt-6 border border-border-light bg-surface max-w-sm">
+        <div className="mt-6 border border-border-light bg-surface max-w-md">
 
           {/* Row 1 — Context: Study / Next / Based */}
           <div className="grid grid-cols-3 divide-x divide-border-light border-b border-border-light">
