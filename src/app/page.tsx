@@ -28,7 +28,7 @@ export default function Landing() {
         <div className="mt-6 border border-border-light bg-surface max-w-md">
 
           {/* Row 1 — Context: Study / Next / Based */}
-          <div className="grid grid-cols-3 divide-x divide-border-light border-b border-border-light">
+          <div className="grid grid-cols-[1.3fr_1fr_1fr] divide-x divide-border-light border-b border-border-light">
             {([
               { label: "Study",  value: "Northeastern ‧27",       href: null },
               { label: "Next",   value: "Flow Traders",  href: "https://www.flowtraders.com" },
@@ -41,7 +41,7 @@ export default function Landing() {
                     {value}
                   </Link>
                 ) : (
-                  <p className="font-sans text-[13px] text-fg leading-tight">{value}</p>
+                  <p className="font-sans text-[13px] text-fg leading-tight whitespace-nowrap">{value}</p>
                 )}
               </div>
             ))}
