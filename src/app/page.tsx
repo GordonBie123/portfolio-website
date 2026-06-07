@@ -84,6 +84,11 @@ export default function Landing() {
           </div>
 
         </div>
+
+        {/* Note — commit history caveat */}
+        <p className="mt-2 font-mono text-[9px] text-fg-subtle tracking-[0.05em] max-w-md">
+          Git commits are squashed
+        </p>
       </div>
 
       {/* Right panel — shader */}
