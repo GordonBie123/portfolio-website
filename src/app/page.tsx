@@ -30,7 +30,7 @@ export default function Landing() {
           {/* Row 1 — Context: Study / Next / Based */}
           <div className="grid grid-cols-3 divide-x divide-border-light border-b border-border-light">
             {([
-              { label: "Study",  value: "NEU ‧27",       href: null },
+              { label: "Study",  value: "Northeastern ‧27",       href: null },
               { label: "Next",   value: "Flow Traders",  href: "https://www.flowtraders.com" },
               { label: "Current Base",  value: "BOS → NY",      href: null },
             ] as { label: string; value: string; href: string | null }[]).map(({ label, value, href }) => (
@@ -62,7 +62,7 @@ export default function Landing() {
               { n: "17", label: "Prev.\nJobs" },
               { n: "5",  label: "Natural\nLanguages" },
               { n: "4",  label: "Cities" },
-              { n: "∞",  label: "Matcha" },
+              { n: "∞",  label: "Curiosity" },
             ] as { n: string; label: string }[]).map(({ n, label }) => (
               <div key={label} className="px-3 py-3">
                 <p className="font-mono text-xl text-fg leading-none mb-1.5">{n}</p>
