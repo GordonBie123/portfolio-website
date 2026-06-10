@@ -6,7 +6,7 @@ export interface SkillCategory {
 export const skillCategories: SkillCategory[] = [
   {
     title: "Programming & Query Languages",
-    skills: ["Python", "C++", "R", "SQL", "JavaScript", "TypeScript", "CSS/HTML", "Cypher"]
+    skills: ["Python", "C++", "R", "SQL", "JavaScript", "TypeScript", "CSS/HTML", "Racket", "Java", "Cypher"]
   },
   {
     title: "Frameworks & Libraries",
@@ -14,7 +14,7 @@ export const skillCategories: SkillCategory[] = [
   },
   {
     title: "Tools",
-    skills: ["Git", "Docker", "Kubernetes", "Android Studio", "Expo", "MLFlow", "Keras", "Tableau", "PowerPoint", "Excel", "PowerShell", "Linux"]
+    skills: ["Git", "Linux", "PowerShell", "Claude Code", "Ansible", "AWX", "Docker", "Kubernetes", "ArgoCD", "Airflow", "Prometheus", "Grafana"]
   },
   {
     title: "Databases",
