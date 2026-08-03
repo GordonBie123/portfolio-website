@@ -25,7 +25,7 @@ export default function Landing() {
         <div className="mt-8 h-px bg-border-light" />
 
         {/* Stats card — table structure */}
-        <div className="mt-6 border border-border-light bg-surface max-w-md">
+        <div className="mt-6 border border-border-light bg-surface w-full max-w-2xl">
 
           {/* Row 1 — Context: Study / Next / Based */}
           <div className="grid grid-cols-[1.3fr_1fr_1fr] divide-x divide-border-light border-b border-border-light">
@@ -34,23 +34,23 @@ export default function Landing() {
               { label: "Next",   value: "Flow Traders",  href: "https://www.flowtraders.com" },
               { label: "Current Base",  value: "BOS → NY",      href: null },
             ] as { label: string; value: string; href: string | null }[]).map(({ label, value, href }) => (
-              <div key={label} className="px-4 py-3">
-                <p className="font-mono text-[8px] text-fg-muted uppercase tracking-[0.15em] mb-1.5">{label}</p>
+              <div key={label} className="px-5 py-4">
+                <p className="font-mono text-[9px] text-fg-muted uppercase tracking-[0.15em] mb-2">{label}</p>
                 {href ? (
-                  <Link href={href} target="_blank" className="font-sans text-[13px] text-accent hover:underline underline-offset-2 leading-tight block">
+                  <Link href={href} target="_blank" className="font-sans text-[15px] text-accent hover:underline underline-offset-2 leading-tight block">
                     {value}
                   </Link>
                 ) : (
-                  <p className="font-sans text-[13px] text-fg leading-tight whitespace-nowrap">{value}</p>
+                  <p className="font-sans text-[15px] text-fg leading-tight whitespace-nowrap">{value}</p>
                 )}
               </div>
             ))}
           </div>
 
           {/* Row 2 — Domains */}
-          <div className="px-4 py-3 border-b border-border-light flex flex-wrap gap-1.5">
+          <div className="px-5 py-4 border-b border-border-light flex flex-wrap gap-2">
             {["ML / AI", "SWE", "Markets"].map((d) => (
-              <span key={d} className="font-mono text-[8px] uppercase tracking-[0.13em] text-fg-muted border border-border-light px-2 py-0.5">
+              <span key={d} className="font-mono text-[9px] uppercase tracking-[0.13em] text-fg-muted border border-border-light px-2.5 py-1">
                 {d}
               </span>
             ))}
@@ -62,11 +62,11 @@ export default function Landing() {
               { n: "17", label: "Prev.\nJobs" },
               { n: "5",  label: "Natural\nLanguages" },
               { n: "4",  label: "Cities" },
-              { n: "∞",  label: "Curiosity" },
+              { n: "2",  label: "Yrs Coding\nExperience" },
             ] as { n: string; label: string }[]).map(({ n, label }) => (
-              <div key={label} className="px-3 py-3">
-                <p className="font-mono text-xl text-fg leading-none mb-1.5">{n}</p>
-                <p className="font-mono text-[8px] text-fg-muted uppercase tracking-[0.1em] leading-[1.4] whitespace-pre-line">{label}</p>
+              <div key={label} className="px-4 py-4">
+                <p className="font-mono text-3xl text-fg leading-none mb-2">{n}</p>
+                <p className="font-mono text-[9px] text-fg-muted uppercase tracking-[0.1em] leading-[1.4] whitespace-pre-line">{label}</p>
               </div>
             ))}
           </div>
@@ -75,10 +75,10 @@ export default function Landing() {
           <ContributionHeatmap />
 
           {/* Row 5 — Active + life counter */}
-          <div className="px-4 py-3 flex items-center justify-between">
-            <div className="flex items-center gap-1.5">
+          <div className="px-5 py-4 flex items-center justify-between">
+            <div className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 bg-accent block animate-pulse" />
-              <span className="font-mono text-[8px] text-fg-muted uppercase tracking-[0.15em]">Active</span>
+              <span className="font-mono text-[9px] text-fg-muted uppercase tracking-[0.15em]">Active</span>
             </div>
             <LifeCounter />
           </div>
@@ -86,7 +86,7 @@ export default function Landing() {
         </div>
 
         {/* Note — commit history caveat */}
-        <p className="mt-2 font-mono text-[9px] text-fg-subtle tracking-[0.05em] max-w-md">
+        <p className="mt-2 font-mono text-[9px] text-fg-subtle tracking-[0.05em] max-w-2xl">
           Git commits are squashed
         </p>
       </div>
