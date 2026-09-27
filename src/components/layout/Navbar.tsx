@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 const pages = [
+  { label: "Café",       href: "/" },
   { label: "About",      href: "/about" },
   { label: "Experience", href: "/experience" },
   { label: "Work",       href: "/work" },
@@ -14,6 +15,9 @@ const pages = [
 export default function Navbar() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+
+  // The café landing is a full-screen scene with its own navigation
+  if (pathname === "/") return null;
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background">
@@ -30,7 +34,7 @@ export default function Navbar() {
         <Link
           href="/"
           className="hover:text-accent transition-colors duration-200 group"
-          aria-label="Gordon Bie — home"
+          aria-label="Gordon Bie — back to the café"
           onClick={() => setOpen(false)}
         >
           <svg width="32" height="32" viewBox="0 0 32 32" fill="none" className="text-fg group-hover:text-accent transition-colors duration-200">
