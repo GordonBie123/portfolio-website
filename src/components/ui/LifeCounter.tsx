@@ -25,7 +25,7 @@ export function LifeCounter() {
   if (!tick) return null;
 
   return (
-    <span className="font-mono text-[9px] text-fg-subtle tabular-nums tracking-tight">
+    <span className="tabular-nums">
       {tick.h.toLocaleString()}h {String(tick.m).padStart(2, "0")}m {String(tick.s).padStart(2, "0")}s
     </span>
   );

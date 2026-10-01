@@ -6,11 +6,11 @@ export interface SkillCategory {
 export const skillCategories: SkillCategory[] = [
   {
     title: "Programming & Query Languages",
-    skills: ["Python", "C++", "R", "SQL", "JavaScript", "TypeScript", "CSS/HTML", "Racket", "Java", "Cypher"]
+    skills: ["Python", "R", "SQL", "JavaScript", "TypeScript", "CSS/HTML", "Racket", "Cypher"]
   },
   {
     title: "Frameworks & Libraries",
-    skills: ["Sklearn", "TensorFlow", "PyTorch", "Jax", "NumPy", "Pandas", "Seaborn", "FastAPI", "React.js", "Node.js"]
+    skills: ["Sklearn", "TensorFlow", "PyTorch", "Jax", "SciPy", "NumPy", "Pandas", "Seaborn", "FastAPI", "React", "Node.js"]
   },
   {
     title: "Tools",
@@ -22,6 +22,6 @@ export const skillCategories: SkillCategory[] = [
   },
   {
     title: "Natural Languages",
-    skills: ["English (Native)", "Mandarin (Native)", "Spanish (Professional)", "Japanese (Elementary)", "French (Elementary)"]
+    skills: ["English (Native)", "Mandarin (Native)", "Spanish (Professional)", "French (Intermediate)", "Japanese (Intermediate)"]
   }
 ];

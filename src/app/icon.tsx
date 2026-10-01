@@ -15,7 +15,7 @@ export default function Icon() {
       <div
         style={{
           fontSize: 24,
-          background: '#606C38', // Matcha color
+          background: '#4A6741', // theme main
           width: '100%',
           height: '100%',
           display: 'flex',

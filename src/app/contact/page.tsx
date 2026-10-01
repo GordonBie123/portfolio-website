@@ -1,68 +1,53 @@
 import { Metadata } from "next";
+import { FileText, Github, Linkedin, Mail, MessageSquare } from "lucide-react";
 import ContactForm from "@/components/ui/ContactForm";
-import { WaveDivider } from "@/components/ui/WaveDivider";
+import { Heading } from "@/components/ui/Heading";
+import { cvPdf } from "@/data/cv";
 import { profile } from "@/data/profile";
 
-export const metadata: Metadata = { title: "Contact — Gordon Bie" };
+export const metadata: Metadata = { title: "contact | gordon bie" };
 
-const NAVBAR_H = 77;
+const channels = [
+  { label: "email", value: profile.email, href: `mailto:${profile.email}`, icon: Mail },
+  { label: "linkedin", value: "in/gordon-bie", href: profile.links.linkedin, icon: Linkedin },
+  { label: "github", value: "GordonBie123", href: profile.links.github, icon: Github },
+  { label: "cv", value: "pdf", href: cvPdf, icon: FileText },
+];
 
 export default function ContactPage() {
   return (
-    <main style={{ paddingTop: NAVBAR_H }}>
-      {/* Wave top */}
-      <WaveDivider />
-
-      {/* Split header */}
-      <div className="flex flex-col md:flex-row min-h-[50vh]">
-        {/* Left — big heading */}
-        <div className="flex-1 flex flex-col justify-between border-b md:border-b-0 md:border-r border-border-light px-6 sm:px-12 lg:px-16 py-12">
-          <div>
-            <p className="font-mono text-[9px] text-accent uppercase tracking-[0.25em] mb-2">
-              Get in touch
-            </p>
-            <h1
-              className="font-display italic font-semibold text-fg leading-none"
-              style={{ fontSize: "clamp(3rem, 7vw, 7rem)" }}
-            >
-              Contact.
-            </h1>
-          </div>
-
-          <div>
-            <div className="h-px bg-border-light mb-6" />
-            <p className="font-sans text-sm text-fg-muted leading-relaxed max-w-xs">
-              {profile.contactDescription}
-            </p>
-            <p className="font-mono text-[9px] text-fg-subtle uppercase tracking-[0.12em] mt-4">
-              {profile.contactStatus}
-            </p>
-
-            {/* Direct links */}
-            <div className="mt-8 space-y-2">
-              <a
-                href={`mailto:${profile.email}`}
-                className="block font-sans text-sm text-fg hover:text-accent transition-colors"
-              >
-                {profile.email}
-              </a>
-              <a
-                href={profile.links.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block font-sans text-sm text-fg-muted hover:text-accent transition-colors"
-              >
-                LinkedIn ↗
-              </a>
-            </div>
-          </div>
-        </div>
-
-        {/* Right — form */}
-        <div className="md:w-[44%] px-6 sm:px-12 py-12">
-          <ContactForm />
-        </div>
+    <div className="mx-auto flex max-w-[920px] flex-col gap-10">
+      <div className="flex flex-col gap-3">
+        <Heading icon={MessageSquare} as="h1">
+          contact
+        </Heading>
+        <p className="max-w-[60ch] text-sm leading-relaxed text-sub">{profile.contactDescription.toLowerCase()}</p>
       </div>
-    </main>
+
+      {/* Big monkeytype-style buttons: invert on hover */}
+      <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+        {channels.map(({ label, value, href, icon: Icon }) => (
+          <li key={label}>
+            <a
+              href={href}
+              target={href.startsWith("mailto:") ? undefined : "_blank"}
+              rel="noopener noreferrer"
+              className="group flex items-center gap-4 rounded-lg bg-sub-alt px-5 py-4 transition-colors duration-150 hover:bg-text"
+            >
+              <Icon size={20} className="text-sub transition-colors duration-150 group-hover:text-bg" aria-hidden />
+              <span className="flex flex-col">
+                <span className="text-sm text-text transition-colors duration-150 group-hover:text-bg">{label}</span>
+                <span className="text-xs text-sub transition-colors duration-150 group-hover:text-bg/70">{value}</span>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      <section className="flex flex-col gap-5">
+        <Heading icon={Mail}>send a message</Heading>
+        <ContactForm />
+      </section>
+    </div>
   );
 }

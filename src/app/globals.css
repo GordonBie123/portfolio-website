@@ -1,186 +1,39 @@
 @import "tailwindcss";
 
+/* Monkeytype-style theme roles, on the matcha + washi palette */
 @theme {
-  /* Wabi-Sabi Material — Fashion Editorial */
-  --color-background: #F5F2EC;
-  --color-surface: #EDE9E1;
-  --color-surface-hover: #E5E1D8;
-  --color-concrete: #D8D3CB;
-  --color-wood: #E8DFD0;
+  --color-bg: #F5F2EC;      /* page */
+  --color-sub-alt: #EBE6DE; /* boxes, rows, inputs */
+  --color-sub: #6E665D;     /* secondary text, idle icons */
+  --color-text: #111110;    /* primary text */
+  --color-main: #4A6741;    /* accent: logo, active state, stats */
+  --color-error: #B8473F;
 
-  --color-fg: #111110;
-  --color-fg-muted: #7A7269;
-  --color-fg-subtle: #B5AFA6;
-
-  --color-border: #111110;
-  --color-border-light: #D0CBC2;
-
-  /* Matcha */
-  --color-accent: #4A6741;
-  --color-accent-muted: #7A9B72;
-  --color-accent-bg: #EBF0E9;
-
-  /* Typography */
-  --font-display: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
-  --font-sans: var(--font-instrument-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-space-mono), ui-monospace, monospace;
-
-  --radius: 0px;
-}
-
-:root {
-  --background: #F5F2EC;
-  --foreground: #111110;
+  --font-mono: var(--font-roboto-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
 * { box-sizing: border-box; }
 
+html { scroll-behavior: smooth; }
+
 body {
-  background-color: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans);
-  overflow-x: hidden;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-mono);
 }
 
-/* Wabi-sabi grain */
-body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-  opacity: 0.035;
-  pointer-events: none;
-  z-index: 1000;
-  mix-blend-mode: multiply;
+::selection { background: var(--color-main); color: var(--color-bg); }
+
+:focus-visible {
+  outline: 2px solid var(--color-main);
+  outline-offset: 3px;
+  border-radius: 4px;
 }
 
-/* Display text defaults to italic serif */
-h1, h2 {
-  font-family: var(--font-display);
-  font-style: italic;
-  font-weight: 600;
-}
-
-h3, h4, h5, h6 {
-  font-family: var(--font-display);
-  font-weight: 600;
-}
-
-input, textarea, select {
-  color: var(--foreground);
-}
-
-input::placeholder, textarea::placeholder {
-  color: #B5AFA6;
-}
-
-@layer base {
-  * { border-radius: 0 !important; }
-}
-
-@layer utilities {
-  .text-balance { text-wrap: balance; }
-
-  .no-scrollbar {
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-  .no-scrollbar::-webkit-scrollbar { display: none; }
-
-  .texture-concrete {
-    background-color: #D8D3CB;
-    background-image: repeating-linear-gradient(
-      180deg, transparent, transparent 32px,
-      rgba(17,17,16,0.04) 32px, rgba(17,17,16,0.04) 33px
-    );
-  }
-
-  .texture-wood {
-    background-color: #E8DFD0;
-    background-image: repeating-linear-gradient(
-      91deg, transparent, transparent 6px,
-      rgba(139,115,85,0.06) 6px, rgba(139,115,85,0.06) 7px
-    );
-  }
-}
-
-/* Café scene */
-@keyframes cafe-sway {
-  0%, 100% { transform: rotate(-0.6deg); }
-  50% { transform: rotate(0.6deg); }
-}
-@keyframes cafe-steam {
-  0% { opacity: 0; transform: translateY(6px); }
-  30% { opacity: 0.8; }
-  100% { opacity: 0; transform: translateY(-14px); }
-}
-@keyframes cafe-mote {
-  0% { opacity: 0; transform: translate(0, 0); }
-  30% { opacity: 0.9; }
-  100% { opacity: 0; transform: translate(12px, -40px); }
-}
-@keyframes cafe-breathe {
-  0%, 100% { opacity: 0.85; }
-  50% { opacity: 1; }
-}
-
-.cafe-sway { animation: cafe-sway 9s ease-in-out infinite; }
-.cafe-steam path { animation: cafe-steam 3.2s ease-out infinite; }
-.cafe-mote { animation: cafe-mote 9s ease-in-out infinite; }
-.cafe-breathe { animation: cafe-breathe 7s ease-in-out infinite; }
-
-.cafe-counter-glow { transition: opacity 300ms ease; }
-.cafe-counter[role="button"]:hover .cafe-counter-glow,
-.cafe-counter[role="button"]:focus-visible .cafe-counter-glow { opacity: 1; }
-.cafe-counter:focus { outline: none; }
-
-@media (max-width: 639px) {
-  .cafe-sign { display: none; }
-}
-
-/* Counter game */
-@keyframes cafe-bob {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(3px); }
-}
-@keyframes cafe-blink {
-  0%, 94%, 100% { transform: scaleY(1); }
-  97% { transform: scaleY(0.1); }
-}
-@keyframes cafe-talk {
-  0%, 100% { transform: scaleY(0.35); }
-  50% { transform: scaleY(1); }
-}
-@keyframes cafe-whisk {
-  0% { transform: translateX(-7px) rotate(-2deg); }
-  100% { transform: translateX(7px) rotate(2deg); }
-}
-@keyframes cafe-hint {
-  0%, 100% { opacity: 0.25; transform: scale(0.8); }
-  50% { opacity: 0.9; transform: scale(1.15); }
-}
-@keyframes cafe-serve {
-  0% { opacity: 0; transform: translateY(-24px); }
-  100% { opacity: 1; transform: translateY(0); }
-}
-
-.cafe-bob { animation: cafe-bob 3.6s ease-in-out infinite; }
-.cafe-blink { animation: cafe-blink 4.5s ease-in-out infinite; }
-.cafe-talk { animation: cafe-talk 0.22s ease-in-out infinite; }
-.cafe-whisk { animation: cafe-whisk 0.16s ease-in-out infinite alternate; }
-.cafe-hint { animation: cafe-hint 2.4s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
-.cafe-serve { animation: cafe-serve 0.45s cubic-bezier(0.22, 1, 0.36, 1) both; }
-
-.cafe-hotspot { cursor: pointer; outline: none; }
-.cafe-hotspot-body { transition: filter 200ms ease; }
-.cafe-hotspot:hover .cafe-hotspot-body,
-.cafe-hotspot:focus-visible .cafe-hotspot-body { filter: drop-shadow(0 0 14px rgba(255, 236, 190, 0.95)) brightness(1.04); }
-.cafe-hotspot-label { opacity: 0; transition: opacity 180ms ease; }
-.cafe-hotspot:hover .cafe-hotspot-label,
-.cafe-hotspot:focus-visible .cafe-hotspot-label { opacity: 1; }
-.cafe-hotspot:hover .cafe-hint { opacity: 0; animation: none; }
+input, textarea { color: var(--color-text); }
+input::placeholder, textarea::placeholder { color: var(--color-sub); opacity: 0.7; }
 
 @media (prefers-reduced-motion: reduce) {
-  .cafe-sway, .cafe-steam path, .cafe-mote, .cafe-breathe,
-  .cafe-bob, .cafe-blink, .cafe-talk, .cafe-whisk, .cafe-hint, .cafe-serve { animation: none; }
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition-duration: 0.01ms !important; }
 }

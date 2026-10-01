@@ -14,12 +14,12 @@ async function getContributions(): Promise<Day[] | null> {
   }
 }
 
-// level 0 → faint sumi ink; levels 1–4 → matcha accent ramp
+// level 0 → faint sub-alt; levels 1–4 → matcha main ramp
 const LEVEL_COLORS = [
-  "rgba(17, 17, 16, 0.06)",
-  "rgba(74, 103, 65, 0.30)",
-  "rgba(74, 103, 65, 0.50)",
-  "rgba(74, 103, 65, 0.75)",
+  "rgba(110, 102, 93, 0.12)",
+  "rgba(74, 103, 65, 0.35)",
+  "rgba(74, 103, 65, 0.55)",
+  "rgba(74, 103, 65, 0.78)",
   "rgba(74, 103, 65, 1)",
 ];
 
@@ -34,13 +34,11 @@ export default async function ContributionHeatmap() {
   const cells: (Day | null)[] = [...Array(firstWeekday).fill(null), ...days];
 
   return (
-    <div className="px-4 py-3 border-b border-border-light">
-      <div className="flex items-baseline justify-between mb-2">
-        <p className="font-mono text-[8px] text-fg-subtle uppercase tracking-[0.15em]">
-          GitHub
-        </p>
-        <p className="font-mono text-[8px] text-fg-subtle uppercase tracking-[0.1em]">
-          {total} contributions · 1yr
+    <section aria-label="github activity" className="rounded-lg bg-sub-alt p-5">
+      <div className="mb-3 flex items-baseline justify-between text-xs text-sub">
+        <p>github activity</p>
+        <p>
+          <span className="text-main">{total}</span> contributions · last year
         </p>
       </div>
 
@@ -50,8 +48,8 @@ export default async function ContributionHeatmap() {
           gridTemplateRows: "repeat(7, 1fr)",
           gridAutoFlow: "column",
           gridAutoColumns: "1fr",
-          gap: "2px",
-          height: "52px",
+          gap: "3px",
+          height: "84px",
         }}
         title={`${total} contributions in the last year`}
       >
@@ -59,6 +57,7 @@ export default async function ContributionHeatmap() {
           cell ? (
             <div
               key={cell.date}
+              className="rounded-[2px]"
               title={`${cell.count} contribution${cell.count !== 1 ? "s" : ""} on ${cell.date}`}
               style={{ backgroundColor: LEVEL_COLORS[cell.level] ?? LEVEL_COLORS[0] }}
             />
@@ -67,6 +66,7 @@ export default async function ContributionHeatmap() {
           )
         )}
       </div>
-    </div>
+      <p className="mt-3 text-[11px] text-sub opacity-80">git commits are squashed</p>
+    </section>
   );
 }

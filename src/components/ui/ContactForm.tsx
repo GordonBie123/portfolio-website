@@ -4,28 +4,42 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Button } from "@/components/ui/Button";
-import { Send, Check } from "lucide-react";
+import { Check, Send } from "lucide-react";
 
 const contactSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
-  email: z.string().email("Invalid email address"),
-  subject: z.string().min(5, "Subject must be at least 5 characters"),
-  message: z.string().min(10, "Message must be at least 10 characters"),
+  name: z.string().min(2, "name must be at least 2 characters"),
+  email: z.string().email("that email doesn't look right"),
+  subject: z.string().min(5, "subject must be at least 5 characters"),
+  message: z.string().min(10, "message must be at least 10 characters"),
 });
 
 type ContactFormData = z.infer<typeof contactSchema>;
 
 const inputClass = (hasError: boolean) =>
-  `w-full px-4 py-3 border-2 bg-background text-fg font-sans text-sm focus:outline-none transition-colors ${
-    hasError
-      ? "border-accent focus:border-accent"
-      : "border-border-light focus:border-fg"
+  `w-full rounded-md bg-sub-alt px-4 py-3 text-sm text-text caret-main outline-none transition-shadow duration-150 focus:ring-2 ${
+    hasError ? "ring-2 ring-error focus:ring-error" : "focus:ring-main"
   }`;
+
+function Field({ id, label, error, children }: { id: string; label: string; error?: string; children: React.ReactNode }) {
+  return (
+    <div>
+      <label htmlFor={id} className="mb-2 block text-xs text-sub">
+        {label}
+      </label>
+      {children}
+      {error && (
+        <p role="alert" className="mt-1.5 text-xs text-error">
+          {error}
+        </p>
+      )}
+    </div>
+  );
+}
 
 export default function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [sendError, setSendError] = useState(false);
 
   const {
     register,
@@ -38,6 +52,7 @@ export default function ContactForm() {
 
   const onSubmit = async (data: ContactFormData) => {
     setIsSubmitting(true);
+    setSendError(false);
     try {
       const response = await fetch("https://formspree.io/f/mqeglrlg", {
         method: "POST",
@@ -47,12 +62,11 @@ export default function ContactForm() {
       if (response.ok) {
         setIsSuccess(true);
         reset();
-        setTimeout(() => setIsSuccess(false), 5000);
       } else {
-        alert("There was a problem submitting your form.");
+        setSendError(true);
       }
     } catch {
-      alert("There was a problem submitting your form.");
+      setSendError(true);
     } finally {
       setIsSubmitting(false);
     }
@@ -60,74 +74,65 @@ export default function ContactForm() {
 
   if (isSuccess) {
     return (
-      <div className="border-2 border-fg bg-surface p-10 flex flex-col items-start">
-        <div className="flex items-center gap-3 mb-4">
-          <Check size={20} className="text-fg" />
-          <h3 className="font-display font-extrabold text-xl uppercase text-fg">Sent.</h3>
-        </div>
-        <p className="text-fg-muted text-sm mb-8">
-          Thank you for reaching out — I&apos;ll get back to you soon.
+      <div className="flex flex-col items-start gap-4 rounded-lg bg-sub-alt p-8">
+        <p className="flex items-center gap-2 text-lg text-main">
+          <Check size={18} aria-hidden /> sent
         </p>
-        <Button variant="outline" onClick={() => setIsSuccess(false)}>
-          Send Another
-        </Button>
+        <p className="text-sm text-sub">thanks for reaching out, i&apos;ll get back to you soon.</p>
+        <button
+          onClick={() => setIsSuccess(false)}
+          className="rounded-md bg-bg px-4 py-2 text-sm text-text transition-colors duration-150 hover:bg-text hover:text-bg"
+        >
+          send another
+        </button>
       </div>
     );
   }
 
   return (
-    <div className="border-2 border-fg bg-surface p-5 sm:p-8">
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          <div>
-            <label className="font-mono text-[10px] text-fg-muted uppercase tracking-[0.15em] block mb-2">
-              Name
-            </label>
-            <input {...register("name")} placeholder="Your name" className={inputClass(!!errors.name)} />
-            {errors.name && (
-              <p className="font-mono text-[10px] text-accent mt-1.5">{errors.name.message}</p>
-            )}
-          </div>
-          <div>
-            <label className="font-mono text-[10px] text-fg-muted uppercase tracking-[0.15em] block mb-2">
-              Email
-            </label>
-            <input {...register("email")} placeholder="you@example.com" className={inputClass(!!errors.email)} />
-            {errors.email && (
-              <p className="font-mono text-[10px] text-accent mt-1.5">{errors.email.message}</p>
-            )}
-          </div>
-        </div>
-
-        <div>
-          <label className="font-mono text-[10px] text-fg-muted uppercase tracking-[0.15em] block mb-2">
-            Subject
-          </label>
-          <input {...register("subject")} placeholder="What's on your mind?" className={inputClass(!!errors.subject)} />
-          {errors.subject && (
-            <p className="font-mono text-[10px] text-accent mt-1.5">{errors.subject.message}</p>
-          )}
-        </div>
-
-        <div>
-          <label className="font-mono text-[10px] text-fg-muted uppercase tracking-[0.15em] block mb-2">
-            Message
-          </label>
-          <textarea
-            {...register("message")}
-            placeholder="Hi Gordon, I'd like to..."
-            rows={5}
-            className={`${inputClass(!!errors.message)} resize-none`}
+    <form onSubmit={handleSubmit(onSubmit)} noValidate className="flex flex-col gap-5">
+      <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+        <Field id="name" label="name" error={errors.name?.message}>
+          <input id="name" {...register("name")} autoComplete="name" placeholder="your name" className={inputClass(!!errors.name)} />
+        </Field>
+        <Field id="email" label="email" error={errors.email?.message}>
+          <input
+            id="email"
+            type="email"
+            {...register("email")}
+            autoComplete="email"
+            placeholder="you@example.com"
+            className={inputClass(!!errors.email)}
           />
-          {errors.message && (
-            <p className="font-mono text-[10px] text-accent mt-1.5">{errors.message.message}</p>
-          )}
-        </div>
+        </Field>
+      </div>
+      <Field id="subject" label="subject" error={errors.subject?.message}>
+        <input id="subject" {...register("subject")} placeholder="what's on your mind?" className={inputClass(!!errors.subject)} />
+      </Field>
+      <Field id="message" label="message" error={errors.message?.message}>
+        <textarea
+          id="message"
+          {...register("message")}
+          placeholder="hi gordon, i'd like to..."
+          rows={6}
+          className={`${inputClass(!!errors.message)} resize-none`}
+        />
+      </Field>
 
-        <Button type="submit" disabled={isSubmitting} className="w-full flex items-center gap-2">
-          {isSubmitting ? "Sending..." : <><Send size={15} /> Send Message</>}
-        </Button>
-      </form>
-    </div>
+      {sendError && (
+        <p role="alert" className="text-xs text-error">
+          something went wrong sending that. try again, or email me directly.
+        </p>
+      )}
+
+      <button
+        type="submit"
+        disabled={isSubmitting}
+        className="flex items-center justify-center gap-2 rounded-md bg-sub-alt px-4 py-3 text-sm text-text transition-colors duration-150 hover:bg-text hover:text-bg disabled:cursor-wait disabled:opacity-50"
+      >
+        <Send size={14} aria-hidden />
+        {isSubmitting ? "sending..." : "send message"}
+      </button>
+    </form>
   );
 }

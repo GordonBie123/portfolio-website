@@ -1,86 +1,99 @@
 import { Metadata } from "next";
-import About from "@/components/sections/About";
-import Skills from "@/components/sections/Skills";
-import Matcha from "@/components/sections/Matcha";
-import { GradientPanel } from "@/components/ui/GradientPanel";
-import { WaveDivider } from "@/components/ui/WaveDivider";
+import Image from "next/image";
+import { ArrowUpRight, Info, Link2, Wrench } from "lucide-react";
+import { Heading } from "@/components/ui/Heading";
 import { profile } from "@/data/profile";
+import { skillCategories } from "@/data/skills";
 
-export const metadata: Metadata = { title: "About — Gordon Bie" };
+export const metadata: Metadata = { title: "about | gordon bie" };
 
-const NAVBAR_H = 77;
+const facts = [
+  { label: "major", value: "business analytics + international business" },
+  { label: "minor", value: "data science" },
+  { label: "school", value: "northeastern '27" },
+  { label: "now", value: "swe intern @ flow traders" },
+];
+
+const links = [
+  { label: "linkedin", href: profile.links.linkedin },
+  { label: "github", href: profile.links.github },
+  { label: "spotify", href: profile.links.spotify },
+  { label: "email", href: `mailto:${profile.email}` },
+];
 
 export default function AboutPage() {
   return (
-    <main style={{ paddingTop: NAVBAR_H }}>
-      {/* Split header */}
-      <div className="border-b border-border-light flex flex-col md:flex-row">
-        <div className="flex-1 flex flex-col justify-between px-6 sm:px-12 lg:px-16 py-10">
+    <div className="mx-auto flex max-w-[920px] flex-col gap-14">
+      {/* Profile card, like monkeytype's account page */}
+      <section className="grid gap-6 rounded-lg bg-sub-alt p-6 sm:grid-cols-[auto_1fr] sm:items-center sm:gap-10 sm:p-8">
+        <div className="flex items-center gap-5">
+          <Image
+            src={profile.headshot}
+            alt="Hand-drawn avatar of Gordon Bie"
+            width={88}
+            height={88}
+            className="h-[88px] w-[88px] rounded-full bg-white object-cover object-top"
+          />
           <div>
-            <p className="font-mono text-[9px] text-accent uppercase tracking-[0.25em] mb-2">
-              Identity
-            </p>
-            <h1
-              className="font-display italic font-semibold text-fg leading-none"
-              style={{ fontSize: "clamp(3rem, 6vw, 6rem)" }}
-            >
-              About.
-            </h1>
+            <h1 className="text-3xl text-text">gordon bie</h1>
+            <p className="mt-1 text-sm text-sub">boston → new york</p>
           </div>
         </div>
-        <div className="w-full md:w-[44%] border-t md:border-t-0 md:border-l border-border-light">
-          <GradientPanel
-            watermark=":)"
-            colors={["#0D1A0C", "#1C2B1A", "#3A5C38", "#5E8A5A", "#2A1F15", "#0F0E0D"]}
-          />
+        <dl className="grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2">
+          {facts.map(({ label, value }) => (
+            <div key={label}>
+              <dt className="text-xs text-sub">{label}</dt>
+              <dd className="text-sm text-text">{value}</dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+
+      <section className="flex flex-col gap-5">
+        <Heading icon={Info}>about</Heading>
+        <div className="flex max-w-[70ch] flex-col gap-4 text-[15px] leading-relaxed text-sub">
+          {profile.aboutBio.map((p, i) => (
+            <p key={i} className="[&>strong]:font-normal [&>strong]:text-text" dangerouslySetInnerHTML={{ __html: p }} />
+          ))}
         </div>
-      </div>
+      </section>
 
-      {/* Bio */}
-      <div className="max-w-4xl px-6 sm:px-12 lg:px-16 py-14">
-        <About />
-      </div>
+      {/* Skills, laid out like monkeytype settings rows */}
+      <section className="flex flex-col gap-5">
+        <Heading icon={Wrench}>skills</Heading>
+        <div className="flex flex-col gap-6">
+          {skillCategories.map((c) => (
+            <div key={c.title} className="grid gap-3 sm:grid-cols-[220px_1fr] sm:gap-8">
+              <p className="text-sm text-text">{c.title.toLowerCase()}</p>
+              <ul className="flex flex-wrap gap-2">
+                {c.skills.map((s) => (
+                  <li key={s} className="rounded-md bg-sub-alt px-3 py-1.5 text-xs text-text">
+                    {s.toLowerCase()}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </section>
 
-      <WaveDivider />
-
-      {/* Skills */}
-      <div className="max-w-4xl px-6 sm:px-12 lg:px-16 py-14">
-        <Skills />
-      </div>
-
-      <WaveDivider />
-
-      {/* Social links */}
-      <div className="px-6 sm:px-12 lg:px-16 py-10">
-        <p className="font-mono text-[9px] text-fg-subtle uppercase tracking-[0.25em] mb-6">
-          Find me
-        </p>
-        <div className="flex flex-wrap gap-x-10 gap-y-3">
-          {[
-            { label: "LinkedIn", href: profile.links.linkedin },
-            { label: "GitHub",   href: profile.links.github },
-            { label: "Spotify",  href: profile.links.spotify },
-            { label: "Email",    href: `mailto:${profile.email}` },
-          ].map(({ label, href }) => (
+      <section className="flex flex-col gap-5">
+        <Heading icon={Link2}>find me</Heading>
+        <div className="flex flex-wrap gap-2">
+          {links.map(({ label, href }) => (
             <a
               key={label}
               href={href}
-              target="_blank"
+              target={href.startsWith("mailto:") ? undefined : "_blank"}
               rel="noopener noreferrer"
-              className="font-sans text-sm text-fg-muted hover:text-accent transition-colors"
+              className="flex items-center gap-1.5 rounded-md bg-sub-alt px-4 py-2.5 text-sm text-text transition-colors duration-150 hover:bg-text hover:text-bg"
             >
-              {label} ↗
+              {label}
+              <ArrowUpRight size={14} aria-hidden />
             </a>
           ))}
         </div>
-      </div>
-
-      <WaveDivider />
-
-      {/* Matcha */}
-      <div className="max-w-3xl px-6 sm:px-12 lg:px-16 py-14 pb-24">
-        <Matcha />
-      </div>
-    </main>
+      </section>
+    </div>
   );
 }

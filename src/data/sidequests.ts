@@ -13,7 +13,7 @@ export const sideQuests: Experience[] = [
     duration: "Jan 2005 - Present",
     location: "Worldwide",
     responsibilities: [
-      "Refer to my 'Matcha' Tab in the top right to look at my ratings. Have been enjoying matcha since birth.",
+      "Have been enjoying matcha since birth.",
       "Let's connect and have matcha!"
     ],
     skills: ["Whisking", "Spending Money", "Tasting"],
@@ -45,28 +45,40 @@ export const sideQuests: Experience[] = [
     logo: "/logos/ebay.jpg"
   },
   {
-    role: "English Writing Tutor",
-    company: "Indigo Education",
-    duration: "Jun 2023 - Present",
-    location: "Remote",
-    responsibilities: [
-      "Helping high school students improve their writing and express themselves better in my free time",
-    ],
-    skills: ["English"],
-    type: "professional",
-    logo: "/logos/IndigoeducationLogo.jpg"
-  },
-  {
-    role: "Marketing Associate",
+    role: "Marketing Coordinator",
     company: "Disrupt Fintech Society",
-    duration: "Jan 2024 - Present",
+    duration: "2024 - 2025",
     location: "Boston, MA",
     responsibilities: [
-      "Designing social media marketing material for events and campaigns."
+      "Planned, marketed and ran events for the fintech society, like hackathons, panels and research talks."
     ],
     skills: ["Canva", "PowerPoint", "LinkedIn", "Instagram", "Tiktok"],
     type: "professional",
     logo: "/logos/disruptlogo.jpg"
+  },
+  {
+    role: "Data Science Technical Lead",
+    company: "Generate Product Development Studio",
+    duration: "2025 - 2026",
+    location: "Boston, MA",
+    responsibilities: [
+      "Technical lead at a student-led product studio building ML and AI software products for startups."
+    ],
+    skills: [],
+    type: "professional",
+    logo: "/logos/generate.jpg"
+  },
+  {
+    role: "BSIB Student Mentor",
+    company: "D'Amore McKim School of Business",
+    duration: "2026 - Present",
+    location: "Boston, MA",
+    responsibilities: [
+      "Mentoring undergraduates in Northeastern's BSIB program on course planning, careers and studying abroad."
+    ],
+    skills: [],
+    type: "professional",
+    logo: "/logos/neu.jpg"
   },
   {
     role: "ARAM Enjoyer",
@@ -93,40 +105,28 @@ export const sideQuests: Experience[] = [
     logo: "/logos/chess.png"
   },
   {
-    role: "Program Ambassador",
-    company: "Northeastern University",
-    duration: "Jan 2024 - Jul 2025",
+    role: "Global Program Alumni Ambassador",
+    company: "Northeastern University · Office of Global Experience",
+    duration: "2024 - 2025",
     location: "Boston, MA",
     responsibilities: [
-      "Created social media marketing content and spoke at information session events for 90,000 prospective students"
+      "Planned and presented on Northeastern's global experience programs for prospective and incoming students."
     ],
     skills: ["Instagram", "TikTok", "Public Speaking", "Canva"],
     type: "professional",
     logo: "/logos/neu.jpg"
   },
   {
-    role: "Strategy Consultant",
-    company: "Global Research and Consulting Group",
-    duration: "Jan 2024 - May 2025",
+    role: "Junior Associate Consultant",
+    company: "Global Research & Consulting Group",
+    duration: "2024 - 2025",
     location: "Boston, MA",
     responsibilities: [
-      "Researched market trends to inform business decisions for 501(c)(3) non-profits and presented insights with pretty slides."
+      "Delivered strategic analysis and operational recommendations to international organizations and public-sector clients."
     ],
     skills: ["PowerPoint", "Excel", "RocketReach"],
     type: "professional",
     logo: "/logos/grc.jpg"
-  },
-  {
-    role: "CRM & Sales Intern",
-    company: "Indigo Education",
-    duration: "May 2024 - Aug 2024",
-    location: "Vancouver, BC",
-    responsibilities: [
-      "Assisted in the management of customer relationships and closing deals with prospective clients."
-    ],
-    skills: ["Sales Pitching", "CRM Management"],
-    type: "professional",
-    logo: "/logos/IndigoeducationLogo.jpg"
   },
   {
     role: "Bartender + Waiter",
