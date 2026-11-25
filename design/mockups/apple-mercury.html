@@ -14,6 +14,7 @@
   }
   *{box-sizing:border-box;margin:0}
   html{-webkit-font-smoothing:antialiased}
+  html,body{overflow-x:clip}
   body{background:var(--bg);color:var(--ink);font-family:Onest,-apple-system,system-ui,sans-serif;font-size:17px;line-height:1.47;letter-spacing:-.01em}
   ::selection{background:#dfe5cf;color:var(--ink)}
   :focus-visible{outline:2px solid var(--matcha-text);outline-offset:3px;border-radius:8px}
@@ -51,6 +52,10 @@
   .co b{display:block;font-size:15px;font-weight:600;letter-spacing:-.01em}
   .co span{display:block;margin-top:2px;font-size:13px;line-height:1.38;color:var(--ink-2)}
   .co.r{text-align:left}.co.l{text-align:right}
+  /* narrow screens: labels sit on their cluster as glass pills, no leader lines */
+  .co.pin{width:auto;transform:translate(-50%,-100%);text-align:center;padding:5px 12px;border-radius:980px;white-space:nowrap;
+    background:rgba(255,255,255,.86);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:1px solid rgba(0,0,0,.07);box-shadow:0 6px 16px -10px rgba(0,0,0,.35)}
+  .co.pin b{font-size:13px;font-weight:500}.co.pin span{display:none}
   .fadeup{opacity:0;transform:translateY(22px);transition:opacity 1s var(--ease-out),transform 1s var(--ease-out)}
   body.in .fadeup{opacity:1;transform:none}
   body.in .fadeup.d1{transition-delay:.12s} body.in .fadeup.d2{transition-delay:.24s}
@@ -63,7 +68,8 @@
   .lede{margin-top:14px;font-size:21px;color:var(--ink-2);max-width:40ch;line-height:1.38}
   .tiles{margin-top:56px;display:grid;grid-template-columns:repeat(6,1fr);gap:20px}
   .tile{background:var(--tile);border-radius:28px;padding:36px 34px;overflow:hidden;position:relative;min-height:300px;display:flex;flex-direction:column}
-  .tile.w3{grid-column:span 3}.tile.w2{grid-column:span 2}.tile.w4{grid-column:span 4}.tile.w6{grid-column:span 6}
+  .tile.w3{grid-column:span 3}.tile.w2{grid-column:span 2;min-height:220px}
+  .tile .eyebrow{margin:0 0 10px;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--matcha-text)}.tile.w4{grid-column:span 4}.tile.w6{grid-column:span 6}
   .tile h3{font-size:28px;font-weight:600;letter-spacing:-.02em;line-height:1.14}
   .tile p{margin-top:10px;color:var(--ink-2);font-size:17px;max-width:38ch}
   .tile .meta{margin-top:auto;padding-top:24px;font-size:14px;color:var(--ink-2)}
@@ -105,7 +111,8 @@
   .nn-cap p{margin-top:10px;font-size:17px;color:var(--ink-2)}
   .nn-cap .meta{margin-top:12px;font-size:14px;display:inline-flex;align-items:center;gap:8px}
   .nn-cap .meta i{width:7px;height:7px;border-radius:50%;background:var(--matcha)}
-  @media (max-width:760px){.tiles{grid-template-columns:1fr}.tile.w2,.tile.w3,.tile.w4,.tile.w6{grid-column:auto}.spec .row{grid-template-columns:1fr;gap:4px}.nav ul{display:none}}
+  @media (max-width:760px){.tiles{grid-template-columns:1fr}.tile.w2,.tile.w3,.tile.w4,.tile.w6{grid-column:auto;min-height:0}.spec .row{grid-template-columns:1fr;gap:4px}.nav ul{display:none}
+    .nn-stage{height:360px}.nn-layer{font-size:10px;letter-spacing:.04em}}
   @media (prefers-reduced-motion:reduce){.fadeup{transition:none}}
 </style>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
@@ -152,11 +159,11 @@
   <h2 class="h2">Research that reads<br>the messy stuff.</h2>
   <p class="lede">How machine learning changes the way people and organisations make decisions, starting with signals that don't come clean.</p>
   <div class="tiles">
-    <article class="tile w3"><h3>Reading machines like a language.</h3><p>Tokenizing high-frequency, multivariate machine signals so sequence models can read them the way they read text.</p><div class="meta">Northeastern College of Engineering · RISE Expo 2026</div></article>
-    <article class="tile w3"><h3>Lesions, in context.</h3><p>Using where acne lesions sit relative to each other, plus colour features, to classify them.</p><div class="meta">Skinapse Labs · two posters under review</div></article>
-    <article class="tile w2"><h3>Operations decisions</h3><p>Causal ML for rollouts with spillovers and delayed feedback.</p></article>
-    <article class="tile w2"><h3>Dynamic marketplaces</h3><p>Matching and pricing when participants act strategically.</p></article>
-    <article class="tile w2"><h3>Human + AI</h3><p>When collaboration beats delegation, and how agents reshape work.</p></article>
+    <article class="tile w3"><p class="eyebrow">Current research</p><h3>Reading machines like a language.</h3><p>Tokenizing high-frequency, multivariate machine signals so sequence models can read them the way they read text.</p><div class="meta">Northeastern College of Engineering · RISE Expo 2026</div></article>
+    <article class="tile w3"><p class="eyebrow">Current research</p><h3>Lesions, in context.</h3><p>Using where acne lesions sit relative to each other, plus colour features, to classify them.</p><div class="meta">Skinapse Labs · two posters under review</div></article>
+    <article class="tile w2"><p class="eyebrow">Where I'm headed</p><h3>Operations decisions</h3><p>Causal ML for rollouts with spillovers and delayed feedback.</p></article>
+    <article class="tile w2"><p class="eyebrow">Where I'm headed</p><h3>Dynamic marketplaces</h3><p>Matching and pricing when participants act strategically.</p></article>
+    <article class="tile w2"><p class="eyebrow">Where I'm headed</p><h3>Human + AI</h3><p>When collaboration beats delegation, and how agents reshape work.</p></article>
   </div>
 </div></section>
 
@@ -215,7 +222,7 @@ function studio(renderer){
   const sky=new THREE.Mesh(new THREE.SphereGeometry(10,64,32),new THREE.ShaderMaterial({side:THREE.BackSide,
     vertexShader:'varying vec3 d; void main(){ d=normalize(position); gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.); }',
     fragmentShader:`varying vec3 d; void main(){ float y=d.y, az=atan(d.z,d.x);
-      vec3 c=y>0.? mix(vec3(.5),vec3(1.8),smoothstep(.18,.9,y)) : mix(vec3(1.15),vec3(.1),smoothstep(-.02,-.32,y))+vec3(1.4)*smoothstep(.07,0.,abs(y+.48));
+      vec3 c=y>0.? mix(vec3(.5),vec3(1.8),smoothstep(.18,.9,y)) : mix(vec3(1.15),vec3(.22),smoothstep(-.02,-1.,y))+vec3(.8)*smoothstep(.14,0.,abs(y+.5));
       c*=1.-.9*exp(-pow(y/.04,2.));
       c*=1.-.94*smoothstep(.62,.38,abs(az-1.5708))*smoothstep(-.02,.06,y)*(1.-smoothstep(.42,.6,y));
       c*=1.-.8*smoothstep(.3,.16,abs(az-.2))*smoothstep(-.2,.1,y)*(1.-smoothstep(.55,.75,y));
@@ -231,17 +238,21 @@ const mat=new THREE.MeshPhysicalMaterial({color:0xffffff,metalness:1,roughness:.
 const mc=new MarchingCubes(76,mat,false,false,120000); mc.scale.setScalar(3.0); scene.add(mc);
 
 // clusters from the real data: the hero is one mass; scrolling explodes it into the embedding
+// exploded layout is composed, not orbited: research on the left, industry on the right, so labels never swap sides
 const clusters=[
-  {name:'Time series',sub:'Machine-signal tokenization, RISE Expo poster, SP500 predictor',n:3},
-  {name:'Vision & health',sub:'Skinapse Labs, two lesion posters under review',n:3},
-  {name:'Agents & RAG',sub:'Cortex, State Street, Sherman Center, Unsprawl',n:4},
-  {name:'Markets',sub:'Flow Traders, pairs trading, options vol surface',n:3},
-  {name:'Teaching',sub:'Calculus, statistics, IB and AP maths',n:3},
-  {name:'Life',sub:'Matcha, fashion, vintage watches, Relaylist',n:4},
+  {name:'Time series',sub:'Machine-signal tokenization, RISE Expo poster, SP500 predictor',n:3,at:[-.42,.36,.1],side:'l'},
+  {name:'Vision & health',sub:'Skinapse Labs, two lesion posters under review',n:3,at:[-.58,-.02,-.12],side:'l'},
+  {name:'Teaching',sub:'Calculus, statistics, IB and AP maths',n:3,at:[-.4,-.4,.06],side:'l'},
+  {name:'Agents & RAG',sub:'Cortex, State Street, Sherman Center, Unsprawl',n:4,at:[.62,.34,-.08],side:'r'},
+  {name:'Markets',sub:'Flow Traders, pairs trading, options vol surface',n:3,at:[.4,-.04,.14],side:'r'},
+  {name:'Life',sub:'Matcha, fashion, vintage watches, Relaylist',n:4,at:[.6,-.42,-.04],side:'r'},
 ];
 let seed=9; const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
-clusters.forEach((c,i)=>{ const a=i/clusters.length*Math.PI*2+.35; c.ex=new THREE.Vector3(Math.cos(a)*.66,Math.sin(a*2)*.1+(i%2?.14:-.14),Math.sin(a)*.4);
+clusters.forEach(c=>{ c.ex=new THREE.Vector3();
   c.sat=Array.from({length:c.n},()=>new THREE.Vector3((rnd()-.5)*.22,(rnd()-.5)*.2,(rnd()-.5)*.2)); });
+// portrait phones squeeze the layout horizontally and stretch it vertically
+let pin=false, small=false;
+function layout(){ const sx=small?.48:1, sy=small?1.5:1; clusters.forEach(c=>c.ex.set(c.at[0]*sx,c.at[1]*sy,c.at[2])); }
 
 // scroll progress through the pinned section
 const sec=document.querySelector('.explode'); let P=0, Psm=0;
@@ -257,18 +268,26 @@ const copy=document.getElementById('copy'), cap=document.getElementById('cap'), 
 const co=clusters.map((c,i)=>{ const d=document.createElement('div'); d.className='co'; d.innerHTML=`<b>${c.name}</b><span>${c.sub}</span>`; document.getElementById('callouts').appendChild(d); return d; });
 const leaders=document.getElementById('leaders');
 
-function size(){ const w=canvas.clientWidth,h=canvas.clientHeight; renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix(); camera.position.z=w<760?13:9.5; }
+function size(){ const w=canvas.clientWidth,h=canvas.clientHeight; renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix();
+  // "small" means portrait (phones and upright tablets), where the composition must stack vertically
+  pin=w<960; small=w<760||h>w; camera.position.z=small?13:w<1100?11:9.5; layout(); }
 addEventListener('resize',size); size();
 
-const v=new THREE.Vector3();
+const v=new THREE.Vector3(), vt=new THREE.Vector3(), clamp01=x=>Math.min(1,Math.max(0,x));
+// idle spin runs only while the mass is whole; once it starts to explode it settles to a fixed, readable angle
+let spin=0, lock=null, last=performance.now();
 function frame(now){
-  const t=now/1000;
+  const t=now/1000, dt=Math.min(.05,(now-last)/1000); last=now;
   if(bloom<1&&!reduce){ bloom=Math.min(1,(now-t0)/1600); if(bloom>.25&&!document.body.classList.contains('in')) document.body.classList.add('in'); }
   P=Q.has('p')?+Q.get('p'):getP(); Psm+=(P-Psm)*(reduce||Q.has('p')?1:.1);
-  const ex=ease(Math.min(1,Math.max(0,(Psm-.12)/.6)));
+  // on phones the caption gets the screen to itself first, then the mass explodes underneath where it was
+  const ex=ease(clamp01(small?(Psm-.4)/.45:(Psm-.12)/.6));
   tilt.vx+=(tilt.tx-tilt.x)*.06; tilt.vy+=(tilt.ty-tilt.y)*.06; tilt.vx*=.82; tilt.vy*=.82; tilt.x+=tilt.vx; tilt.y+=tilt.vy;
   poke*=.93;
-  mc.rotation.y=t*.12*(reduce?0:1)+Psm*1.2+tilt.x; mc.rotation.x=.18+tilt.y*.6;
+  spin+=dt*.12*(reduce?0:1)*(1-ex);
+  if(ex>.001){ if(lock===null) lock=Math.round(spin/(Math.PI*2))*Math.PI*2; } else lock=null;
+  const ry=lock===null?spin:spin+(lock-spin)*ex;
+  mc.rotation.y=ry+tilt.x*(1-ex*.6)+(reduce?0:Math.sin(t*.3)*.05*ex); mc.rotation.x=.18*(1-ex)+.05*ex+tilt.y*.6*(1-ex*.6);
   const bl=bloom<1?(1-Math.pow(1-bloom,3))*(1+.08*Math.sin(bloom*14)*(1-bloom)):1;
   // the mass sits low behind the headline and rises to centre as it explodes
   mc.position.y=-.38+ex*.25; shadow.style.opacity=1-ex*.8;
@@ -286,13 +305,24 @@ function frame(now){
   renderer.render(scene,camera);
   // copy and callouts
   copy.style.opacity=Math.max(0,1-Psm*7); copy.style.transform=`translateY(${-Psm*80}px)`;
-  const capO=Math.max(0,Math.min(1,(Psm-.08)*6))*(1-Math.max(0,(Psm-.92)*12)); cap.style.opacity=capO;
-  const coO=Math.max(0,Math.min(1,(ex-.7)/.3)); let svg='';
+  // the caption hands over to the labels, so text never sits on top of chrome
+  const coO=clamp01((ex-.7)/.3); let svg='';
+  const capIn=clamp01((Psm-.08)*6), capOut=small?clamp01((Psm-.33)/.1):Math.max(coO,clamp01((Psm-.92)*12));
+  cap.style.opacity=capIn*(1-capOut);
   const W=canvas.clientWidth, H=canvas.clientHeight;
-  clusters.forEach((c,i)=>{ v.set(c.world.x*3.0,c.world.y*3.0,c.world.z*3.0).applyEuler(mc.rotation).add(mc.position).project(camera);
-    const x=(v.x*.5+.5)*W, y=(-v.y*.5+.5)*H; c.sx=x; c.sy=y; });
+  // contact shadow tracks the mass instead of a fixed spot on screen
+  v.set(0,mc.position.y-1.05,0).project(camera); shadow.style.bottom='auto'; shadow.style.top=((-v.y*.5+.5)*H-23)+'px';
+  clusters.forEach((c,i)=>{ v.set(c.world.x*3.0,c.world.y*3.0,c.world.z*3.0).applyEuler(mc.rotation).add(mc.position);
+    vt.copy(v).add({x:0,y:.62,z:0}).project(camera); v.project(camera);
+    c.sx=(v.x*.5+.5)*W; c.sy=(-v.y*.5+.5)*H; c.ty=(-vt.y*.5+.5)*H; });
+  if(pin){
+    // glass pill sitting on top of each cluster, kept inside the screen
+    clusters.forEach((c,i)=>{ const el=co[i]; el.className='co pin'; const hw=el.offsetWidth/2;
+      el.style.left=Math.min(W-hw-8,Math.max(hw+8,c.sx))+'px'; el.style.top=(c.ty-6)+'px'; el.style.opacity=coO; });
+    leaders.innerHTML=''; requestAnimationFrame(frame); return;
+  }
   // callouts lead out to two clean columns, sorted top to bottom so leaders never cross
-  const L=clusters.filter(c=>c.sx<W/2).sort((a,b)=>a.sy-b.sy), R=clusters.filter(c=>c.sx>=W/2).sort((a,b)=>a.sy-b.sy);
+  const L=clusters.filter(c=>c.side==='l').sort((a,b)=>a.sy-b.sy), R=clusters.filter(c=>c.side==='r').sort((a,b)=>a.sy-b.sy);
   const colL=Math.max(24,W/2-600), colR=Math.min(W-214,W/2+410), top=H*.34, span=H*.5;
   [[L,true],[R,false]].forEach(([arr,left])=>arr.forEach((c,k)=>{ const i=clusters.indexOf(c), ly=top+(arr.length>1?k/(arr.length-1):.5)*span*.8, x=c.sx, y=c.sy;
     const ex2=left?colL+190+12:colR-12, el=co[i]; el.className='co '+(left?'l':'r'); el.style.left=(left?colL:colR)+'px'; el.style.top=(ly-10)+'px'; el.style.opacity=coO;
@@ -319,7 +349,7 @@ const LAYERS=[
   ['Sequence model','Classifier','LLM agent','Statistical model','Graph retrieval'],
   ['Anomaly flags','Lesion class','One task list','Trade signal','Answers','Audit report'],
 ];
-const NAMES=['Messy signals','Representation','Model','Decision'], XS=[-2.85,-.95,.95,2.85];
+const NAMES=['Messy signals','Representation','Model','Decision'], SHORT=['Signals','Features','Model','Decision'], XS=[-2.85,-.95,.95,2.85];
 const MATCHA=new THREE.Color(0x8a9a5b), WHITE=new THREE.Color(0xffffff);
 const base=new THREE.MeshPhysicalMaterial({color:0xffffff,metalness:1,roughness:.05,clearcoat:.3,clearcoatRoughness:.06});
 const sph=new THREE.SphereGeometry(1,48,32), nodes=[];
@@ -349,8 +379,12 @@ const heads=[...Array(4)].map(()=>{ const m=new THREE.Mesh(sph,new THREE.MeshPhy
 const seg=document.getElementById('seg'), thumb=document.getElementById('thumb'), cap=document.getElementById('nnCap');
 const btns=PATHS.map((p,i)=>{ const b=document.createElement('button'); b.type='button'; b.role='tab'; b.textContent=p.key; b.onclick=()=>{touched=performance.now(); select(i);}; seg.appendChild(b); return b; });
 let cur=-1, prev=-1, T=0, D=0, touched=0;
+seg.addEventListener('keydown',e=>{ const d={ArrowRight:1,ArrowLeft:-1}[e.key]; if(!d) return; e.preventDefault(); touched=performance.now();
+  const k=(cur+d+PATHS.length)%PATHS.length; select(k); btns[k].focus(); });
 function select(i){ if(i===cur) { T=0; return; } prev=cur; cur=i; T=0; D=0;
-  btns.forEach((b,k)=>b.setAttribute('aria-selected',k===i)); const b=btns[i]; thumb.style.width=b.offsetWidth+'px'; thumb.style.transform=`translateX(${b.offsetLeft-4}px)`;
+  btns.forEach((b,k)=>{ b.setAttribute('aria-selected',k===i); b.tabIndex=k===i?0:-1; }); const b=btns[i]; thumb.style.width=b.offsetWidth+'px'; thumb.style.transform=`translateX(${b.offsetLeft-4}px)`;
+  // on phones the picker scrolls sideways; keep the active signal in view
+  if(seg.scrollWidth>seg.clientWidth) seg.scrollTo({left:b.offsetLeft-(seg.clientWidth-b.offsetWidth)/2,behavior:reduce?'auto':'smooth'});
   cap.style.opacity=0; setTimeout(()=>{ const p=PATHS[i]; document.getElementById('nnTitle').textContent=p.title; document.getElementById('nnBody').textContent=p.body; document.getElementById('nnMeta').textContent=p.meta; cap.style.opacity=1; },reduce?0:180); }
 
 // labels
@@ -368,7 +402,10 @@ box.addEventListener('click',()=>{ if(!hover) return; touched=performance.now();
 
 let inView=false; new IntersectionObserver(es=>{inView=es[0].isIntersecting;}).observe(box);
 setInterval(()=>{ if(inView&&performance.now()-touched>12000&&!reduce) select((cur+1)%PATHS.length); },6500);
-function size2(){ const w=box.clientWidth,h=box.clientHeight; R.setSize(w,h,false); C.aspect=w/h; C.position.z=w<760?17:9.6; C.updateProjectionMatrix(); }
+// pull the camera back until the whole network (plus room for labels) fits the stage width
+function size2(){ const w=box.clientWidth,h=box.clientHeight; R.setSize(w,h,false); C.aspect=w/h;
+  C.position.z=Math.max(9.6,3.45/(Math.tan(13*Math.PI/180)*C.aspect)); C.updateProjectionMatrix();
+  lay.forEach((d,l)=>d.textContent=(w<760?SHORT:NAMES)[l]); }
 addEventListener('resize',()=>{ size2(); if(cur>=0){ const b=btns[cur]; thumb.style.width=b.offsetWidth+'px'; thumb.style.transform=`translateX(${b.offsetLeft-4}px)`; } }); size2();
 select(+(Q.get('nn')||0)); if(Q.has('nt')) T=+Q.get('nt');
 
@@ -390,10 +427,13 @@ function loop(now){
     n.tint+=(n.tt-n.tint)*(Q.has("nt")?1:.08); n.m.material.color.copy(WHITE).lerp(MATCHA,n.tint); });
   R.render(S,C);
   // overlay: layer names under columns, labels on the live path, hover tip
-  XS.forEach((x,l)=>{ const [sx]=proj(new THREE.Vector3(x,-2.2,0)); lay[l].style.bottom='4px'; lay[l].style.left=sx+'px'; });
-  lab.forEach((d,k)=>{ const n=P.nodes[k]; if(!n){ d.style.opacity=0; return; } const [x,y]=proj(n.m.position); d.style.left=x+'px'; d.style.top=(y-n.s*60)+'px';
-    d.textContent=n.label; d.className='nn-label'+(n.l===3?' out':''); d.style.opacity=T>.3+n.l*.8?1:0; });
-  if(hover&&!P.nodes.includes(hover)){ const [x,y]=proj(hover.m.position); tip.style.left=x+'px'; tip.style.top=(y-30)+'px'; tip.textContent=hover.label; tip.style.opacity=1; } else tip.style.opacity=0;
+  // every overlay is centred on its node but clamped so it never leaves the stage
+  const BW=box.clientWidth, fit=(d,x)=>{ const hw=d.offsetWidth/2; d.style.left=Math.min(BW-hw-6,Math.max(hw+6,x))+'px'; };
+  XS.forEach((x,l)=>{ const [sx]=proj(new THREE.Vector3(x,-2.2,0)); lay[l].style.bottom='4px'; fit(lay[l],sx); });
+  // phones only label where the signal enters and where the decision comes out; the caption covers the middle
+  lab.forEach((d,k)=>{ const n=P.nodes[k]; if(!n||(BW<760&&n.l>0&&n.l<3)){ d.style.opacity=0; return; } const [x,y]=proj(n.m.position);
+    d.textContent=n.label; d.className='nn-label'+(n.l===3?' out':''); fit(d,x); d.style.top=(y-n.s*60)+'px'; d.style.opacity=T>.3+n.l*.8?1:0; });
+  if(hover&&!P.nodes.includes(hover)){ const [x,y]=proj(hover.m.position); tip.textContent=hover.label; fit(tip,x); tip.style.top=(y-30)+'px'; tip.style.opacity=1; } else tip.style.opacity=0;
 }
 requestAnimationFrame(loop);
 }
