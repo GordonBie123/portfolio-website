@@ -1,0 +1,472 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gordon Bie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#ffffff; --ink:#1d1d1f; --ink-2:#6e6e73; --line:#d2d2d7;
+    --matcha:#8a9a5b; --matcha-text:#55633a;
+    --night:#000000; --night-ink:#f5f5f7; --night-2:#a1a1a6; --night-line:#333336; --night-matcha:#b5c58a;
+    --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+    --ease-out:cubic-bezier(.16,1,.3,1);
+  }
+  *{box-sizing:border-box;margin:0}
+  html{-webkit-font-smoothing:antialiased}
+  html,body{overflow-x:clip}
+  body{background:var(--bg);color:var(--ink);font-family:Onest,-apple-system,system-ui,sans-serif;font-size:17px;line-height:1.47;letter-spacing:-.01em}
+  ::selection{background:#dfe5cf;color:var(--ink)}
+  :focus-visible{outline:2px solid var(--matcha-text);outline-offset:3px;border-radius:8px}
+  a{color:inherit;text-decoration:none}
+  sub{font-size:.62em;vertical-align:-.25em;line-height:0;letter-spacing:0}
+  .wrap{max-width:860px;margin:0 auto;padding:0 22px}
+
+  .nav{position:fixed;top:0;left:0;right:0;z-index:20;height:52px;background:rgba(255,255,255,.72);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid rgba(0,0,0,.08)}
+  .nav .wrap{max-width:1040px;height:100%;display:flex;align-items:center;justify-content:space-between}
+  .nav .brand{font-weight:600;font-size:15px}
+  .pill{padding:6px 14px;border-radius:980px;background:var(--ink);color:#fff;font-size:13px;font-weight:500;transition:background .2s}
+  .pill:hover{background:#3a3a3c}
+
+  /* cold open: a black screen, letterboxed, then the lights come up */
+  body.locked{overflow:hidden}
+  .curtain{position:fixed;inset:0;z-index:50;background:#000;pointer-events:none;transition:opacity 2.2s cubic-bezier(.4,0,.2,1)}
+  .curtain:after{content:"";position:absolute;inset:-50%;opacity:.09;animation:grain .5s steps(4) infinite;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+  @keyframes grain{0%{transform:translate(0,0)}25%{transform:translate(-4%,3%)}50%{transform:translate(3%,-2%)}75%{transform:translate(-2%,-4%)}}
+  .curtain.up{opacity:0}
+  .bar{position:fixed;left:0;right:0;height:11vh;background:#000;z-index:51;pointer-events:none;transition:transform 1.4s cubic-bezier(.7,0,.2,1)}
+  .bar.t{top:0}.bar.b{bottom:0}
+  .bar.t.off{transform:translateY(-100%)}.bar.b.off{transform:translateY(100%)}
+  .nav{transition:opacity .8s,transform .8s}
+  body.intro .nav{opacity:0;transform:translateY(-8px);pointer-events:none}
+
+  /* hero: one screen. A blob, one line, a click. */
+  .apply{position:relative;height:100vh;height:100svh}
+  .stage{position:relative;height:100%;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:52px 16px 0}
+  .lhs{opacity:0}
+  .lhs.on{opacity:1}
+  .tap{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);border-radius:50%;background:transparent;border:0;cursor:pointer;z-index:2}
+  .tap:focus-visible{outline:2px solid var(--matcha-text);outline-offset:6px}
+  .tap[hidden]{display:none}
+  .cue{position:absolute;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:13px;color:var(--ink-2);white-space:nowrap;opacity:0;transition:opacity .8s;pointer-events:none;display:flex;align-items:center;gap:10px}
+  .cue.on{opacity:1}
+  .cue i{width:9px;height:9px;border-radius:50%;background:var(--matcha);position:relative}
+  .cue i:after{content:"";position:absolute;inset:-6px;border-radius:50%;border:1.5px solid var(--matcha);animation:ping 1.8s cubic-bezier(0,0,.2,1) infinite}
+  @keyframes ping{0%{transform:scale(.4);opacity:.9}100%{transform:scale(1.8);opacity:0}}
+  .replay{position:absolute;bottom:4vh;right:24px;font-family:var(--mono);font-size:12px;color:var(--ink-2);background:none;border:0;cursor:pointer;opacity:0;transition:opacity .6s;pointer-events:none}
+  .replay.on{opacity:1;pointer-events:auto}
+  .replay:hover{color:var(--ink)}
+  @media (prefers-reduced-motion:reduce){.curtain,.bar,.nav,.caps > div,.cue{transition:none}.curtain:after,.cue i:after{animation:none}}
+  .caps{position:relative;width:100%;height:150px;text-align:center}
+  .caps > div{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:22px;opacity:0;transition:opacity .5s}
+  .caps > div.on{opacity:1}
+  .caps h1{font-size:clamp(40px,6vw,80px);font-weight:600;letter-spacing:-.03em;line-height:1.04}
+  .caps h2{font-size:clamp(26px,3.4vw,40px);font-weight:600;letter-spacing:-.025em;line-height:1.12}
+  .caps p{margin-top:10px;font-size:clamp(18px,1.9vw,23px);font-weight:500;color:var(--ink-2);letter-spacing:-.015em}
+  .eq{display:flex;align-items:center;gap:14px}
+  .lhs{font-family:var(--mono);font-weight:500;font-size:clamp(18px,2vw,26px);white-space:nowrap;min-width:5.2em;text-align:right;transition:opacity .25s}
+  .mx{position:relative}
+  #ascii{display:block;cursor:none}
+  .ann{position:absolute;left:100%;margin-left:14px;transform:translateY(-50%);font-family:var(--mono);font-size:16px;white-space:nowrap;color:var(--ink-2);opacity:0;transition:opacity .5s}
+  .ann b{color:var(--matcha-text);font-weight:500}
+  .ann.on{opacity:1}
+  .key{display:none;margin-top:14px;font-family:var(--mono);font-size:12px;color:var(--ink-2);text-align:center;opacity:0;transition:opacity .5s}
+  .key b{color:var(--matcha-text);font-weight:500}
+  .key.on{opacity:1}
+  .hint{position:absolute;bottom:4vh;left:0;right:0;text-align:center;font-family:var(--mono);font-size:12px;color:var(--ink-2);transition:opacity .4s}
+
+  /* one section per eigenvalue */
+  .eig{padding:120px 0}
+  .eig .fig{font-family:var(--mono);font-size:clamp(44px,6vw,72px);font-weight:500;letter-spacing:-.04em;line-height:1}
+  .eig .fig em{font-style:normal;color:var(--matcha-text)}
+  .eig h2{margin-top:14px;font-size:clamp(34px,4.4vw,50px);font-weight:600;letter-spacing:-.028em;line-height:1.08}
+  .eig .lede{margin-top:12px;max-width:40ch;font-size:20px;color:var(--ink-2);line-height:1.4}
+  .eig .body{margin-top:44px;display:grid;grid-template-columns:auto 1fr;gap:56px;align-items:start}
+  .vec{font-family:var(--mono);font-size:15px;line-height:1.32;color:var(--ink);white-space:pre}
+  .vec .k{color:var(--ink-2)} .vec .top{color:var(--matcha-text);font-weight:700}
+  .list{list-style:none;padding:0;border-top:1px solid var(--line)}
+  .list li{display:flex;justify-content:space-between;gap:20px;padding:15px 0;border-bottom:1px solid var(--line)}
+  .list b{font-weight:600}
+  .list span{color:var(--ink-2);text-align:right}
+  .night{background:var(--night);color:var(--night-ink)}
+  .night .fig em,.night .vec .top{color:var(--night-matcha)}
+  .night .lede,.night .list span,.night .vec .k{color:var(--night-2)}
+  .night .vec{color:var(--night-ink)}
+  .night .list,.night .list li{border-color:var(--night-line)}
+
+  .contact{text-align:center;padding:140px 0 120px}
+  .contact h2{font-size:clamp(34px,4.4vw,50px);font-weight:600;letter-spacing:-.028em;line-height:1.08}
+  .contact .mail{display:inline-block;margin-top:24px;font-family:var(--mono);font-size:clamp(20px,2.8vw,32px);font-weight:500;letter-spacing:-.02em;color:var(--matcha-text)}
+  .contact .mail:hover{text-decoration:underline;text-underline-offset:6px}
+  .contact .more{margin-top:22px;display:flex;gap:26px;justify-content:center;font-size:17px;color:var(--matcha-text)}
+  .contact .more a:hover{text-decoration:underline;text-underline-offset:3px}
+  .contact .how{margin:56px auto 0;max-width:48ch;font-size:13px;color:var(--ink-2)}
+  footer{border-top:1px solid #e8e8ed;color:var(--ink-2);font-size:12px;padding:20px 0}
+
+  @media (max-width:760px){
+    .eq{flex-direction:column;gap:8px}.lhs{min-width:0;text-align:center}
+    .ann{display:none}.key{display:block}
+    .caps{height:130px}
+    .eig{padding:90px 0}.eig .body{grid-template-columns:1fr;gap:32px}
+    .list li{flex-direction:column;gap:2px}.list span{text-align:left}
+  }
+</style>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+</head>
+<body class="intro locked">
+<div class="curtain" id="curtain" aria-hidden="true"></div>
+<div class="bar t" id="barT" aria-hidden="true"></div><div class="bar b" id="barB" aria-hidden="true"></div>
+<header class="nav"><div class="wrap">
+  <a class="brand" href="#top">Gordon Bie</a>
+  <a class="pill" href="mailto:gordonbie2@gmail.com">Email me</a>
+</div></header>
+
+<section class="apply" id="top">
+  <div class="stage">
+    <div class="caps" aria-live="polite">
+      <div id="c0"><h1>This is Gordon.</h1></div>
+      <div id="c1"><h2>Σ: how 31 things I've done<br>move together.</h2></div>
+      <div id="c2"><h2>Diagonalise it.<br>What's left are my eigenvalues.</h2></div>
+    </div>
+    <div class="eq">
+      <span class="lhs" id="lhs">Gordon =</span>
+      <div class="mx" id="mx"><canvas id="ascii" role="img" aria-label=""></canvas>
+        <button class="tap" id="tap" type="button" aria-label="Open Gordon's matrix"></button>
+        <p class="cue" id="cue"><i></i>click the mercury</p></div>
+      <span class="lhs" style="visibility:hidden" aria-hidden="true">Gordon =</span>
+    </div>
+    <p class="key" id="key"></p>
+    <p class="hint" id="hint" style="opacity:0">scroll ↓</p>
+    <button class="replay" id="replay" type="button">↺ replay</button>
+  </div>
+</section>
+
+<div id="eigs"></div>
+
+<section class="contact"><div class="wrap">
+  <h2>Let's find a shared eigenvector.</h2>
+  <a class="mail" href="mailto:gordonbie2@gmail.com">gordonbie2@gmail.com</a>
+  <div class="more"><a href="#">CV</a><a href="https://www.linkedin.com/in/gordon-bie/">LinkedIn</a><a href="https://github.com/GordonBie123">GitHub</a></div>
+  <p class="how" id="how"></p>
+</div></section>
+<footer><div class="wrap">© 2026 Gordon Bie</div></footer>
+
+<script type="module">
+import * as THREE from 'three';
+import { MarchingCubes } from 'three/addons/objects/MarchingCubes.js';
+const Q=new URLSearchParams(location.search), reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const clamp01=x=>Math.min(1,Math.max(0,x));
+
+// ---------- the matrix: one row per thing I've done, scored 0 / 0.5 / 1 on six themes ----------
+const THEMES=['ML','Build','Markets','People','Taste','Business'];
+const ROWS=[ // [title, where, ML Build Markets People Taste Business]
+ ['Software engineer intern','Flow Traders',[.5,1,1,0,0,0]],
+ ['Machine learning engineer intern','Cortex',[1,1,0,0,0,0]],
+ ['AI engineer intern','State Street',[1,1,.5,0,0,.5]],
+ ['Data scientist intern','Northeastern Sherman Center',[1,1,0,0,0,0]],
+ ['Client experience analyst intern','State Street Investment Management',[0,0,.5,.5,0,1]],
+ ['Marketing analytics extern','Apple',[.5,0,0,0,0,1]],
+ ['CRM and sales analyst intern','Indigo Education',[0,0,0,1,0,1]],
+ ['Research assistant','Northeastern College of Engineering',[1,0,0,0,0,0]],
+ ['Research scientist','Skinapse Labs',[1,0,0,0,0,0]],
+ ['Calculus tutor','Northeastern',[0,0,0,1,0,0]],
+ ['High school maths tutor','Indigo Education',[0,0,0,1,0,0]],
+ ['Statistics tutor','Northeastern',[0,0,0,1,0,0]],
+ ['Analytical writing tutor','Indigo Education',[0,0,0,1,.5,0]],
+ ['Unsprawl','Project',[1,1,0,0,0,0]],
+ ['SP500 predictor','Project',[1,0,1,0,0,0]],
+ ['Relaylist','Project',[.5,1,0,0,1,0]],
+ ['Options volatility surface','Project',[0,.5,1,0,0,0]],
+ ['Coke–Pepsi pairs trade','Project',[.5,0,1,0,0,0]],
+ ['This website','Project',[0,1,0,0,1,0]],
+ ['Matcha','Since birth',[0,0,0,0,1,0]],
+ ['Fashion','Always',[0,0,0,0,1,0]],
+ ['Vintage watches','eBay business',[0,0,0,0,1,1]],
+ ['Marketing coordinator','Disrupt Fintech Society',[0,0,.5,1,0,.5]],
+ ['Data science technical lead','Generate Product Studio',[1,1,0,.5,0,0]],
+ ['Student mentor','D’Amore-McKim',[0,0,0,1,0,0]],
+ ['League of Legends','For fun',[0,0,0,0,.5,0]],
+ ['Chess','For fun',[0,0,0,0,.5,0]],
+ ['Global programs ambassador','Northeastern',[0,0,0,1,0,0]],
+ ['Junior associate consultant','Global Research & Consulting Group',[0,0,0,0,0,1]],
+ ['Bartender and waiter','Noodle and Beer, London',[0,0,0,1,.5,0]],
+ ['Pastry chef','Swan Bakery, London',[0,0,0,0,1,0]],
+].map(([title,org,x])=>({title,org,x}));
+
+// ---------- eigendecomposition of the covariance matrix (Jacobi) ----------
+const n=ROWS.length, m=THEMES.length, mu=THEMES.map((_,j)=>ROWS.reduce((s,r)=>s+r.x[j],0)/n);
+const COV=THEMES.map((_,i)=>THEMES.map((_,j)=>ROWS.reduce((s,r)=>s+(r.x[i]-mu[i])*(r.x[j]-mu[j]),0)/(n-1)));
+function jacobi(S){ const A=S.map(r=>r.slice()), N=A.length, V=A.map((_,i)=>A.map((_,j)=>+(i===j)));
+  for(let it=0;it<200;it++){ let p=0,q=1,mx=0; for(let i=0;i<N;i++) for(let j=i+1;j<N;j++) if(Math.abs(A[i][j])>mx){mx=Math.abs(A[i][j]);p=i;q=j;}
+    if(mx<1e-12) break; const th=(A[q][q]-A[p][p])/(2*A[p][q]), t=Math.sign(th||1)/(Math.abs(th)+Math.sqrt(th*th+1)), c=1/Math.sqrt(t*t+1), s=t*c;
+    for(let k=0;k<N;k++){ const a=A[k][p],b=A[k][q]; A[k][p]=c*a-s*b; A[k][q]=s*a+c*b; }
+    for(let k=0;k<N;k++){ const a=A[p][k],b=A[q][k]; A[p][k]=c*a-s*b; A[q][k]=s*a+c*b; }
+    for(let k=0;k<N;k++){ const a=V[k][p],b=V[k][q]; V[k][p]=c*a-s*b; V[k][q]=s*a+c*b; } }
+  return A.map((_,i)=>({l:A[i][i],v:V.map(r=>r[i])})).sort((a,b)=>b.l-a.l); }
+const EIG=jacobi(COV), TOTAL=EIG.reduce((s,e)=>s+e.l,0);
+const NAMED=[
+  {anchor:'ML',name:'Building with ML',lede:'Models, agents and the products around them. The direction I get stretched furthest.',lead:['Research assistant','Research scientist']},
+  {anchor:'Taste',name:'Taste',lede:'Matcha, fashion, pastry, watches. What I’d do with nobody watching.',night:true},
+  {anchor:'Business',name:'Business sense',lede:'The business route into ML, and why I care how models change real decisions.'},
+];
+// an eigenvector's sign is arbitrary: point each one so its defining theme is positive
+NAMED.forEach((d,k)=>{ const e=EIG[k]; if(e.v[THEMES.indexOf(d.anchor)]<0) e.v=e.v.map(x=>-x); d.e=e; });
+const score=(r,k)=>r.x.reduce((s,x,j)=>s+(x-mu[j])*EIG[k].v[j],0);
+const sgn=x=>(x<0?'-':'+')+Math.abs(x).toFixed(2);
+
+// ---------- sections: each eigenvector written as a column vector, beside what lies along it ----------
+const eigs=document.getElementById('eigs');
+NAMED.forEach((d,k)=>{
+  const lead=(d.lead||[]).map(t=>ROWS.find(r=>r.title===t));
+  const items=[...lead,...ROWS.filter(r=>!lead.includes(r)).sort((a,b)=>score(b,k)-score(a,k))].slice(0,5);
+  const big=d.e.v.indexOf(Math.max(...d.e.v)), pad='       ', mid=3;
+  const lines=[`${pad}┌       ┐`,...d.e.v.map((x,j)=>`${j===mid-1?(' v'+'₁₂₃'[k]+' = ').padEnd(7):pad}│ <span class="${j===big?'top':''}">${sgn(x)}</span> │  <span class="k">${THEMES[j]}</span>`),`${pad}└       ┘`];
+  const s=document.createElement('section'); s.className='eig'+(d.night?' night':'');
+  s.innerHTML=`<div class="wrap"><p class="fig"><em>λ<sub>${k+1}</sub></em> = ${d.e.l.toFixed(2)}</p><h2>${d.name}.</h2><p class="lede">${d.lede}</p>
+    <div class="body"><pre class="vec" aria-label="Eigenvector ${k+1}: ${d.e.v.map((x,j)=>THEMES[j]+' '+sgn(x)).join(', ')}">${lines.join('\n')}</pre>
+    <ul class="list">${items.map(r=>`<li><b>${r.title}</b><span>${r.org}</span></li>`).join('')}</ul></div></div>`;
+  eigs.appendChild(s); });
+document.getElementById('how').textContent=`How: ${n} things I've done, each scored on ${m} themes. Your browser computes their covariance Σ and diagonalises it as the page loads. The top three eigenvalues explain ${Math.round(EIG.slice(0,3).reduce((a,e)=>a+e.l,0)/TOTAL*100)}% of it.`;
+
+
+// ================= hero: a written matrix, inked in liquid mercury =================
+// Characters are drawn into an offscreen canvas as a mask. A shader fills that mask with a
+// live chrome surface, and composites the real rendered mercury (the mass and the cursor droplet) on top.
+const view=document.getElementById('ascii'), mxBox=document.getElementById('mx');
+const tc=document.createElement('canvas'), ctx=tc.getContext('2d');
+const SHORT_L=['ML','Build','Mkts','Ppl','Taste','Biz'], SHORT_S=['ML','Bld','Mkt','Ppl','Tst','Biz'];
+const RAMP='.:-=+*#%@', SCR='0123456789.-+';
+// mask colours: red = chrome ink, green = matcha chrome, blue = flat grey (strength sets the shade)
+const BRACKET='rgb(255,255,0)', INK='rgb(255,0,0)', MATCHA='rgb(0,255,0)', HEAD='rgb(0,0,255)', ZERO='rgb(0,0,110)', SCRAM='rgb(0,0,180)';
+let COLS,ROWS_,CW,CH,FS,narrow,S_T,L_T,D1,D2,CELLW,GAP,W,H,dpr,annEls=[];
+const FONT=()=>`700 ${FS}px "JetBrains Mono", ui-monospace, monospace`;
+
+function buildTargets(){
+  const N=COLS*ROWS_; S_T=new Array(N).fill(null); L_T=new Array(N).fill(null);
+  const w=CELLW, innerW=COLS-6, g=GAP, blockW=6*w+5*g, c0=3+Math.floor((innerW-blockW)/2);
+  const step=2, blockH=2+5*step+1, r0=1+Math.floor((ROWS_-2-blockH)/2), rh=r0, rn=r0+2;
+  const put=(T,r,c,str,kind)=>{ for(let i=0;i<str.length;i++) if(str[i]!==' ') T[r*COLS+c+i]={ch:str[i],kind}; };
+  const fmt=x=>{ if(Math.abs(x)<.005) x=0; const s=narrow?(x<0?'-':'')+Math.abs(x).toFixed(2).replace(/^0/,''):x.toFixed(2); return s.padStart(w); };
+  (narrow?SHORT_S:SHORT_L).forEach((h,j)=>put(S_T,rh,c0+j*(w+g)+Math.floor((w-h.length)/2),h,'h'));
+  for(let i=0;i<6;i++) for(let j=0;j<6;j++){ const r=rn+i*step, c=c0+j*(w+g);
+    put(S_T,r,c,fmt(COV[i][j]),'n');
+    if(i===j) put(L_T,r,c,fmt(EIG[i].l),i<3?'m':'n'); else put(L_T,r,c,'0'.padStart(w),'z'); }
+  ['λ1','λ2','λ3','λ4','λ5','λ6'].forEach((h,j)=>put(L_T,rh,c0+j*(w+g)+Math.floor((w-h.length)/2),h,'h'));
+  D1=Float32Array.from({length:N},()=>Math.random()*.45); D2=Float32Array.from({length:N},()=>Math.random()*.4);
+  annEls.forEach(e=>e.remove());
+  annEls=NAMED.map((d,k)=>{ const e=document.createElement('span'); e.className='ann'; e.innerHTML=`← <b>λ<sub>${k+1}</sub></b> ${d.name}`; e.style.top=((rn+k*step)*CH+CH/2)+'px'; mxBox.appendChild(e); return e; });
+  document.getElementById('key').innerHTML=NAMED.map((d,k)=>`<b>λ<sub>${k+1}</sub></b> ${d.name}`).join(' · ');
+  view.setAttribute('aria-label','Covariance matrix of six themes, then its diagonal of eigenvalues: '+EIG.map((e,k)=>`lambda ${k+1} = ${e.l.toFixed(2)}`).join(', '));
+}
+
+// ---------- three.js: mercury mass, cursor droplet, and the compositing shader ----------
+const renderer=new THREE.WebGLRenderer({canvas:view,antialias:false,alpha:true,premultipliedAlpha:true});
+renderer.setClearColor(0x000000,0);
+function studio(r){ const s=new THREE.Scene();
+  s.add(new THREE.Mesh(new THREE.SphereGeometry(10,64,32),new THREE.ShaderMaterial({side:THREE.BackSide,
+    vertexShader:'varying vec3 d; void main(){ d=normalize(position); gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.); }',
+    // a photo studio for liquid metal. The camera looks down -z, so the face of the drop mirrors
+    // what is behind the viewer (az ~ +90deg) and its silhouette mirrors what is behind the drop (az ~ -90deg).
+    fragmentShader:`varying vec3 d;
+      float box(float az,float y,float a0,float aw,float y0,float y1,float s){ // soft-edged rectangle light
+        return smoothstep(aw,aw-s,abs(az-a0))*smoothstep(y0-s,y0,y)*(1.-smoothstep(y1,y1+s,y)); }
+      void main(){ float y=d.y, az=atan(d.z,d.x);
+      // values are linear light: 0.05 is a deep grey on screen, 0.01 is near black
+      vec3 sky=mix(vec3(.30),vec3(1.15),smoothstep(.05,.95,y));        // a bright silver room; the horizon line and edge keep the contrast
+      vec3 floor_=mix(vec3(.10),vec3(.58),smoothstep(-.15,-1.,y));     // soft grey under the horizon, bright bounce below
+      vec3 c=y>0.?sky:floor_;
+      c*=1.-.75*exp(-pow((y-.01)/.035,2.));                               // crisp horizon line
+      c*=1.-.6*smoothstep(1.,.15,abs(az+1.5708))*smoothstep(.55,-.1,y)*smoothstep(-.6,0.,y); // dark behind the drop: a defined edge on white
+      c+=vec3(2.4)*box(az,y,1.95,.55,.32,.72,.12);                         // big key softbox
+      c+=vec3(3.2)*box(az,y,.85,.10,.05,.85,.05);                          // tall thin strip
+      c+=vec3(.9)*exp(-pow((y-.16)/.03,2.))*smoothstep(2.6,1.2,abs(az-1.57)); // rim band
+      gl_FragColor=vec4(c*vec3(.96,.985,1.03),1.); }`})));
+  const pm=new THREE.PMREMGenerator(r), t=pm.fromScene(s,.02).texture; pm.dispose(); return t; }
+const env=studio(renderer);
+const metal=new THREE.MeshPhysicalMaterial({color:0xffffff,metalness:1,roughness:.025,clearcoat:1,clearcoatRoughness:.02,envMapIntensity:1.05});
+const MCRES=innerWidth<760?44:64;
+const massScene=new THREE.Scene(), dropScene=new THREE.Scene(); massScene.environment=env; dropScene.environment=env;
+const MCS=1.8; // the metaball box is bigger than the view, so the liquid never hits its walls
+// mercury pools into a smooth, slightly flattened drop
+const mass=new MarchingCubes(MCRES,metal,false,false,300000); mass.scale.set(MCS,MCS*.84,MCS); massScene.add(mass);
+// the cursor droplet is a smooth bead that stretches along the way it rolls
+const drop=new THREE.Mesh(new THREE.SphereGeometry(1,96,64),metal); drop.visible=false; dropScene.add(drop);
+const cam=new THREE.OrthographicCamera(-1,1,1,-1,.1,20); cam.position.z=5;
+const rtOpts={type:THREE.HalfFloatType,samples:4};
+let massRT=new THREE.WebGLRenderTarget(4,4,rtOpts), dropRT=new THREE.WebGLRenderTarget(4,4,rtOpts), lowRT=new THREE.WebGLRenderTarget(4,4,{type:THREE.UnsignedByteType});
+let lowBuf=new Uint8Array(16);
+const textTex=new THREE.CanvasTexture(tc); textTex.minFilter=THREE.LinearFilter; textTex.generateMipmaps=false;
+const U={tText:{value:textTex},tMass:{value:null},tDrop:{value:null},uRes:{value:new THREE.Vector2()},uCell:{value:new THREE.Vector2()},
+  uT:{value:0},uDis:{value:0},uShadow:{value:1},uPtr:{value:new THREE.Vector3(-1e4,-1e4,0)},uMove:{value:1}};
+const comp=new THREE.Mesh(new THREE.PlaneGeometry(2,2),new THREE.ShaderMaterial({uniforms:U,depthTest:false,depthWrite:false,blending:THREE.NoBlending,
+  vertexShader:'varying vec2 vUv; void main(){ vUv=uv; gl_Position=vec4(position.xy,0.,1.); }',
+  fragmentShader:`
+  uniform sampler2D tText,tMass,tDrop; uniform vec2 uRes,uCell; uniform float uT,uDis,uMove,uShadow; uniform vec3 uPtr; varying vec2 vUv;
+  float hash(vec2 p){ return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453); }
+  vec3 aces(vec3 x){ return clamp((x*(2.51*x+.03))/(x*(2.43*x+.59)+.14),0.,1.); }
+  vec3 tone(vec3 c){ return pow(aces(c*1.1),vec3(1./2.2)); }
+  // chrome lettering: bright sky above a hard dark horizon, a pale floor below
+  float chrome(float y){
+    float c = y>0. ? mix(.46,.96,smoothstep(0.,.85,y)) : mix(.06,.42,smoothstep(-.08,-1.,y));
+    return c*(1.-.62*exp(-pow((y+.12)/.06,2.)));
+  }
+  void main(){
+    vec2 px=vUv*uRes; vec4 tx=texture2D(tText,vUv); float t=uT*uMove;
+    // the liquid surface the type is cut from: slow swell, plus rings spreading from the droplet
+    float dist=length(px-uPtr.xy)/uRes.y;
+    float ring=uPtr.z*sin(dist*60.-t*7.)*exp(-dist*6.)*.9;
+    float swell=.2*sin(px.x*.011+t*.8)+.12*sin(px.y*.017-t*1.1+px.x*.005);
+    float line=fract(px.y/uCell.y);
+    float y=(line-.5)*2.3+swell+ring+.3*sin(px.x*.0035-t*.45);
+    float c=chrome(y)+.55*pow(max(0.,sin(px.x*.005-px.y*.009+t*.7)),50.);
+    vec3 ink=vec3(c*.8)*vec3(.98,.99,1.03);
+    vec3 mat=mix(vec3(.2,.26,.1),vec3(.74,.82,.55),clamp(c,0.,1.));
+    // brackets: one tall chrome gradient instead of one per line of text
+    float yb=(vUv.y-.5)*2.4+swell*.6+ring;
+    vec3 brk=vec3((chrome(yb)+.45*pow(max(0.,sin(vUv.y*9.-t*.6)),30.))*.8);
+    vec3 col = (tx.r>.5&&tx.g>.5) ? brk : tx.r>.5 ? ink : tx.g>.5 ? mat : vec3(mix(.86,.52,tx.b));
+    vec4 o=vec4(col*tx.a,tx.a);
+    // the real mercury, breaking up cell by cell into the characters underneath it
+    // a soft contact shadow grounds the drop until it breaks up
+    float sh=uShadow*.2*exp(-pow((vUv.x-.5)/.17,2.)-pow((vUv.y-.27)/.028,2.));
+    o=vec4(0.,0.,0.,sh)+o*(1.-sh);
+    vec4 mb=texture2D(tMass,vUv); float keep=step(uDis,hash(floor(px/uCell))*.98+.01); mb*=keep;
+    o=vec4(tone(mb.rgb),mb.a)+o*(1.-mb.a);
+    vec4 db=texture2D(tDrop,vUv); o=vec4(tone(db.rgb),db.a)+o*(1.-db.a);
+    gl_FragColor=o;
+  }`}));
+const compScene=new THREE.Scene(); compScene.add(comp);
+const compCam=new THREE.OrthographicCamera(-1,1,1,-1,0,1);
+
+function layout(){
+  narrow=innerWidth<760; const short=innerHeight<820;
+  FS=narrow?13:(short?19:22); ctx.font=FONT(); CW=ctx.measureText("0").width; CH=Math.round(FS*1.24);
+  // the brackets hug the written matrix: 6 entries per row, plus a margin for the mercury to move in
+  CELLW=narrow?4:5; GAP=narrow?Math.max(1,Math.min(3,Math.floor((Math.floor((innerWidth-28)/CW)-8-6*CELLW)/5))):4;
+  COLS=6*CELLW+5*GAP+8; ROWS_=17;
+  dpr=Math.min(devicePixelRatio,2); W=COLS*CW; H=ROWS_*CH;
+  view.style.width=W+'px'; view.style.height=H+'px'; renderer.setPixelRatio(dpr); renderer.setSize(W,H,false);
+  tc.width=Math.round(W*dpr); tc.height=Math.round(H*dpr);
+  const pw=tc.width, ph=tc.height; massRT.setSize(pw,ph); dropRT.setSize(pw,ph); lowRT.setSize(COLS,ROWS_); lowBuf=new Uint8Array(COLS*ROWS_*4);
+  U.uRes.value.set(pw,ph); U.uCell.value.set(CW*dpr,CH*dpr);
+  const aspect=W/H; cam.left=-aspect; cam.right=aspect; cam.updateProjectionMatrix();
+  buildTargets();
+}
+
+// pointer: a droplet of mercury that follows the cursor
+const ptr={x:0,y:0,on:false,sx:0,sy:0,vx:0,vy:0,px:0,py:0,s:0};
+mxBox.addEventListener('pointermove',e=>{ const r=view.getBoundingClientRect(), u=(e.clientX-r.left)/r.width, v=(e.clientY-r.top)/r.height;
+  ptr.x=(u*2-1)*(W/H); ptr.y=1-2*v; ptr.px=u; ptr.py=v; ptr.on=true; });
+mxBox.addEventListener('pointerleave',()=>ptr.on=false);
+
+
+// ---------- the opening: a timeline, not a scroll ----------
+const lhs=document.getElementById('lhs'), caps=[0,1,2].map(i=>document.getElementById('c'+i)), key=document.getElementById('key'), hint=document.getElementById('hint');
+const curtain=document.getElementById('curtain'), barT=document.getElementById('barT'), barB=document.getElementById('barB');
+const tap=document.getElementById('tap'), cue=document.getElementById('cue'), replay=document.getElementById('replay');
+const ease=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2, easeOut=x=>1-Math.pow(1-x,3);
+const scr=()=>SCR[(Math.random()*SCR.length)|0];
+// test hooks: ?skip jumps past the cold open, ?at=<seconds> freezes the reveal at that moment
+const AT=Q.has('at')?+Q.get('at'):null;
+let introStart=0, clickAt=null, tick=0, phase=-1, introDone=false, unlocked=false;
+const flags={curtain:false,bars:false,title:false,nav:false,cue:false};
+
+function skipIntro(){ introStart=performance.now()-6000; }
+function open(){ if(clickAt!==null) return; clickAt=performance.now(); tap.hidden=true; cue.classList.remove('on'); }
+tap.addEventListener('click',open);
+// during the cold open, any click or key skips straight to the blob
+addEventListener('pointerdown',()=>{ if(!introDone) skipIntro(); },{capture:true});
+addEventListener('keydown',e=>{ if(!introDone) skipIntro(); });
+replay.addEventListener('click',()=>{ clickAt=null; phase=-1; tap.hidden=false; replay.classList.remove('on'); hint.style.opacity=0; scrollTo({top:0,behavior:reduce?'auto':'smooth'}); });
+
+function step(sec,on,fn){ if(!flags[sec]&&on){ flags[sec]=true; fn(); } }
+
+function frame(now){
+  requestAnimationFrame(frame);
+  const t=now/1000, k=reduce?0:1; tick++;
+  // cold open: black, letterboxed; the lights come up while a bead of mercury swells into the blob
+  const ti=(now-introStart)/1000;
+  step('curtain',ti>.9,()=>curtain.classList.add('up'));
+  step('bars',ti>2.3,()=>{ barT.classList.add('off'); barB.classList.add('off'); });
+  step('title',ti>2.9,()=>{ caps[0].classList.add('on'); phase=0; });
+  step('nav',ti>3.4,()=>document.body.classList.remove('intro'));
+  step('cue',ti>4.1,()=>{ if(clickAt===null) cue.classList.add('on'); });
+  introDone=ti>4.1;
+  const bloom=easeOut(clamp01((ti-.7)/2.4));
+
+  // the reveal, once clicked: swell and spread, brackets draw in, break into characters, settle into Σ, hold, diagonalise into Λ
+  const tt=AT!==null?AT:clickAt===null?-1:(now-clickAt)/1000*(reduce?20:1);
+  const X=ease(clamp01(tt/1.1)), B=ease(clamp01((tt-.25)/.9));
+  const m0=clamp01((tt-1.0)/.7), m1=clamp01((tt-1.5)/1.3), m2=clamp01((tt-5.0)/1.2);
+
+  mass.reset(); const drain=Math.pow(1-m1,1.6);
+  // one heavy core and three slow lobes; on click the lobes reach out towards the brackets
+  if(drain>.01){ const g=bloom*drain; mass.addBall(.5,.5,.5,(.9+.3*X)*g,12);
+    for(let i=0;i<3;i++){ const a=t*(.22+i*.05)*k+i*2.1, rr=.1+.11*X;
+      mass.addBall(.5+Math.cos(a)*rr,.5+Math.sin(a*1.2)*(.04+.06*X),.5+Math.sin(a)*.06,(.36+.16*X)*g,12); } }
+  mass.update();
+  // the bead trails the cursor on a spring and stretches along its velocity, like liquid
+  const ox=ptr.sx, oy=ptr.sy; ptr.sx+=(ptr.x-ptr.sx)*.22; ptr.sy+=(ptr.y-ptr.sy)*.22; ptr.s+=((ptr.on&&introDone?1:0)-ptr.s)*.12;
+  ptr.vx+=((ptr.sx-ox)-ptr.vx)*.3; ptr.vy+=((ptr.sy-oy)-ptr.vy)*.3;
+  drop.visible=ptr.s>.02;
+  if(drop.visible){ const sp=Math.min(1,Math.hypot(ptr.vx,ptr.vy)*9), R=.2*ptr.s;
+    drop.position.set(ptr.sx,ptr.sy,0); drop.rotation.z=Math.atan2(ptr.vy,ptr.vx);
+    drop.scale.set(R*(1+sp*.55),R*(1-sp*.25)*.92,R); }
+
+  renderer.setRenderTarget(massRT); renderer.clear(); renderer.render(massScene,cam);
+  renderer.setRenderTarget(dropRT); renderer.clear(); renderer.render(dropScene,cam);
+  renderer.setRenderTarget(lowRT); renderer.clear(); renderer.render(massScene,cam);
+  renderer.readRenderTargetPixels(lowRT,0,0,COLS,ROWS_,lowBuf);
+  renderer.setRenderTarget(null);
+
+  // write the characters into the mask
+  ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,W,H); ctx.font=FONT(); ctx.textBaseline='middle';
+  const batches=new Map(); const add=(col,ch,c,r)=>{ let b=batches.get(col); if(!b) batches.set(col,b=[]); b.push(ch,c,r); };
+  if(m0>.01) for(let r=0;r<ROWS_;r++) for(let c=0;c<COLS;c++){
+    if(c===0||c===COLS-1||((c===1||c===COLS-2)&&(r===1||r===ROWS_-2))) continue; // brackets are drawn as solid strokes below
+    const i=r*COLS+c, inner=c>=3&&c<COLS-3&&r>=1&&r<ROWS_-1;
+    let merc=null;
+    if(inner){ const p=((ROWS_-1-r)*COLS+c)*4, a=lowBuf[p+3]; if(a>70){
+      const l=clamp01((Math.pow((lowBuf[p]*.3+lowBuf[p+1]*.59+lowBuf[p+2]*.11)/255,1/2.2)-.18)/.72);
+      merc=RAMP[Math.min(8,Math.floor(Math.pow(1-l,.7)*9))]; } }
+    const u1=clamp01((m1-D1[i])/.25), u2=clamp01((m2-D2[i])/.25);
+    const S=S_T[i], L=L_T[i], T=u2>=1?L:(u2>0&&(S?.ch!==L?.ch)?'scr':S);
+    if(merc){ add(INK,merc,c,r); continue; }
+    if(u1<=0) continue;
+    if(u1<1||T==='scr'){ if(S||L) add(SCRAM,reduce?'0':scr(),c,r); continue; }
+    if(T) add(T.kind==='m'?MATCHA:T.kind==='h'?HEAD:T.kind==='z'?ZERO:INK,T.ch,c,r);
+  }
+  batches.forEach((b,col)=>{ ctx.fillStyle=col; for(let j=0;j<b.length;j+=3) ctx.fillText(b[j],b[j+1]*CW,b[j+2]*CH+CH/2); });
+  // matrix brackets: continuous chrome strokes that draw outward from the middle, then hook their corners
+  if(B>0){ ctx.fillStyle=BRACKET; const sw=Math.max(2,FS*.14), y0=CH*.6, y1=H-CH*.6, x0=CW*.55, x1=W-CW*.55, tk=CW*1.3*clamp01((B-.94)/.06);
+    const mid=H/2, half=(y1-y0)/2*B, a=mid-half, b=mid+half;
+    ctx.fillRect(x0,a,sw,b-a); ctx.fillRect(x1-sw,a,sw,b-a);
+    if(tk>0){ ctx.fillRect(x0,y0,tk,sw); ctx.fillRect(x0,y1-sw,tk,sw); ctx.fillRect(x1-tk,y0,tk,sw); ctx.fillRect(x1-tk,y1-sw,tk,sw); } }
+  textTex.needsUpdate=true;
+
+  // composite: chrome ink + real mercury
+  U.tMass.value=massRT.texture; U.tDrop.value=dropRT.texture; U.uT.value=t; U.uMove.value=k; U.uDis.value=m0*1.02; U.uShadow.value=(1-m0)*drain*bloom;
+  U.uPtr.value.set(ptr.px*U.uRes.value.x,(1-ptr.py)*U.uRes.value.y,ptr.s);
+  renderer.render(compScene,compCam);
+
+  // words around it
+  if(tt>=0){
+    lhs.classList.toggle('on',tt>.5);
+    const ph=m2>.5?3:m1>.5?2:1;
+    if(ph!==phase){ phase=ph; lhs.textContent=['Gordon =','Gordon =','Σ =','Λ ='][ph]; caps.forEach((c,i)=>c.classList.toggle('on',i===ph-1&&ph>1)); }
+    const done=m2>=.999; annEls.forEach(e=>e.classList.toggle('on',done)); key.classList.toggle('on',done);
+    if(done&&!unlocked){ unlocked=true; document.body.classList.remove('locked'); }
+    hint.style.opacity=done&&scrollY<40?1:0; replay.classList.toggle('on',done);
+  } else if(phase!==0&&flags.title){ phase=0; lhs.classList.remove('on'); caps.forEach((c,i)=>c.classList.toggle('on',i===0)); annEls.forEach(e=>e.classList.remove('on')); key.classList.remove('on'); cue.classList.add('on'); }
+}
+
+if(matchMedia('(pointer: coarse)').matches) cue.lastChild.textContent='tap the mercury';
+function placeTap(){ const s=Math.min(W,H)*.62; tap.style.width=tap.style.height=s+'px'; cue.style.top=(H/2+H*.3)+'px'; }
+document.fonts.ready.then(()=>{ layout(); placeTap(); introStart=performance.now(); if(reduce||Q.has('skip')) skipIntro(); requestAnimationFrame(frame); });
+addEventListener('resize',()=>{ layout(); placeTap(); });
+</script>
+</body>
+</html>
