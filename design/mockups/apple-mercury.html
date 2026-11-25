@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gordon Bie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#ffffff; --tile:#f5f5f7; --ink:#1d1d1f; --ink-2:#6e6e73; --line:#d2d2d7; --chrome:#86868b;
+    --matcha:#8a9a5b; --matcha-text:#55633a; --night:#000000; --night-tile:#161617; --night-ink:#f5f5f7; --night-2:#a1a1a6;
+    --ease:cubic-bezier(.25,.1,.25,1); --ease-out:cubic-bezier(.16,1,.3,1);
+  }
+  *{box-sizing:border-box;margin:0}
+  html{-webkit-font-smoothing:antialiased}
+  body{background:var(--bg);color:var(--ink);font-family:Onest,-apple-system,system-ui,sans-serif;font-size:17px;line-height:1.47;letter-spacing:-.01em}
+  ::selection{background:#dfe5cf;color:var(--ink)}
+  :focus-visible{outline:2px solid var(--matcha-text);outline-offset:3px;border-radius:8px}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 22px}
+
+  /* nav */
+  .nav{position:fixed;top:0;left:0;right:0;z-index:20;height:52px;background:rgba(255,255,255,.72);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid rgba(0,0,0,.08)}
+  .nav .wrap{height:100%;display:flex;align-items:center;justify-content:space-between}
+  .nav .brand{font-weight:600;font-size:15px;letter-spacing:-.01em}
+  .nav ul{display:flex;gap:30px;list-style:none;padding:0}
+  .nav ul a{font-size:13px;color:#1d1d1fcc;transition:color .2s}
+  .nav ul a:hover{color:var(--ink)}
+  .pill{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:980px;background:var(--ink);color:#fff;font-size:13px;font-weight:500;transition:background .2s}
+  .pill:hover{background:#3a3a3c}
+
+  /* hero + exploded view (pinned) */
+  .explode{position:relative;height:320vh}
+  .stage{position:sticky;top:0;height:100vh;overflow:hidden}
+  #gl{position:absolute;inset:0;width:100%;height:100%;display:block}
+  .shadow{position:absolute;left:50%;bottom:20vh;width:34vw;max-width:520px;height:46px;transform:translateX(-50%);border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.18),rgba(0,0,0,0));filter:blur(6px);transition:opacity .4s}
+  .copy{position:absolute;left:0;right:0;top:calc(52px + 7vh);text-align:center;padding:0 22px}
+  .copy h1{font-size:clamp(48px,7vw,96px);font-weight:600;letter-spacing:-.03em;line-height:1.04}
+  .copy .sub{margin-top:10px;font-size:clamp(21px,2.2vw,28px);font-weight:500;color:var(--ink-2);letter-spacing:-.015em;line-height:1.2}
+  .links{margin-top:22px;display:flex;gap:28px;justify-content:center;font-size:19px}
+  .links a{color:var(--matcha-text);display:inline-flex;align-items:center;gap:4px}
+  .links a:hover{text-decoration:underline;text-underline-offset:3px}
+  .links svg{width:9px;height:14px}
+  .cap{position:absolute;left:0;right:0;top:calc(52px + 7vh);text-align:center;padding:0 22px;opacity:0}
+  .cap h2{font-size:clamp(40px,5.2vw,64px);font-weight:600;letter-spacing:-.028em;line-height:1.06}
+  .cap p{margin:14px auto 0;max-width:34ch;font-size:21px;color:var(--ink-2);line-height:1.38}
+  .callouts{position:absolute;inset:0;pointer-events:none}
+  .callouts svg{position:absolute;inset:0;width:100%;height:100%}
+  .co{position:absolute;width:190px;opacity:0}
+  .co b{display:block;font-size:15px;font-weight:600;letter-spacing:-.01em}
+  .co span{display:block;margin-top:2px;font-size:13px;line-height:1.38;color:var(--ink-2)}
+  .co.r{text-align:left}.co.l{text-align:right}
+  .fadeup{opacity:0;transform:translateY(22px);transition:opacity 1s var(--ease-out),transform 1s var(--ease-out)}
+  body.in .fadeup{opacity:1;transform:none}
+  body.in .fadeup.d1{transition-delay:.12s} body.in .fadeup.d2{transition-delay:.24s}
+  .status{position:absolute;left:0;right:0;bottom:4.2vh;justify-content:center;display:flex;align-items:center;gap:8px;font-size:14px;color:var(--ink-2)}
+  .status i{width:7px;height:7px;border-radius:50%;background:var(--matcha)}
+
+  /* sections */
+  section.block{padding:120px 0}
+  .h2{font-size:clamp(40px,5vw,56px);font-weight:600;letter-spacing:-.028em;line-height:1.07}
+  .lede{margin-top:14px;font-size:21px;color:var(--ink-2);max-width:40ch;line-height:1.38}
+  .tiles{margin-top:56px;display:grid;grid-template-columns:repeat(6,1fr);gap:20px}
+  .tile{background:var(--tile);border-radius:28px;padding:36px 34px;overflow:hidden;position:relative;min-height:300px;display:flex;flex-direction:column}
+  .tile.w3{grid-column:span 3}.tile.w2{grid-column:span 2}.tile.w4{grid-column:span 4}.tile.w6{grid-column:span 6}
+  .tile h3{font-size:28px;font-weight:600;letter-spacing:-.02em;line-height:1.14}
+  .tile p{margin-top:10px;color:var(--ink-2);font-size:17px;max-width:38ch}
+  .tile .meta{margin-top:auto;padding-top:24px;font-size:14px;color:var(--ink-2)}
+  .tile .meta a{color:var(--matcha-text)}
+  .tile .shot{margin-top:24px;border-radius:14px;aspect-ratio:16/10;background:#e8e8ed center/cover;box-shadow:0 20px 40px -24px rgba(0,0,0,.35)}
+  .spec{margin-top:56px;border-top:1px solid var(--line)}
+  .spec .row{display:grid;grid-template-columns:180px 1fr 1fr;gap:24px;padding:26px 0;border-bottom:1px solid var(--line)}
+  .spec .yr{font-size:14px;color:var(--ink-2);font-variant-numeric:tabular-nums;padding-top:3px}
+  .spec .role{font-weight:600;font-size:19px;letter-spacing:-.015em}
+  .spec .org{color:var(--ink-2);font-size:17px}
+  .spec .what{font-size:17px;color:var(--ink)}
+  .night{background:var(--night);color:var(--night-ink)}
+  .night .lede{color:var(--night-2)}
+  .night .tile{background:var(--night-tile)}
+  .night .tile p{color:var(--night-2)}
+  .night .h2 em{font-style:normal;color:var(--matcha)}
+  .contact{text-align:center;padding:150px 0 130px}
+  .contact .mail{display:inline-block;margin-top:26px;font-size:clamp(28px,3.6vw,44px);font-weight:600;letter-spacing:-.025em;color:var(--matcha-text)}
+  .contact .mail:hover{text-decoration:underline;text-underline-offset:6px}
+  .contact .links{margin-top:26px}
+  footer{background:var(--tile);color:var(--ink-2);font-size:12px;padding:20px 0}
+  footer .wrap{display:flex;justify-content:space-between}
+
+  /* neural network module */
+  .nn{padding-top:20px}
+  .nn-stage{position:relative;height:min(60vh,580px);max-width:1280px;margin:24px auto 0}
+  #nnc{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:default}
+  .nn-layer{position:absolute;bottom:0;transform:translateX(-50%);font-size:12px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);white-space:nowrap}
+  .nn-label{position:absolute;transform:translate(-50%,-100%);margin-top:-18px;font-size:13px;font-weight:500;padding:5px 11px;border-radius:980px;white-space:nowrap;
+    background:rgba(255,255,255,.86);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:1px solid rgba(0,0,0,.07);box-shadow:0 6px 16px -10px rgba(0,0,0,.35);opacity:0;transition:opacity .3s var(--ease)}
+  .nn-label.out{color:var(--matcha-text)}
+  .nn-tip{position:absolute;transform:translate(-50%,-100%);margin-top:-18px;font-size:13px;font-weight:500;padding:5px 11px;border-radius:980px;background:var(--ink);color:#fff;pointer-events:none;opacity:0;transition:opacity .2s;white-space:nowrap}
+  .seg-wrap{text-align:center;margin-top:18px}
+  .seg{position:relative;display:inline-flex;background:#e8e8ed;border-radius:980px;padding:4px;max-width:100%;overflow-x:auto}
+  .seg button{position:relative;z-index:1;font:500 14px Onest,system-ui,sans-serif;letter-spacing:-.01em;color:var(--ink);background:none;border:0;padding:9px 16px;border-radius:980px;cursor:pointer;white-space:nowrap}
+  .seg .thumb{position:absolute;top:4px;bottom:4px;left:0;border-radius:980px;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.12),0 0 0 .5px rgba(0,0,0,.04);transition:transform .5s cubic-bezier(.3,1.25,.4,1),width .5s cubic-bezier(.3,1.25,.4,1)}
+  .nn-cap{max-width:620px;margin:30px auto 0;text-align:center;transition:opacity .35s var(--ease)}
+  .nn-cap h3{font-size:28px;font-weight:600;letter-spacing:-.02em;line-height:1.14}
+  .nn-cap p{margin-top:10px;font-size:17px;color:var(--ink-2)}
+  .nn-cap .meta{margin-top:12px;font-size:14px;display:inline-flex;align-items:center;gap:8px}
+  .nn-cap .meta i{width:7px;height:7px;border-radius:50%;background:var(--matcha)}
+  @media (max-width:760px){.tiles{grid-template-columns:1fr}.tile.w2,.tile.w3,.tile.w4,.tile.w6{grid-column:auto}.spec .row{grid-template-columns:1fr;gap:4px}.nav ul{display:none}}
+  @media (prefers-reduced-motion:reduce){.fadeup{transition:none}}
+</style>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+</head>
+<body>
+<header class="nav"><div class="wrap">
+  <a class="brand" href="#">Gordon Bie</a>
+  <ul><li><a href="#how">How I work</a></li><li><a href="#research">Research</a></li><li><a href="#work">Work</a></li><li><a href="#experience">Experience</a></li><li><a href="#life">Life</a></li></ul>
+  <a class="pill" href="mailto:gordonbie2@gmail.com">Email me</a>
+</div></header>
+
+<section class="explode" id="top">
+  <div class="stage">
+    <canvas id="gl" aria-hidden="true"></canvas>
+    <div class="shadow" id="shadow" aria-hidden="true"></div>
+    <div class="copy" id="copy">
+      <h1 class="fadeup">Gordon Bie</h1>
+      <p class="sub fadeup d1">Machine learning researcher.<br>Business route in.</p>
+      <div class="links fadeup d2">
+        <a href="mailto:gordonbie2@gmail.com">Email me <svg viewBox="0 0 9 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1.5 1.5 7 7l-5.5 5.5"/></svg></a>
+        <a href="#">View CV <svg viewBox="0 0 9 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1.5 1.5 7 7l-5.5 5.5"/></svg></a>
+      </div>
+    </div>
+    <div class="cap" id="cap"><h2>Everything I've worked on, in one embedding.</h2><p>Similar work pools together. Scroll to pull it apart.</p></div>
+    <div class="callouts" id="callouts"><svg id="leaders" aria-hidden="true"></svg></div>
+    <p class="status fadeup d2"><i></i>Open to research collaborations</p>
+  </div>
+</section>
+
+
+<section class="block nn" id="how">
+  <div class="wrap" style="text-align:center">
+    <h2 class="h2">From messy signals<br>to better decisions.</h2>
+    <p class="lede" style="margin-left:auto;margin-right:auto">Pick a signal and follow it through the network. Every path is something I've built or researched.</p>
+  </div>
+  <div class="nn-stage" id="nn"><canvas id="nnc" aria-hidden="true"></canvas><div id="nnLabels"></div><div class="nn-tip" id="nnTip"></div></div>
+  <div class="wrap">
+    <div class="seg-wrap"><div class="seg" id="seg" role="tablist" aria-label="Choose a signal"><span class="thumb" id="thumb" aria-hidden="true"></span></div></div>
+    <div class="nn-cap" id="nnCap" aria-live="polite"><h3 id="nnTitle"></h3><p id="nnBody"></p><p class="meta"><i></i><span id="nnMeta"></span></p></div>
+  </div>
+</section>
+
+<section class="block" id="research"><div class="wrap">
+  <h2 class="h2">Research that reads<br>the messy stuff.</h2>
+  <p class="lede">How machine learning changes the way people and organisations make decisions, starting with signals that don't come clean.</p>
+  <div class="tiles">
+    <article class="tile w3"><h3>Reading machines like a language.</h3><p>Tokenizing high-frequency, multivariate machine signals so sequence models can read them the way they read text.</p><div class="meta">Northeastern College of Engineering · RISE Expo 2026</div></article>
+    <article class="tile w3"><h3>Lesions, in context.</h3><p>Using where acne lesions sit relative to each other, plus colour features, to classify them.</p><div class="meta">Skinapse Labs · two posters under review</div></article>
+    <article class="tile w2"><h3>Operations decisions</h3><p>Causal ML for rollouts with spillovers and delayed feedback.</p></article>
+    <article class="tile w2"><h3>Dynamic marketplaces</h3><p>Matching and pricing when participants act strategically.</p></article>
+    <article class="tile w2"><h3>Human + AI</h3><p>When collaboration beats delegation, and how agents reshape work.</p></article>
+  </div>
+</div></section>
+
+<section class="block" id="work" style="padding-top:0"><div class="wrap">
+  <h2 class="h2">Things I've shipped.</h2>
+  <div class="tiles">
+    <article class="tile w3"><h3>Unsprawl</h3><p>Dedupes work across Slack, Trello and Jira with LLMs and vector embeddings.</p><div class="shot" style="background-image:url(../../public/images/projects/unsprawl.png)"></div></article>
+    <article class="tile w3"><h3>Relaylist</h3><p>Reads the mood of a conversation and turns it into a Spotify playlist.</p><div class="shot" style="background-image:url(../../public/images/projects/relaylist4.jpg)"></div></article>
+    <article class="tile w3"><h3>SP500 predictor</h3><p>LSTMs, XGBoost and random forests, compared on S&amp;P 500 prices.</p><div class="shot" style="background-image:url(../../public/images/projects/sp500s.jpg)"></div></article>
+    <article class="tile w3"><h3>Options volatility surface</h3><p>Black–Scholes implied volatility as a surface you can explore.</p><div class="shot" style="background-image:url(../../public/images/projects/opvol.jpg)"></div></article>
+  </div>
+</div></section>
+
+<section class="block" id="experience" style="padding-top:0"><div class="wrap">
+  <h2 class="h2">Experience.</h2>
+  <div class="spec">
+    <div class="row"><div class="yr">2026 – now</div><div><div class="role">Software engineer intern</div><div class="org">Flow Traders, New York</div></div><div class="what">Infrastructure, CI/CD and an AI diagnostics agent for high-frequency trading.</div></div>
+    <div class="row"><div class="yr">2026</div><div><div class="role">Machine learning engineer intern</div><div class="org">Cortex, Boston</div></div><div class="what">GraphRAG knowledge-graph search for hardware engineering research.</div></div>
+    <div class="row"><div class="yr">2025</div><div><div class="role">AI engineer intern</div><div class="org">State Street, Boston</div></div><div class="what">An LLM agent that drafts GAAP-compliant audit reports.</div></div>
+    <div class="row"><div class="yr">2025 – now</div><div><div class="role">Research assistant</div><div class="org">Northeastern College of Engineering</div></div><div class="what">Time-series tokenization for multivariate machine signals.</div></div>
+    <div class="row"><div class="yr">2024 – now</div><div><div class="role">Research scientist</div><div class="org">Skinapse Labs</div></div><div class="what">Spatial priors and colour features for acne lesion classification.</div></div>
+  </div>
+</div></section>
+
+<section class="block night" id="life"><div class="wrap">
+  <h2 class="h2">Off the clock, <em>matcha.</em></h2>
+  <p class="lede">And contemporary fashion, vintage watches I curate and sell on eBay, cooking, board games and new music.</p>
+  <div class="tiles">
+    <article class="tile w2"><h3>Matcha</h3><p>Enjoyer since birth. Let's have one.</p></article>
+    <article class="tile w2"><h3>Fashion</h3><p>Heritage, functional engineering and contemporary trend.</p></article>
+    <article class="tile w2"><h3>Vintage watches</h3><p>Curating and selling watches and parts on eBay.</p></article>
+  </div>
+</div></section>
+
+<section class="contact"><div class="wrap">
+  <h2 class="h2">Let's talk.</h2>
+  <p class="lede" style="margin-left:auto;margin-right:auto">Research collaborations, roles, or anything else that's cool.</p>
+  <a class="mail" href="mailto:gordonbie2@gmail.com">gordonbie2@gmail.com</a>
+  <div class="links"><a href="https://www.linkedin.com/in/gordon-bie/">LinkedIn <svg viewBox="0 0 9 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1.5 1.5 7 7l-5.5 5.5"/></svg></a><a href="https://github.com/GordonBie123">GitHub <svg viewBox="0 0 9 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1.5 1.5 7 7l-5.5 5.5"/></svg></a></div>
+</div></section>
+<footer><div class="wrap"><span>© 2026 Gordon Bie</span><span>Boston · New York · Vancouver</span></div></footer>
+
+<script type="module">
+import * as THREE from 'three';
+import { MarchingCubes } from 'three/addons/objects/MarchingCubes.js';
+const Q=new URLSearchParams(location.search), reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const canvas=document.getElementById('gl');
+const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio,2)); renderer.toneMapping=THREE.ACESFilmicToneMapping; renderer.toneMappingExposure=1.05; renderer.outputColorSpace=THREE.SRGBColorSpace;
+const scene=new THREE.Scene(), camera=new THREE.PerspectiveCamera(30,1,.1,100); camera.position.set(0,0,9.5);
+
+// studio light rig baked into an environment map: dark room, crisp softbox strips, grey floor bounce
+function studio(renderer){
+  // bright cyclorama: white overhead, a crisp dark horizon line, two dark flags, pale floor bounce
+  const s=new THREE.Scene();
+  const sky=new THREE.Mesh(new THREE.SphereGeometry(10,64,32),new THREE.ShaderMaterial({side:THREE.BackSide,
+    vertexShader:'varying vec3 d; void main(){ d=normalize(position); gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.); }',
+    fragmentShader:`varying vec3 d; void main(){ float y=d.y, az=atan(d.z,d.x);
+      vec3 c=y>0.? mix(vec3(.5),vec3(1.8),smoothstep(.18,.9,y)) : mix(vec3(1.15),vec3(.1),smoothstep(-.02,-.32,y))+vec3(1.4)*smoothstep(.07,0.,abs(y+.48));
+      c*=1.-.9*exp(-pow(y/.04,2.));
+      c*=1.-.94*smoothstep(.62,.38,abs(az-1.5708))*smoothstep(-.02,.06,y)*(1.-smoothstep(.42,.6,y));
+      c*=1.-.8*smoothstep(.3,.16,abs(az-.2))*smoothstep(-.2,.1,y)*(1.-smoothstep(.55,.75,y));
+      c*=1.-.7*smoothstep(.26,.14,abs(az+2.6))*smoothstep(-.1,.2,y)*(1.-smoothstep(.5,.7,y));
+      c+=vec3(3.)*smoothstep(.16,.07,abs(az-2.4))*smoothstep(.3,.38,y)*(1.-smoothstep(.62,.7,y));
+      c+=vec3(1.6)*smoothstep(.12,.05,abs(az-.75))*smoothstep(.2,.26,y)*(1.-smoothstep(.5,.56,y));
+      gl_FragColor=vec4(c,1.); }`}));
+  s.add(sky);
+  const pm=new THREE.PMREMGenerator(renderer); const t=pm.fromScene(s,.02).texture; pm.dispose(); return t;
+}
+scene.environment=studio(renderer);
+const mat=new THREE.MeshPhysicalMaterial({color:0xffffff,metalness:1,roughness:.05,envMapIntensity:1,clearcoat:.3,clearcoatRoughness:.06});
+const mc=new MarchingCubes(76,mat,false,false,120000); mc.scale.setScalar(3.0); scene.add(mc);
+
+// clusters from the real data: the hero is one mass; scrolling explodes it into the embedding
+const clusters=[
+  {name:'Time series',sub:'Machine-signal tokenization, RISE Expo poster, SP500 predictor',n:3},
+  {name:'Vision & health',sub:'Skinapse Labs, two lesion posters under review',n:3},
+  {name:'Agents & RAG',sub:'Cortex, State Street, Sherman Center, Unsprawl',n:4},
+  {name:'Markets',sub:'Flow Traders, pairs trading, options vol surface',n:3},
+  {name:'Teaching',sub:'Calculus, statistics, IB and AP maths',n:3},
+  {name:'Life',sub:'Matcha, fashion, vintage watches, Relaylist',n:4},
+];
+let seed=9; const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
+clusters.forEach((c,i)=>{ const a=i/clusters.length*Math.PI*2+.35; c.ex=new THREE.Vector3(Math.cos(a)*.66,Math.sin(a*2)*.1+(i%2?.14:-.14),Math.sin(a)*.4);
+  c.sat=Array.from({length:c.n},()=>new THREE.Vector3((rnd()-.5)*.22,(rnd()-.5)*.2,(rnd()-.5)*.2)); });
+
+// scroll progress through the pinned section
+const sec=document.querySelector('.explode'); let P=0, Psm=0;
+const getP=()=>{ const r=sec.getBoundingClientRect(); return Math.min(1,Math.max(0,-r.top/(r.height-innerHeight))); };
+// pointer tilt on a spring
+const tilt={x:0,y:0,tx:0,ty:0,vx:0,vy:0}; let poke=0;
+addEventListener('pointermove',e=>{ tilt.tx=(e.clientX/innerWidth-.5)*.5; tilt.ty=(e.clientY/innerHeight-.5)*.35; });
+canvas.parentElement.addEventListener('pointerdown',e=>{ if(!e.target.closest('a')) poke=1; });
+
+const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+let bloom=reduce||Q.has('skip')?1:0, t0=performance.now();
+const copy=document.getElementById('copy'), cap=document.getElementById('cap'), shadow=document.getElementById('shadow');
+const co=clusters.map((c,i)=>{ const d=document.createElement('div'); d.className='co'; d.innerHTML=`<b>${c.name}</b><span>${c.sub}</span>`; document.getElementById('callouts').appendChild(d); return d; });
+const leaders=document.getElementById('leaders');
+
+function size(){ const w=canvas.clientWidth,h=canvas.clientHeight; renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix(); camera.position.z=w<760?13:9.5; }
+addEventListener('resize',size); size();
+
+const v=new THREE.Vector3();
+function frame(now){
+  const t=now/1000;
+  if(bloom<1&&!reduce){ bloom=Math.min(1,(now-t0)/1600); if(bloom>.25&&!document.body.classList.contains('in')) document.body.classList.add('in'); }
+  P=Q.has('p')?+Q.get('p'):getP(); Psm+=(P-Psm)*(reduce||Q.has('p')?1:.1);
+  const ex=ease(Math.min(1,Math.max(0,(Psm-.12)/.6)));
+  tilt.vx+=(tilt.tx-tilt.x)*.06; tilt.vy+=(tilt.ty-tilt.y)*.06; tilt.vx*=.82; tilt.vy*=.82; tilt.x+=tilt.vx; tilt.y+=tilt.vy;
+  poke*=.93;
+  mc.rotation.y=t*.12*(reduce?0:1)+Psm*1.2+tilt.x; mc.rotation.x=.18+tilt.y*.6;
+  const bl=bloom<1?(1-Math.pow(1-bloom,3))*(1+.08*Math.sin(bloom*14)*(1-bloom)):1;
+  // the mass sits low behind the headline and rises to centre as it explodes
+  mc.position.y=-.38+ex*.25; shadow.style.opacity=1-ex*.8;
+  mc.reset(); const sub=12;
+  clusters.forEach((c,i)=>{
+    const wob=reduce?0:.018, base=new THREE.Vector3(Math.sin(t*.7+i)*wob,Math.cos(t*.6+i*1.7)*wob,Math.sin(t*.5+i*2.3)*wob);
+    const p=c.ex.clone().multiplyScalar((.16+ex*.84)*bl).add(base);
+    const str=(.4+poke*.08)*bl*(1-ex*.55);
+    mc.addBall(.5+p.x*.5,.5+p.y*.5,.5+p.z*.5,str,sub);
+    c.sat.forEach((s,k)=>{ const sp=s.clone().multiplyScalar(.3+ex*1.1).add(p); sp.x+=Math.sin(t*1.1+k+i)*.01;
+      mc.addBall(.5+sp.x*.5,.5+sp.y*.5,.5+sp.z*.5,(.08+ex*.02)*bl,sub); });
+    c.world=p;
+  });
+  mc.update();
+  renderer.render(scene,camera);
+  // copy and callouts
+  copy.style.opacity=Math.max(0,1-Psm*7); copy.style.transform=`translateY(${-Psm*80}px)`;
+  const capO=Math.max(0,Math.min(1,(Psm-.08)*6))*(1-Math.max(0,(Psm-.92)*12)); cap.style.opacity=capO;
+  const coO=Math.max(0,Math.min(1,(ex-.7)/.3)); let svg='';
+  const W=canvas.clientWidth, H=canvas.clientHeight;
+  clusters.forEach((c,i)=>{ v.set(c.world.x*3.0,c.world.y*3.0,c.world.z*3.0).applyEuler(mc.rotation).add(mc.position).project(camera);
+    const x=(v.x*.5+.5)*W, y=(-v.y*.5+.5)*H; c.sx=x; c.sy=y; });
+  // callouts lead out to two clean columns, sorted top to bottom so leaders never cross
+  const L=clusters.filter(c=>c.sx<W/2).sort((a,b)=>a.sy-b.sy), R=clusters.filter(c=>c.sx>=W/2).sort((a,b)=>a.sy-b.sy);
+  const colL=Math.max(24,W/2-600), colR=Math.min(W-214,W/2+410), top=H*.34, span=H*.5;
+  [[L,true],[R,false]].forEach(([arr,left])=>arr.forEach((c,k)=>{ const i=clusters.indexOf(c), ly=top+(arr.length>1?k/(arr.length-1):.5)*span*.8, x=c.sx, y=c.sy;
+    const ex2=left?colL+190+12:colR-12, el=co[i]; el.className='co '+(left?'l':'r'); el.style.left=(left?colL:colR)+'px'; el.style.top=(ly-10)+'px'; el.style.opacity=coO;
+    svg+=`<path d="M${x.toFixed(1)} ${y.toFixed(1)} L${(left?ex2+30:ex2-30).toFixed(1)} ${ly.toFixed(1)} L${ex2.toFixed(1)} ${ly.toFixed(1)}" fill="none" stroke="#86868b" stroke-width="1" opacity="${coO}"/><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="3.5" fill="#8a9a5b" opacity="${coO}"/>`; }));
+  leaders.innerHTML=svg;
+  requestAnimationFrame(frame);
+}
+if(bloom>=1) document.body.classList.add('in');
+if(Q.has('hide')) sec.style.display='none';
+if(Q.has('notrans')){ const st=document.createElement('style'); st.textContent='*{transition:none!important}'; document.head.appendChild(st); }
+requestAnimationFrame(frame);
+
+// ---------- neural network: pick a signal, pour it through the layers ----------
+{
+const box=document.getElementById('nn'), cv=document.getElementById('nnc');
+const R=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true});
+R.setPixelRatio(Math.min(devicePixelRatio,2)); R.toneMapping=THREE.ACESFilmicToneMapping; R.toneMappingExposure=1.05; R.outputColorSpace=THREE.SRGBColorSpace;
+const S=new THREE.Scene(); S.environment=studio(R);
+const C=new THREE.PerspectiveCamera(26,1,.1,100); C.position.set(0,0,9.6);
+const G=new THREE.Group(); S.add(G);
+const LAYERS=[
+  ['Machine signals','Skin images','Team messages','Market prices','Research docs','Financial filings'],
+  ['Time-series tokens','Spatial priors','Text embeddings','Statistical features','Knowledge graph'],
+  ['Sequence model','Classifier','LLM agent','Statistical model','Graph retrieval'],
+  ['Anomaly flags','Lesion class','One task list','Trade signal','Answers','Audit report'],
+];
+const NAMES=['Messy signals','Representation','Model','Decision'], XS=[-2.85,-.95,.95,2.85];
+const MATCHA=new THREE.Color(0x8a9a5b), WHITE=new THREE.Color(0xffffff);
+const base=new THREE.MeshPhysicalMaterial({color:0xffffff,metalness:1,roughness:.05,clearcoat:.3,clearcoatRoughness:.06});
+const sph=new THREE.SphereGeometry(1,48,32), nodes=[];
+LAYERS.forEach((L,l)=>L.forEach((label,i)=>{ const y=((L.length-1)/2-i)*.6, z=Math.sin(i*1.7+l)*.3;
+  const m=new THREE.Mesh(sph,base.clone()); m.position.set(XS[l],y,z); G.add(m); nodes.push({l,i,label,m,s:.12,ts:.12,vs:0,tint:0,tt:0}); }));
+const node=(l,i)=>nodes.find(n=>n.l===l&&n.i===i);
+const pts=[]; for(let l=0;l<3;l++) for(const a of nodes.filter(n=>n.l===l)) for(const b of nodes.filter(n=>n.l===l+1)) pts.push(a.m.position,b.m.position);
+G.add(new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(pts),new THREE.LineBasicMaterial({color:0xc9c9ce,transparent:true,opacity:.6})));
+const PATHS=[
+  {key:'Machine signals',route:[[0,0],[1,0],[2,0],[3,0]],title:'Reading machines like a language.',body:'High-frequency, multivariate machine signals are cut into tokens so a sequence model can read them like text and flag what looks wrong.',meta:'Research assistant · Northeastern College of Engineering · RISE Expo 2026'},
+  {key:'Skin images',route:[[0,1],[1,1],[2,1],[3,1]],title:'Lesions, in context.',body:'Where acne lesions sit relative to each other becomes a spatial prior, combined with colour features, to classify them.',meta:'Research scientist · Skinapse Labs · two posters under review'},
+  {key:'Team messages',route:[[0,2],[1,2],[2,2],[3,2]],title:'One list instead of three.',body:'Tasks scattered across Slack, Trello and Jira are embedded and compared, and an LLM agent merges the duplicates.',meta:'Unsprawl · Northeastern Sherman Center'},
+  {key:'Market prices',route:[[0,3],[1,3],[[2,3],[2,0]],[3,3]],title:'Signals from prices.',body:'Cointegration and z-scores drive a market-neutral Coke–Pepsi pairs trade, and LSTMs face XGBoost on the S&P 500.',meta:'Pairs trading strategy · SP500 predictor'},
+  {key:'Research docs',route:[[0,4],[1,4],[2,4],[3,4]],title:'Search that understands hardware.',body:'Engineering research is turned into a knowledge graph, and GraphRAG retrieval answers questions across it.',meta:'Machine learning engineer intern · Cortex · 2026'},
+  {key:'Financial filings',route:[[0,5],[1,2],[2,2],[3,5]],title:'Audit reports, drafted.',body:'An LLM agent reads financial filings and drafts GAAP-compliant audit reports for review.',meta:'AI engineer intern · State Street · 2025'},
+];
+// every edge of every path is a chrome tube that pours along its length
+const tubeMat=base.clone();
+PATHS.forEach(p=>{ p.edges=[]; for(let l=0;l<3;l++){ const A=[].concat(Array.isArray(p.route[l][0])?p.route[l]:[p.route[l]]), B=[].concat(Array.isArray(p.route[l+1][0])?p.route[l+1]:[p.route[l+1]]);
+  for(const a of A) for(const b of B){ const pa=node(...a).m.position, pb=node(...b).m.position, dx=(pb.x-pa.x)*.5;
+    const curve=new THREE.CubicBezierCurve3(pa.clone(),pa.clone().add(new THREE.Vector3(dx,0,0)),pb.clone().sub(new THREE.Vector3(dx,0,0)),pb.clone());
+    const geo=new THREE.TubeGeometry(curve,80,.03,14,false), mesh=new THREE.Mesh(geo,tubeMat); geo.setDrawRange(0,0); G.add(mesh);
+    p.edges.push({l,curve,geo,mesh,count:geo.index.count}); } } p.nodes=p.route.flatMap(r=>Array.isArray(r[0])?r:[r]).map(r=>node(...r)); });
+const heads=[...Array(4)].map(()=>{ const m=new THREE.Mesh(sph,new THREE.MeshPhysicalMaterial({color:MATCHA,metalness:1,roughness:.12,clearcoat:.5})); m.scale.setScalar(.06); m.visible=false; G.add(m); return m; });
+
+// controls
+const seg=document.getElementById('seg'), thumb=document.getElementById('thumb'), cap=document.getElementById('nnCap');
+const btns=PATHS.map((p,i)=>{ const b=document.createElement('button'); b.type='button'; b.role='tab'; b.textContent=p.key; b.onclick=()=>{touched=performance.now(); select(i);}; seg.appendChild(b); return b; });
+let cur=-1, prev=-1, T=0, D=0, touched=0;
+function select(i){ if(i===cur) { T=0; return; } prev=cur; cur=i; T=0; D=0;
+  btns.forEach((b,k)=>b.setAttribute('aria-selected',k===i)); const b=btns[i]; thumb.style.width=b.offsetWidth+'px'; thumb.style.transform=`translateX(${b.offsetLeft-4}px)`;
+  cap.style.opacity=0; setTimeout(()=>{ const p=PATHS[i]; document.getElementById('nnTitle').textContent=p.title; document.getElementById('nnBody').textContent=p.body; document.getElementById('nnMeta').textContent=p.meta; cap.style.opacity=1; },reduce?0:180); }
+
+// labels
+const labels=document.getElementById('nnLabels'), tip=document.getElementById('nnTip');
+const lay=NAMES.map(n=>{ const d=document.createElement('div'); d.className='nn-layer'; d.textContent=n; box.appendChild(d); return d; });
+const lab=[...Array(5)].map(()=>{ const d=document.createElement('div'); d.className='nn-label'; labels.appendChild(d); return d; });
+const proj=(v3)=>{ const v=v3.clone().applyMatrix4(G.matrixWorld).project(C); return [(v.x*.5+.5)*box.clientWidth,(-v.y*.5+.5)*box.clientHeight]; };
+
+// pointer: tilt, hover names a node, click plays its path
+const ray=new THREE.Raycaster(), ndc=new THREE.Vector2(); let hover=null; const tl={x:0,y:0,tx:0,ty:0,vx:0,vy:0};
+box.addEventListener('pointermove',e=>{ const r=box.getBoundingClientRect(); ndc.set((e.clientX-r.left)/r.width*2-1,-(e.clientY-r.top)/r.height*2+1); tl.tx=ndc.x*.22; tl.ty=-ndc.y*.12;
+  ray.setFromCamera(ndc,C); const hit=ray.intersectObjects(nodes.map(n=>n.m))[0]; hover=hit?nodes.find(n=>n.m===hit.object):null; cv.style.cursor=hover?'pointer':'default'; });
+box.addEventListener('pointerleave',()=>{ hover=null; tl.tx=tl.ty=0; });
+box.addEventListener('click',()=>{ if(!hover) return; touched=performance.now(); const k=PATHS.findIndex(p=>p.nodes.includes(hover)); if(k>=0) select(k); });
+
+let inView=false; new IntersectionObserver(es=>{inView=es[0].isIntersecting;}).observe(box);
+setInterval(()=>{ if(inView&&performance.now()-touched>12000&&!reduce) select((cur+1)%PATHS.length); },6500);
+function size2(){ const w=box.clientWidth,h=box.clientHeight; R.setSize(w,h,false); C.aspect=w/h; C.position.z=w<760?17:9.6; C.updateProjectionMatrix(); }
+addEventListener('resize',()=>{ size2(); if(cur>=0){ const b=btns[cur]; thumb.style.width=b.offsetWidth+'px'; thumb.style.transform=`translateX(${b.offsetLeft-4}px)`; } }); size2();
+select(+(Q.get('nn')||0)); if(Q.has('nt')) T=+Q.get('nt');
+
+const clamp=x=>Math.min(1,Math.max(0,x));
+function loop(now){
+  requestAnimationFrame(loop); if(!inView&&!Q.has('nn')) return;
+  const t=now/1000; T+=reduce?10:1/60*1.15; D+=1/60*2.2;
+  tl.vx+=(tl.tx-tl.x)*.06; tl.vy+=(tl.ty-tl.y)*.06; tl.vx*=.82; tl.vy*=.82; tl.x+=tl.vx; tl.y+=tl.vy;
+  G.rotation.y=tl.x+(reduce?0:Math.sin(t*.25)*.05); G.rotation.x=tl.y;
+  const P=PATHS[cur], O=prev>=0?PATHS[prev]:null;
+  // draining the previous path forward, pouring the new one layer by layer
+  if(O) O.edges.forEach(e=>{ const f=clamp(D-e.l*.25); e.geo.setDrawRange(Math.floor(e.count*f/6)*6,e.count); if(f>=1) e.geo.setDrawRange(0,0); });
+  let h=0; heads.forEach(m=>m.visible=false);
+  P.edges.forEach(e=>{ const f=clamp(T-.3-e.l*.8); const ease=1-Math.pow(1-f,3); e.geo.setDrawRange(0,Math.floor(e.count*ease/6)*6);
+    if(f>0&&f<1&&h<heads.length){ heads[h].visible=true; heads[h].position.copy(e.curve.getPoint(ease)); h++; } });
+  nodes.forEach(n=>{ const k=P.nodes.indexOf(n), on=k>=0&&T>.3+n.l*.8, out=on&&n.l===3;
+    n.ts=on?(out?.24:.17):(hover===n?.15:.12); n.tt=out?1:0;
+    n.vs+=(n.ts-n.s)*.18; n.vs*=.72; n.s+=n.vs; n.m.scale.setScalar(n.s+(reduce?0:Math.sin(t*1.3+n.i+n.l)*.004));
+    n.tint+=(n.tt-n.tint)*(Q.has("nt")?1:.08); n.m.material.color.copy(WHITE).lerp(MATCHA,n.tint); });
+  R.render(S,C);
+  // overlay: layer names under columns, labels on the live path, hover tip
+  XS.forEach((x,l)=>{ const [sx]=proj(new THREE.Vector3(x,-2.2,0)); lay[l].style.bottom='4px'; lay[l].style.left=sx+'px'; });
+  lab.forEach((d,k)=>{ const n=P.nodes[k]; if(!n){ d.style.opacity=0; return; } const [x,y]=proj(n.m.position); d.style.left=x+'px'; d.style.top=(y-n.s*60)+'px';
+    d.textContent=n.label; d.className='nn-label'+(n.l===3?' out':''); d.style.opacity=T>.3+n.l*.8?1:0; });
+  if(hover&&!P.nodes.includes(hover)){ const [x,y]=proj(hover.m.position); tip.style.left=x+'px'; tip.style.top=(y-30)+'px'; tip.textContent=hover.label; tip.style.opacity=1; } else tip.style.opacity=0;
+}
+requestAnimationFrame(loop);
+}
+</script>
+</body>
+</html>
