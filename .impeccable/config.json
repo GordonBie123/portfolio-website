@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "design/mockups/eigen-flow.html"
+        ],
+        "createdAt": "2026-11-25T17:45:15.060Z",
+        "reason": "Claude: .sbar is a fixed 52px nav bar whose items are vertically centred; the detector reads its 100%-height inner wrapper as flush against the border"
+      }
+    ]
+  }
+}

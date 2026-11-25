@@ -27,14 +27,15 @@ Gordon Bie's personal portfolio. It shows his passion for AI and machine learnin
 
 ## Operating Context
 
-- Primary action: **email Gordon** (`profile.email`). Secondary: the CV PDF, GitHub, LinkedIn.
+- Primary action: **email Gordon** (`contact.email` in `src/data/site.ts`). Secondary: the CV PDF, GitHub, LinkedIn.
 - Visitors skim on desktop and on phones (links opened from LinkedIn or Messages).
 
 ## Capabilities and Constraints
 
-- Existing Next.js 16 / React 19 / Tailwind v4 / TypeScript app. Installed: framer-motion, @paper-design/shaders-react, lucide-react, react-hook-form + zod.
-- Content lives in `src/data/*.ts` and stays the single source of truth. A full visual overhaul is in progress: no existing component, layout or feature is preserved by default (the café sim, contribution heatmap, life counter and Spotify now-playing are all open to removal). Copy will be revised later as text edits; placeholders are acceptable where content is missing.
-- Existing routes: `/`, `/about`, `/work`, `/experience`, `/cv`, `/contact`, plus `/api/now-playing` (Spotify). Open decision: which of these survive the overhaul.
+- Next.js 16 / React 19 / TypeScript, with three.js for the WebGL landing. Fonts (Computer Modern) are self-hosted in `public/fonts/cmu`.
+- All page copy lives in `src/data/site.ts`; the landing engine is `src/lib/eigen/app.ts` and the page shell is `src/components/EigenSite.tsx`.
+- The site is one page: a mercury blob that tells a short story and eigendecomposes into Λ, whose diagonal (About, Experience, Research, Interests, Misc) opens each section as a sheet at `/#<id>`. Old routes redirect there (`next.config.ts`).
+- The approved design mockup is `design/mockups/eigen-flow.html`.
 
 ## Brand Commitments
 
