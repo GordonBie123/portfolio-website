@@ -12,6 +12,7 @@ const nextConfig: NextConfig = {
       { source: "/work", destination: "/#experience", permanent: false },
       { source: "/contact", destination: "/", permanent: false },
       { source: "/cv", destination: "/Bie_Gordon_CV.pdf", permanent: false },
+      { source: "/resume", destination: "/Bie_Gordon_Resume.pdf", permanent: false },
     ];
   },
   images: {

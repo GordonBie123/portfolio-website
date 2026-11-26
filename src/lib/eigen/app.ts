@@ -3,7 +3,7 @@
 // It is imperative on purpose (WebGL, rAF, Web Animations); React only renders the static shell.
 import * as THREE from "three";
 import { mergeVertices } from "three/examples/jsm/utils/BufferGeometryUtils.js";
-import { SECTIONS } from "@/data/site";
+import { LAMBDA, SECTIONS } from "@/data/site";
 
 type Cell = { ch: string; kind: "n" | "h" | "d" | "z"; k?: number };
 
@@ -12,8 +12,6 @@ const ease = (x: number) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 
 const easeOut = (x: number) => 1 - Math.pow(1 - x, 3);
 
 // ---------- the matrix A = Q Λ Qᵀ, built so its eigenvalues really are LAMBDA ----------
-// λ₅ = 0: Misc is (for now) the null space
-const LAMBDA = [4.8, 3.7, 2.6, 1.4, 0];
 function buildA(): number[][] {
   let s0 = 20261125;
   const rnd = () => (s0 = (s0 * 16807) % 2147483647) / 2147483647;
@@ -132,7 +130,7 @@ export function startEigen(): () => void {
   const RAMP = ".:-=+*#%@", SCR = "0123456789.-+";
   // mask colours: red = chrome ink, green = matcha chrome, blue = flat grey (strength sets the shade)
   const BRACKET = "rgb(255,255,0)", INK = "rgb(255,0,0)", MATCHA = "rgb(0,255,0)", HEAD = "rgb(0,0,255)", ZERO = "rgb(0,0,110)", SCRAM = "rgb(0,0,180)";
-  let COLS = 1, ROWS_ = 1, CW = 1, CH = 1, FS = 16, narrow = false, CELLW = 10, GAP = 3, W = 1, H = 1, dpr = 1, hoverK = -1;
+  let COLS = 1, ROWS_ = 1, CW = 1, CH = 1, FS = 16, narrow = false, CELLW = 10, GAP = 3, W = 1, H = 1, dpr = 1;
   let S_T: (Cell | null)[] = [], L_T: (Cell | null)[] = [], D1 = new Float32Array(0), D2 = new Float32Array(0), dgEls: HTMLButtonElement[] = [];
   const FONT = () => `700 ${FS}px "Computer Modern Typewriter", ui-monospace, monospace`;
 
@@ -156,9 +154,8 @@ export function startEigen(): () => void {
     dgEls.forEach((e) => e.remove());
     dgEls = SECTIONS.map((s, k) => {
       const b = document.createElement("button"); b.type = "button"; b.className = "dg"; b.setAttribute("aria-label", "Open " + s.name);
-      b.style.left = (c0 + k * (w + g) - 0.5) * CW + "px"; b.style.top = (rn + k * step - 0.35) * CH + "px"; b.style.width = (w + 1) * CW + "px"; b.style.height = CH * 1.7 + "px";
-      b.addEventListener("pointerenter", () => (hoverK = k)); b.addEventListener("pointerleave", () => (hoverK = -1));
-      b.addEventListener("focus", () => (hoverK = k)); b.addEventListener("blur", () => (hoverK = -1));
+      // as big as it can be without touching a neighbour: the full cell plus its gap, two rows tall (diagonal cells never share a row or column)
+      b.style.left = (c0 + k * (w + g) - g / 2) * CW + "px"; b.style.top = (rn + k * step - 0.5) * CH + "px"; b.style.width = (w + g) * CW + "px"; b.style.height = CH * 2 + "px";
       b.addEventListener("click", () => openSheet(k, b)); mxBox.appendChild(b); return b;
     });
   }
@@ -214,7 +211,9 @@ export function startEigen(): () => void {
     // size the type so the whole matrix fits beside its label
     ctx.font = '700 100px "Computer Modern Typewriter", ui-monospace, monospace'; const per = ctx.measureText("0").width / 100;
     const avail = innerWidth - (narrow ? 28 : 360);
-    FS = Math.max(10, Math.min(short ? 19 : 22, Math.floor(avail / (COLS * per))));
+    // ...and fits vertically between the nav + caption above and the hint below
+    const availH = innerHeight - (narrow ? 260 : 300);
+    FS = Math.max(10, Math.min(short ? 19 : 22, Math.floor(avail / (COLS * per)), Math.floor(availH / (ROWS_ * 1.24))));
     ctx.font = FONT(); CW = ctx.measureText("0").width; CH = Math.round(FS * 1.24);
     dpr = Math.min(devicePixelRatio, 2); W = COLS * CW; H = ROWS_ * CH;
     view.style.width = W + "px"; view.style.height = H + "px"; renderer.setPixelRatio(dpr); renderer.setSize(W, H, false);
@@ -236,36 +235,22 @@ export function startEigen(): () => void {
   on(mxBox, "pointerleave", () => (ptr.on = false));
 
   // ---------- the flow: blob → click → a short story → A → Λ ----------
-  const lhs = $("lhs"), caps = [0, 1, 2, 3, 4, 5, 6].map((i) => $("c" + i)), hint = $("hint"), tap = $<HTMLButtonElement>("tap"), cue = $("cue"), replay = $("replay");
+  const lhs = $("lhs"), caps = [$("c0"), $("c1")], hint = $("hint"), tap = $<HTMLButtonElement>("tap"), cue = $("cue"), replay = $("replay");
   const scr = () => SCR[(Math.random() * SCR.length) | 0];
-  let loadAt = 0, clickAt: number | null = null, phase = -1, solved = false;
-  const SLIDE_SECS = [0, 3.4, 3.4, 4.0, 4.2, 3.2]; // how long slides 1-5 hold before moving on by themselves
-  let slide = 0, slideAt = 0, decompAt: number | null = null;
-  const dots = $("dots"); dots.innerHTML = ""; for (let i = 1; i <= 6; i++) dots.appendChild(document.createElement("i"));
-  function go(n: number) {
-    if (n === slide || n > 6) return; slide = n; slideAt = performance.now();
-    if (n >= 5 && decompAt === null) decompAt = performance.now();
-    caps.forEach((c, i) => c.classList.toggle("on", i === n));
-    [...dots.children].forEach((d, i) => d.classList.toggle("on", i === n - 1));
-    $("storyNav").classList.toggle("on", n >= 1 && n < 6);
-    lhs.textContent = n >= 5 ? "Λ =" : "A ="; lhs.classList.toggle("on", n >= 3);
-  }
-  function open() { if (clickAt !== null) return; clickAt = performance.now(); tap.hidden = true; cue.classList.remove("on"); go(1); }
-  function solveNow() { clickAt = performance.now() - 20000; decompAt = performance.now() - 20000; tap.hidden = true; cue.classList.remove("on"); go(6); }
-  on($("skipStory"), "click", (e) => { e.stopPropagation(); clickAt = Math.min(clickAt ?? Infinity, performance.now() - 3000); if (decompAt === null) decompAt = performance.now() - 1300; go(6); });
-  on(document.querySelector(".stage")!, "click", (e) => {
-    if (slide >= 1 && slide < 6 && clickAt !== null && performance.now() - clickAt > 350 && !(e.target as HTMLElement).closest("a,button")) go(slide + 1);
-  });
-  on(window, "keydown", (ev) => {
-    const e = ev as KeyboardEvent;
-    if (slide >= 1 && slide < 6 && (e.key === "ArrowRight" || e.key === " ") && sheet.hidden) { e.preventDefault(); go(slide + 1); }
-  });
+  let loadAt = 0, clickAt: number | null = null, phase = -1, solved = false, decompAt: number | null = null;
+  // no narration: one click runs the whole thing. The mercury breaks into A (settled by ~2.8s),
+  // A holds for a beat so it can be read, then it eigendecomposes into Λ
+  const HOLD_A = 3.4;
+  function caption(i: number) { caps.forEach((c, j) => c.classList.toggle("on", j === i)); }
+  function decompose(at: number) { decompAt = at; caption(1); lhs.textContent = "Λ ="; lhs.classList.add("on"); }
+  function open() { if (clickAt !== null) return; clickAt = performance.now(); tap.hidden = true; cue.classList.remove("on"); }
+  function solveNow() { clickAt = performance.now() - 20000; tap.hidden = true; cue.classList.remove("on"); decompose(performance.now() - 20000); }
   on(tap, "click", () => { BU.uRip.value = 1; BU.uRipT.value = performance.now() / 1000; open(); });
   on(tap, "pointerdown", () => (blob.press = 1)); on(tap, "pointerleave", () => (blob.press = 0));
   on(replay, "click", () => {
-    clickAt = null; phase = -1; solved = false; slide = 0; decompAt = null;
-    caps.forEach((c, i) => c.classList.toggle("on", i === 0)); lhs.classList.remove("on"); tap.hidden = false; replay.classList.remove("on"); hint.style.opacity = "0";
-    document.body.classList.remove("solved"); document.body.classList.add("intro", "locked"); scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
+    clickAt = null; phase = -1; solved = false; decompAt = null;
+    caption(0); lhs.classList.remove("on"); lhs.textContent = "A ="; tap.hidden = false; replay.classList.remove("on"); hint.style.opacity = "0";
+    document.body.classList.remove("solved"); document.body.classList.add("intro", "locked");
   });
 
   function frame(now: number) {
@@ -274,13 +259,14 @@ export function startEigen(): () => void {
     const t = now / 1000, k = reduce ? 0 : 1;
     // the blank page: a bead of mercury swells into the blob, and says hello
     const ti = (now - loadAt) / 1000, bloom = reduce ? 1 : easeOut(clamp01((ti - 0.1) / 1.5));
-    if (phase === -1 && ti > 0.55 && slide === 0) { phase = 0; caps[0].classList.add("on"); }
+    if (phase === -1 && ti > 0.55 && clickAt === null) { phase = 0; caption(0); }
     if (clickAt === null && ti > 1.4) cue.classList.add("on");
 
     // after the click: brackets draw in, the mercury breaks into characters, settles into A, then eigendecomposes into Λ
     const tt = clickAt === null ? -1 : ((now - clickAt) / 1000) * (reduce ? 20 : 1);
     const X = ease(clamp01(tt / 1.1)), B = ease(clamp01((tt - 0.25) / 0.9));
-    if (slide >= 1 && slide < 6 && (now - slideAt) / 1000 > SLIDE_SECS[slide] * (reduce ? 0.5 : 1)) go(slide + 1);
+    if (tt > 1.5 && decompAt === null) lhs.classList.add("on");  // "A =" arrives as the characters settle
+    if (tt > HOLD_A && decompAt === null) decompose(now);
     const m0 = clamp01((tt - 1.0) / 0.7), m1 = clamp01((tt - 1.5) / 1.3), m2 = decompAt === null ? 0 : clamp01(((now - decompAt) / 1000 / 1.2) * (reduce ? 20 : 1));
 
     const drain = Math.pow(1 - m1, 1.6);
@@ -338,7 +324,8 @@ export function startEigen(): () => void {
       if (merc) { add(INK, merc, c, r); continue; }
       if (u1 <= 0) continue;
       if (u1 < 1 || T === "scr") { if (S || L) add(SCRAM, reduce ? "0" : scr(), c, r); continue; }
-      if (T) { const kind = T.kind === "d" ? (T.k === hoverK ? "m" : "n") : T.kind; add(kind === "m" ? MATCHA : kind === "h" ? HEAD : kind === "z" ? ZERO : INK, T.ch, c, r); }
+      // section names on the diagonal are always matcha, the site's link colour, so they read as clickable before any hover
+      if (T) { const kind = T.kind === "d" ? "m" : T.kind; add(kind === "m" ? MATCHA : kind === "h" ? HEAD : kind === "z" ? ZERO : INK, T.ch, c, r); }
     }
     batches.forEach((b, col) => { ctx.fillStyle = col; for (let j = 0; j < b.length; j += 3) ctx.fillText(b[j] as string, (b[j + 1] as number) * CW, (b[j + 2] as number) * CH + CH / 2); });
     // matrix brackets: continuous chrome strokes that draw outward from the middle, then hook their corners
@@ -355,7 +342,7 @@ export function startEigen(): () => void {
     renderer.render(compScene, compCam);
 
     if (tt >= 0) {
-      const done = slide === 6 && m2 >= 0.999;
+      const done = decompAt !== null && m2 >= 0.999;
       if (done && !solved) {
         solved = true; document.body.classList.remove("intro", "locked"); document.body.classList.add("solved"); replay.classList.add("on");
         view.setAttribute("aria-label", "The matrix Lambda: " + SECTIONS.map((s) => s.name).join(", ") + " on its diagonal, zeros elsewhere");
@@ -373,7 +360,7 @@ export function startEigen(): () => void {
     body.dataset.page = SECTIONS[k].id;
     const s = SECTIONS[k], prev = SECTIONS[k - 1], next = SECTIONS[k + 1];
     crumb.innerHTML = `λ<sub>${k + 1}</sub> · ${s.name}`;
-    body.innerHTML = `<div class="pin${s.portrait ? " has-portrait" : ""}"><div><h1 id="pageTitle" tabindex="-1">${s.title || s.name}</h1>${s.head || `<p class="lede">${s.lede}</p>`}</div>${s.portrait || ""}</div>${s.body()}
+    body.innerHTML = `<div class="pin${s.portrait ? " has-portrait" : ""}"><div><h1 id="pageTitle" tabindex="-1">${s.title || s.name}</h1>${s.head ?? (s.lede ? `<p class="lede">${s.lede}</p>` : "")}</div>${s.portrait || ""}</div>${s.body()}
       <nav class="next" aria-label="Other eigenvalues">${prev ? `<a href="#${prev.id}" data-k="${k - 1}"><span>← λ${k}</span>${prev.name}</a>` : ""}${next ? `<a class="r" href="#${next.id}" data-k="${k + 1}"><span>λ${k + 2} →</span>${next.name}</a>` : ""}</nav>`;
     // links between sections swap the open page in place
     body.querySelectorAll<HTMLAnchorElement>(".next a, .story a[data-k]").forEach((a) => a.addEventListener("click", (e) => {
@@ -448,7 +435,10 @@ export function startEigen(): () => void {
 
   function placeTap() { const s = Math.min(W, H) * 0.62; tap.style.width = tap.style.height = s + "px"; cue.style.top = H / 2 + H * 0.32 + "px"; }
   on(window, "resize", () => { layout(); placeTap(); });
-  if (matchMedia("(pointer: coarse)").matches && cue.lastChild) cue.lastChild.textContent = "tap the mercury";
+  if (matchMedia("(pointer: coarse)").matches) {
+    if (cue.lastChild) cue.lastChild.textContent = "tap the mercury";
+    hint.textContent = "tap a section on the diagonal to open it";
+  }
 
   document.fonts.load('700 22px "Computer Modern Typewriter"').then(() => document.fonts.ready).then(() => {
     if (!alive) return;

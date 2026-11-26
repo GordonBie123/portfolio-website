@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect } from "react";
-import { contact, slides } from "@/data/site";
+import { captions, contact } from "@/data/site";
 import { startEigen } from "@/lib/eigen/app";
 
 // The static shell. Everything that moves lives in startEigen(), which binds to these ids.
@@ -21,11 +21,8 @@ export default function EigenSite() {
       <section className="hero" id="top">
         <div className="stage">
           <div className="caps" aria-live="polite">
-            {slides.map((html, i) => (
-              <div id={`c${i}`} key={i}>
-                {i === 0 ? <h1 dangerouslySetInnerHTML={{ __html: html }} /> : <h2 dangerouslySetInnerHTML={{ __html: html }} />}
-              </div>
-            ))}
+            <div id="c0"><h1>{captions.hello}</h1></div>
+            <div id="c1"><h2 dangerouslySetInnerHTML={{ __html: captions.done }} /></div>
           </div>
           <div className="eq">
             <span className="lhs" id="lhs">A =</span>
@@ -36,28 +33,13 @@ export default function EigenSite() {
             </div>
             <span className="lhs" style={{ visibility: "hidden" }} aria-hidden="true">A =</span>
           </div>
-          <p className="hint" id="hint">click an eigenvalue</p>
-          <div className="story-nav" id="storyNav" aria-label="Story progress">
-            <div className="dots" id="dots" />
-            <span className="adv">click or press → to continue</span>
-            <button type="button" id="skipStory">Skip</button>
+          <div className="under">
+            <p className="hint" id="hint">click a section on the diagonal to open it</p>
           </div>
           <button className="replay" id="replay" type="button">↺ replay</button>
         </div>
       </section>
 
-      <section className="contact">
-        <div className="wrap">
-          <h2>Let&apos;s find a shared eigenvector.</h2>
-          <a className="mail" href={`mailto:${contact.email}`}>{contact.email}</a>
-          <div className="more">
-            <a href={contact.cv} target="_blank" rel="noopener">CV</a>
-            <a href={contact.linkedin}>LinkedIn</a>
-            <a href={contact.github}>GitHub</a>
-          </div>
-        </div>
-      </section>
-      <footer><div className="wrap">© {new Date().getFullYear()} {contact.name}</div></footer>
 
       <div className="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="pageTitle" hidden>
         <div className="sbar" id="sbar">

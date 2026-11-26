@@ -6,19 +6,21 @@ export const contact = {
   name: "Gordon Bie",
   email: "gordonbie2@gmail.com",
   cv: "/Bie_Gordon_CV.pdf",
+  resume: "/Bie_Gordon_Resume.pdf", // add this file to /public
   linkedin: "https://www.linkedin.com/in/gordon-bie/",
   github: "https://github.com/GordonBie123",
 };
 
-export const slides = [
-  "Hi, I'm Gordon.",
-  "A matrix is just numbers in a grid.",
-  "But arranged right,<br>it can describe almost anything.",
-  "Let <i>A</i> be me: everything I’ve done,<br>and everything I value.",
-  "Its eigenvalues are its essence.<br>They stay the same, however you look at it.",
-  "So take its eigendecomposition:<br><i>A</i> = <i>Q</i>Λ<i>Q</i><sup>T</sup>.",
-  "These are my eigenvalues.",
-];
+// The eigenvalues the landing's matrix A is built from, one per section on the diagonal (About … Misc).
+// λ₅ = 0: Misc is (for now) the null space
+export const LAMBDA = [4.8, 3.7, 2.6, 1.4, 0];
+
+// The landing's two captions: one over the mercury, one once the matrix has become Λ.
+// "eigenvalues" links to /eigenvalues, a short explainer for anyone curious.
+export const captions = {
+  hello: "Hi, I'm Gordon.",
+  done: 'My <a href="/eigenvalues">eigenvalues</a>.',
+};
 
 const about = {
   school: "Northeastern ’27",
@@ -31,25 +33,30 @@ const about = {
   sidequest: "Exploring how ML can help us understand skin.",
 };
 
+// [name, one line on what it is, link, label on the right] — the "More Links!" list at the bottom of About.
+// PDFs and profiles open in a new tab; the email row opens the mail app.
+const links: [string, string, string, string][] = [
+  ["CV", "For research!", contact.cv, "PDF"],
+  ["Resume", "For industry!", contact.resume, "PDF"],
+  ["Email", contact.email, `mailto:${contact.email}`, "Write"],
+  ["LinkedIn", contact.linkedin.replace(/^https:\/\/(www\.)?/, "").replace(/\/$/, ""), contact.linkedin, "Profile"],
+  ["GitHub", contact.github.replace(/^https:\/\//, ""), contact.github, "Code"],
+];
+
 // [years, role, organisation, what you did]
 const roles: [string, string, string, string][] = [
-  ["2026 – now", "Software engineer intern", "Flow Traders · New York", "Infrastructure, CI/CD pipelines and an AI diagnostics agent for high-frequency trading."],
-  ["2026", "Machine learning engineer intern", "Cortex · Boston", "GraphRAG knowledge-graph search for hardware engineering research."],
-  ["2025", "Artificial intelligence engineer intern", "State Street · Boston", "An LLM agent app that automates GAAP-compliant audit reports."],
-  ["2025", "Data scientist intern", "Northeastern Sherman Center for Engineering", "RAG-based agentic deduplication of tasks across Slack, Jira and Trello."],
-  ["2025", "Client experience analyst intern", "State Street Investment Management", "Client sentiment insights and decks for sales leadership."],
-  ["2025 – 2026", "Data science technical lead", "Generate Product Development Studio", "Technical lead building ML and AI products for startups."],
-  ["2024", "Marketing analytics extern", "Apple · Remote", "Survey analytics, dashboards and NLP sentiment for consumer audio."],
-  ["2023 – 2025", "CRM and sales analyst intern", "Indigo Education · Vancouver", "Client support, retention and sales for an education agency."],
+  ["2026 – now", "Software Engineer", "Flow Traders · Internship", "Building infrastructure, tooling and agents for quantitative HFT."],
+  ["2026 – 2026", "Machine Learning Engineer", "Cortex · Contract", "Developed an intelligent & searchable knowledge graph for hardware engineering design."],
+  ["2025 – 2025", "Machine Learning Engineer", "State Street Corporation · Internship", "Developed internal AI tooling to automate financial report writing."],
+  ["2025 – 2025", "Data Analyst", "State Street Investment Management · Internship", "Analyzed hedge fund & asset owner feedback with NLP to inform investment services."],
+  ["2024 – 2024", "Data Analyst", "Apple · Contract", "Analyzed consumer product feedback and trends with NLP to inform product decisions."],
 ];
 
 // [name, description, image in /public/images/projects, GitHub link]
 const projects: [string, string, string, string][] = [
   ["Unsprawl", "Consolidates and dedupes workflows across Slack, Trello and Jira with LLMs and vector embeddings.", "unsprawl.png", "https://github.com/GordonBie123/unsprawl_project"],
   ["Relaylist", "Analyses the sentiment of a conversation and turns it into an emotion-based Spotify playlist.", "relaylist4.jpg", "https://github.com/GordonBie123/relaylist"],
-  ["SP500 predictor", "Compares LSTMs, XGBoost and random forests on S&amp;P 500 prices.", "sp500s.jpg", "https://github.com/GordonBie123/sp500_predictor_v2"],
   ["Options volatility surface", "Visualises the implied volatility surface of stock options with Black–Scholes.", "opvol.jpg", "https://github.com/GordonBie123/Options-Volatility-Surface"],
-  ["Coke–Pepsi pairs trading", "A market-neutral strategy on cointegration and z-score signals between KO and PEP.", "cokepep.jpg", "https://github.com/GordonBie123/Coke-Pepsi-Pairs-Trading"],
   ["This website", "Next.js and TypeScript, with a lot of liquid metal.", "portfolio1.jpg", "https://github.com/GordonBie123/portfolio-website"],
 ];
 
@@ -128,19 +135,21 @@ export const SECTIONS: Section[] = [
     portrait: '<img class="portrait" src="/avatar.jpg" alt="Illustrated portrait of Gordon" width="176" height="176">',
     body: () => `<div class="story">${about.story.map((p) => `<p>${p}</p>`).join("")}
       <p class="side"><span class="side-k"><i aria-hidden="true"></i>Current Sidequest</span>${about.sidequest}</p></div>
-      <section class="cv" aria-labelledby="cvTitle">
-        <svg class="doc" viewBox="0 0 48 60" fill="none" aria-hidden="true"><path d="M6 2h26l12 12v42a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" fill="#fff" stroke="#c7c7cc" stroke-width="1.5"/><path d="M32 2v10a2 2 0 0 0 2 2h10" stroke="#c7c7cc" stroke-width="1.5"/><path d="M11 24h22M11 30h26M11 36h18M11 42h24M11 48h14" stroke="#d8d8dc" stroke-width="2" stroke-linecap="round"/><path d="M11 17h12" stroke="#8a9a5b" stroke-width="2.5" stroke-linecap="round"/></svg>
-        <div class="cv-t"><h2 id="cvTitle">CV</h2></div>
-        <div class="cv-a"><a class="btn-dark" href="${contact.cv}" target="_blank" rel="noopener" aria-label="Open CV (PDF, opens in a new tab)">Open<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M4 2h6v6M10 2 3 9"/></svg></a></div>
+      <section class="docs" aria-labelledby="docsTitle">
+        <h2 id="docsTitle">More Links!</h2>
+        <ul>${links.map(([name, note, href, meta]) => {
+          const mail = href.startsWith("mailto:");
+          const label = mail ? `Email ${note}` : `${name} (${meta === "PDF" ? "PDF, " : ""}opens in a new tab)`;
+          return `<li><a href="${href}"${mail ? "" : ' target="_blank" rel="noopener"'} aria-label="${label}"><span class="d-name">${name}</span><span class="d-note">${note}</span><span class="d-meta">${meta}<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M4 2h6v6M10 2 3 9"/></svg></span></a></li>`;
+        }).join("")}</ul>
       </section>`,
   },
   {
     id: "experience", name: "Experience", short: "Exp.",
-    lede: "Infrastructure for a trading firm, agents for a bank, retrieval for a hardware lab, and the projects in between.",
-    body: () => `<h2 style="margin-top:56px">Roles</h2><div class="spec">${roles.map(row).join("")}</div>
+    body: () => `<h2 style="margin-top:56px">Industry Roles</h2><div class="spec">${roles.map(row).join("")}</div>
       <h2>Projects</h2><div class="tiles">${projects.map(([t, d, img, url]) =>
         `<article class="tile"><h3>${t}</h3><p>${d}</p><div class="shot" style="background-image:url(/images/projects/${img})"></div><div class="meta"><a href="${url}">View on GitHub ›</a></div></article>`).join("")}</div>
-      <h2>Teaching</h2><div class="spec">${teaching.map(row).join("")}</div>
+      <h2>Teaching Roles</h2><div class="spec">${teaching.map(row).join("")}</div>
       <h2>Toolkit</h2><div class="chips">${toolkit.map((s) => `<span>${s}</span>`).join("")}</div>`,
   },
   {
