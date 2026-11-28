@@ -3,6 +3,7 @@
 // It is imperative on purpose (WebGL, rAF, Web Animations); React only renders the static shell.
 import * as THREE from "three";
 import { mergeVertices } from "three/examples/jsm/utils/BufferGeometryUtils.js";
+import { wireEmbedding } from "./embedding";
 import { LAMBDA, SECTIONS } from "@/data/site";
 
 type Cell = { ch: string; kind: "n" | "h" | "d" | "z"; k?: number };
@@ -114,6 +115,21 @@ const COMP_FRAG = `
   }`;
 
 /** Starts the experience inside the shell rendered by EigenSite. Returns a cleanup function. */
+// The research-interest dial: pick an item (list or point) and the needle turns the short way round to it.
+function wireDial(d: HTMLElement) {
+  const items = [...d.querySelectorAll<HTMLElement>(".dial-item")], pts = [...d.querySelectorAll<SVGGElement>(".pt")];
+  const needle = d.querySelector<SVGGElement>(".needle")!;
+  let rot = -+items[0].dataset.a!;
+  const pick = (i: number) => {
+    rot += ((((-+items[i].dataset.a! - rot) % 360) + 540) % 360) - 180;
+    needle.style.transform = `rotate(${rot}deg)`;
+    items.forEach((it, j) => { it.classList.toggle("on", j === i); it.querySelector("button")!.setAttribute("aria-expanded", String(j === i)); });
+    pts.forEach((p, j) => p.classList.toggle("on", j === i));
+  };
+  items.forEach((it, i) => it.querySelector("button")!.addEventListener("click", () => pick(i)));
+  pts.forEach((p, i) => p.addEventListener("click", () => pick(i)));
+}
+
 export function startEigen(): () => void {
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
@@ -353,10 +369,11 @@ export function startEigen(): () => void {
 
   // ================= expanding an eigenvalue into its page =================
   const sheet = $("sheet"), body = $("pageBody"), crumb = $("crumb"), backBtn = $("back"), sbar = $("sbar");
-  let curK = -1, pushed = false;
+  let curK = -1, pushed = false, unwire: (() => void) | null = null;
   const rectClip = (r: DOMRect) =>
     `inset(${Math.max(0, r.top)}px ${Math.max(0, innerWidth - r.right)}px ${Math.max(0, innerHeight - r.bottom)}px ${Math.max(0, r.left)}px round 22px)`;
   function render(k: number) {
+    unwire?.(); unwire = null;
     body.dataset.page = SECTIONS[k].id;
     const s = SECTIONS[k], prev = SECTIONS[k - 1], next = SECTIONS[k + 1];
     crumb.innerHTML = `λ<sub>${k + 1}</sub> · ${s.name}`;
@@ -366,6 +383,8 @@ export function startEigen(): () => void {
     body.querySelectorAll<HTMLAnchorElement>(".next a, .story a[data-k]").forEach((a) => a.addEventListener("click", (e) => {
       e.preventDefault(); const j = +(a.dataset.k ?? 0); history.replaceState(null, "", "#" + SECTIONS[j].id); show(j, true);
     }));
+    body.querySelectorAll<HTMLElement>(".dial").forEach(wireDial);
+    const emb = body.querySelector<HTMLElement>(".emb"); if (emb) unwire = wireEmbedding(emb);
   }
   // one curve for the sheet both ways (iOS's sheet curve: fast out of the gate, long settle), so it can reverse mid-flight
   const SHEET = "cubic-bezier(.32,.72,0,1)";
@@ -436,7 +455,7 @@ export function startEigen(): () => void {
   function placeTap() { const s = Math.min(W, H) * 0.62; tap.style.width = tap.style.height = s + "px"; cue.style.top = H / 2 + H * 0.32 + "px"; }
   on(window, "resize", () => { layout(); placeTap(); });
   if (matchMedia("(pointer: coarse)").matches) {
-    if (cue.lastChild) cue.lastChild.textContent = "tap the mercury";
+    if (cue.lastChild) cue.lastChild.textContent = "tap the blob";
     hint.textContent = "tap a section on the diagonal to open it";
   }
 
@@ -450,7 +469,7 @@ export function startEigen(): () => void {
   });
 
   return () => {
-    alive = false; cancelAnimationFrame(raf); offs.forEach((f) => f()); titleWatch?.disconnect();
+    alive = false; cancelAnimationFrame(raf); offs.forEach((f) => f()); titleWatch?.disconnect(); unwire?.();
     dgEls.forEach((e) => e.remove());
     renderer.dispose(); massRT.dispose(); dropRT.dispose(); lowRT.dispose(); textTex.dispose(); env.dispose();
     document.body.classList.remove("intro", "locked", "solved"); document.body.style.overflow = "";

@@ -138,12 +138,66 @@ body.solved .dg{display:block}
 .tile h3{font-size:24px;font-weight:700;letter-spacing:-.005em;line-height:1.18}
 .tile p{margin-top:8px;color:var(--ink-2);font-size:16.5px}
 .tile .meta{margin-top:auto;padding-top:18px;font-size:13.5px;color:var(--ink-2)}
-.tiles.three{grid-template-columns:repeat(3,minmax(0,1fr))}
 .tile .shot{margin-top:20px;border-radius:14px;aspect-ratio:16/10;background:#e8e8ed center/cover;box-shadow:0 20px 40px -24px rgba(0,0,0,.35)}
 .tile a{color:var(--matcha-text)}
 .tile a:hover{text-decoration:underline;text-underline-offset:3px}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
 .chips span{padding:7px 14px;border-radius:980px;background:var(--tile);font-size:14.5px}
+.dial{display:grid;grid-template-columns:minmax(0,300px) 1fr;gap:64px;align-items:center}
+.dial svg{display:block;width:100%;height:auto;overflow:visible}
+.dial line,.dial .ring{fill:none;stroke:var(--line);stroke-width:1;vector-effect:non-scaling-stroke}
+.dial .axes line{stroke:#e8e8ed;stroke-dasharray:3 4}
+.dial .needle{transition:transform .7s cubic-bezier(.32,.72,0,1)}
+.dial .needle line{stroke:var(--ink);stroke-width:2;stroke-linecap:round}
+.dial .needle path,.dial .hub{fill:var(--ink)}
+.dial .pt{cursor:pointer}
+.dial .pt .hit{fill:transparent}
+.dial .pt .dot{fill:#fff;stroke:var(--ink-2);stroke-width:1.25;vector-effect:non-scaling-stroke;transition:fill .3s,stroke .3s}
+.dial .pt .halo{fill:var(--matcha);opacity:0;transform:scale(.4);transition:opacity .3s,transform .5s var(--ease-out)}
+.dial .pt text{font-family:var(--mono);font-size:.12px;fill:var(--ink-2);text-anchor:middle;dominant-baseline:central;transition:fill .3s}
+.dial .pt text .s{font-size:.08px}
+.dial .pt.on .dot{fill:var(--matcha);stroke:var(--matcha-text)}
+.dial .pt.on .halo{opacity:.22;transform:none}
+.dial .pt.on text{fill:var(--matcha-text)}
+.dial-list{border-top:1px solid var(--line)}
+.dial-item{border-bottom:1px solid var(--line)}
+.dial-item button{display:flex;align-items:baseline;gap:14px;width:100%;min-height:44px;padding:18px 0;background:none;border:0;font:inherit;font-size:clamp(19px,1.9vw,22px);font-weight:700;letter-spacing:-.005em;line-height:1.25;color:var(--ink-2);text-align:left;cursor:pointer;transition:color .2s}
+.dial-item button span{flex:none;min-width:1.9em;font-family:var(--mono);font-size:13px;font-weight:400;color:var(--matcha-text)}
+.dial-item button:hover,.dial-item.on button{color:var(--ink)}
+.dial-item button:active{opacity:.6}
+.dial-item .d{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s var(--ease-out)}
+.dial-item.on .d{grid-template-rows:1fr}
+.dial-item .d > div{overflow:hidden;min-height:0}
+.dial-item .d p{padding:0 0 22px calc(13px * 1.9 + 14px);font-size:17px;line-height:1.55;color:var(--ink-2);max-width:52ch;text-wrap:pretty}
+/* Sidequests: hobbies and side jobs as points on two axes (src/lib/eigen/embedding.ts) */
+.emb{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:48px;align-items:start}
+.emb-stage svg{display:block;width:100%;height:auto;overflow:visible;user-select:none;-webkit-user-select:none;touch-action:manipulation}
+.emb .cells path{fill:transparent;stroke:#e8e8ed;stroke-width:1;cursor:pointer;transition:fill .2s}
+.emb .cells path.hov{fill:var(--tile)}
+.emb .cells path.on{fill:#eef1e4}
+.emb .ax path{fill:none;stroke:var(--ink-2);stroke-width:1}
+.emb .ax text{font-family:var(--mono);font-size:12.5px;fill:var(--ink-2)}
+.emb .nbl line{stroke:var(--matcha);stroke-width:1.5;stroke-dasharray:3 4}
+.emb .pt{cursor:pointer;outline:none}
+.emb .pt circle{fill:var(--ink-2);transform-box:fill-box;transform-origin:center;transition:transform .25s var(--ease-out),fill .2s}
+.emb .pt.hov circle{transform:scale(1.3)}
+.emb .pt.nb circle{fill:#fff;stroke:var(--matcha-text);stroke-width:2}
+.emb .pt.on circle{fill:var(--matcha-text);stroke:none;transform:scale(1.5)}
+.emb .pt text{font-size:16px;fill:var(--ink)}
+.emb .pt.on text{font-weight:700;fill:var(--matcha-text)}
+.emb .pt:focus-visible text{text-decoration:underline;text-underline-offset:3px}
+.emb-hint{margin-top:10px;font-family:var(--mono);font-size:12.5px;color:var(--ink-2)}
+.emb-card .kind{font-family:var(--mono);font-size:12.5px;color:var(--matcha-text)}
+.emb-card h3{margin-top:6px;font-size:26px;font-weight:700;letter-spacing:-.005em;line-height:1.16;text-wrap:balance}
+.emb-card .org{margin-top:2px;font-size:16.5px;color:var(--ink-2)}
+.emb-card .meta{margin-top:6px;font-size:13.5px;color:var(--ink-2)}
+.emb-card .d{margin-top:16px;font-size:17px;line-height:1.55;text-wrap:pretty}
+.emb-card .in{margin-top:18px;padding-top:14px;border-top:1px solid var(--line);font-size:15px;color:var(--ink-2)}
+.emb-card .in button{padding:6px 0;border:0;background:none;font:inherit;color:var(--matcha-text);cursor:pointer}
+.emb-card .in button:hover,.emb-card a:hover{text-decoration:underline;text-underline-offset:4px}
+.emb-card a{display:inline-block;margin-top:14px;padding:10px 0;color:var(--matcha-text)}
+.skills .row{grid-template-columns:150px 1fr;row-gap:12px}
+.skills .yr{font-weight:400;line-height:1.35;padding-top:8px}
 .next{margin-top:96px;padding-top:28px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:20px}
 .next a{display:flex;flex-direction:column;gap:2px;font-size:22px;font-weight:600;letter-spacing:-.02em}
 .next a span{font-family:var(--mono);font-size:13px;font-weight:500;color:var(--matcha-text)}
@@ -182,6 +236,9 @@ body.solved .dg{display:block}
   .eq{flex-direction:column;gap:8px}.lhs{min-width:0;text-align:center}
   .caps{height:130px}
   .spec .row{grid-template-columns:1fr;gap:4px}
-  .tiles,.tiles.three{grid-template-columns:1fr}
+  .tiles{grid-template-columns:1fr}
+  .skills .row{gap:12px}.skills .yr{padding-top:0}
+  .dial{grid-template-columns:1fr;gap:32px}.dial svg{max-width:250px;margin:0 auto}
+  .emb{grid-template-columns:1fr;gap:24px}
 }
-@media (prefers-reduced-motion:reduce){.nav,.caps > div,.cue,.lhs,.hint{transition:none}.cue i:after{animation:none}}
+@media (prefers-reduced-motion:reduce){.dial .needle,.dial-item .d,.dial .pt .halo{transition:none}.emb .cells path,.emb .pt circle{transition:none}.nav,.caps > div,.cue,.lhs,.hint{transition:none}.cue i:after{animation:none}}

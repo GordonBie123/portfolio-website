@@ -28,8 +28,8 @@ export default function EigenSite() {
             <span className="lhs" id="lhs">A =</span>
             <div className="mx" id="mx">
               <canvas id="ascii" role="img" aria-label="A liquid mercury drop" />
-              <button className="tap" id="tap" type="button" aria-label="Break the mercury into a matrix" />
-              <p className="cue" id="cue"><i />click the mercury</p>
+              <button className="tap" id="tap" type="button" aria-label="Break the blob into a matrix" />
+              <p className="cue" id="cue"><i />click the blob</p>
             </div>
             <span className="lhs" style={{ visibility: "hidden" }} aria-hidden="true">A =</span>
           </div>
@@ -47,7 +47,7 @@ export default function EigenSite() {
           <div className="wrap">
             <button className="back" id="back" type="button">
               <svg viewBox="0 0 8 13" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M6.5 1 1 6.5 6.5 12" /></svg>
-              All eigenvalues
+              Go back
             </button>
             <span className="crumb" id="crumb" />
             <a className="pill" href={`mailto:${contact.email}`}>Email me</a>

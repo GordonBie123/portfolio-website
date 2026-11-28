@@ -1,0 +1,685 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Interests mockups v2</title>
+<style>
+@font-face{font-family:"CMS";src:url("../../public/fonts/cmu/cmunrm.woff") format("woff");font-weight:400}
+@font-face{font-family:"CMS";src:url("../../public/fonts/cmu/cmunbx.woff") format("woff");font-weight:700}
+@font-face{font-family:"CMS";src:url("../../public/fonts/cmu/cmunti.woff") format("woff");font-style:italic}
+@font-face{font-family:"CMT";src:url("../../public/fonts/cmu/cmuntt.woff") format("woff");font-weight:400}
+@font-face{font-family:"CMT";src:url("../../public/fonts/cmu/cmuntb.woff") format("woff");font-weight:700}
+:root{--bg:#fff;--tile:#f5f5f7;--tile-2:#e8e8ed;--ink:#1d1d1f;--ink-2:#5f5f64;--line:#d2d2d7;--matcha:#8a9a5b;--matcha-text:#55633a;--matcha-wash:#eef1e4;
+  --serif:"CMS",Georgia,serif;--mono:"CMT",ui-monospace,Menlo,monospace;--ease:cubic-bezier(.16,1,.3,1)}
+*{box-sizing:border-box;margin:0}
+[hidden]{display:none!important}
+html{-webkit-font-smoothing:antialiased}
+body{background:var(--bg);color:var(--ink);font-family:var(--serif);font-size:17px;line-height:1.5}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;touch-action:manipulation}
+:focus-visible{outline:2px solid var(--matcha-text);outline-offset:3px;border-radius:8px}
+.wrap{max-width:1020px;margin:0 auto;padding:0 22px}
+.top{padding:64px 0 8px}
+.top>p:first-child{font-family:var(--mono);font-size:13px;color:var(--ink-2)}
+.top h1{margin-top:10px;font-size:clamp(40px,5vw,60px);font-weight:700;letter-spacing:-.015em;line-height:1.05}
+.top .sub{margin-top:12px;font-size:19px;color:var(--ink-2);max-width:52ch}
+.jump{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.jump a{font-family:var(--mono);font-size:13px;padding:10px 16px;border-radius:980px;background:var(--tile);color:var(--ink);text-decoration:none}
+.jump a:hover{background:var(--tile-2)}
+section.mock{padding:88px 0 40px;border-bottom:1px solid var(--line)}
+.lab{display:flex;gap:10px;align-items:baseline;font-family:var(--mono);font-size:13px;color:var(--matcha-text)}
+.mock h2{margin-top:6px;font-size:clamp(28px,3vw,36px);font-weight:700;letter-spacing:-.005em;line-height:1.14}
+.mock .why{margin-top:8px;color:var(--ink-2);max-width:62ch}
+.stage{margin-top:36px}
+.k{font-family:var(--mono);font-size:12.5px;color:var(--matcha-text)}
+.k.gap{margin-top:22px}
+.card h3{margin-top:6px;font-size:26px;font-weight:700;letter-spacing:-.005em;line-height:1.15;text-wrap:balance}
+.card .org{margin-top:2px;color:var(--ink-2)}
+.card .m{margin-top:6px;font-family:var(--mono);font-size:12.5px;color:var(--ink-2)}
+.card .d{margin-top:14px;line-height:1.55;text-wrap:pretty}
+.swap{animation:swap .4s var(--ease)}
+@keyframes swap{from{opacity:0;transform:translateY(8px)}}
+.seg{display:inline-flex;flex-wrap:wrap;gap:4px;padding:4px;border-radius:980px;background:var(--tile)}
+.seg button{min-width:44px;min-height:40px;padding:0 14px;border-radius:980px;font-size:15px;color:var(--ink-2);transition:background .2s,color .2s}
+.seg button[aria-pressed=true]{background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.08),0 0 0 .5px rgba(0,0,0,.06)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 22px;border-radius:980px;background:var(--ink);color:#fff;font-size:15px;transition:background .2s,transform .1s}
+.btn:hover{background:#3a3a3c}.btn:active{transform:scale(.97)}
+.btn.ghost{background:var(--tile);color:var(--ink)}.btn.ghost:hover{background:var(--tile-2)}
+a.cta{display:inline-block;margin-top:16px;color:var(--matcha-text);text-decoration:none}
+a.cta:hover{text-decoration:underline;text-underline-offset:4px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;min-height:40px;padding:0 15px;border-radius:980px;background:var(--tile);font-size:15px;transition:background .2s,color .2s}
+button.chip:hover{background:var(--tile-2)}
+.chip.on,.chip.new{background:var(--matcha-wash);color:var(--matcha-text)}
+.mk{display:inline-block;flex:none;width:9px;height:9px;margin-right:8px;border:1.5px solid currentColor}
+.mk.hobby{border-radius:50%}.mk.both{transform:rotate(45deg) scale(.8)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 20px;margin-top:18px;font-family:var(--mono);font-size:12.5px;color:var(--ink-2)}
+.legend span{display:inline-flex;align-items:center}
+.side{display:grid;gap:36px;align-content:start}
+
+/* A · k-means */
+.km{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:44px;align-items:start}
+.km-ctrl{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;margin-bottom:16px}
+.km-ctrl>.k{color:var(--ink-2)}
+.stat{font-family:var(--mono);font-size:12.5px;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.km svg.map{width:100%;height:auto;display:block;border-radius:22px;background:#fbfbfc;user-select:none;-webkit-user-select:none}
+.km .grid line{stroke:#efeff2}
+.km .ax{font-family:var(--mono);font-size:12px;fill:var(--ink-2)}
+.km .hull{fill:var(--tile);stroke:var(--tile);stroke-width:54;stroke-linejoin:round;stroke-linecap:round;transition:fill .3s,stroke .3s}
+.km .hull.on{fill:var(--matcha-wash);stroke:var(--matcha-wash)}
+.km .cl-l{font-family:var(--mono);font-size:12.5px;fill:var(--ink-2)}
+.km .cl-l.on{fill:var(--matcha-text)}
+.km .cen{transition:transform .5s var(--ease)}
+.km .cen path{stroke:var(--ink);stroke-width:2;stroke-linecap:round}
+.km .pt{cursor:grab;touch-action:none}
+.km .pt.drag{cursor:grabbing}
+.km .pt .hit{fill:transparent}
+.km .pt .sh{fill:#fff;stroke:var(--ink);stroke-width:1.5;transition:fill .2s}
+.km .pt:hover .sh{fill:var(--matcha-wash)}
+.km .pt.on .sh{fill:var(--matcha);stroke:var(--matcha-text)}
+.km .pt text{font-size:16px;fill:var(--ink)}
+.km .pt:focus{outline:none}.km .pt:focus-visible .sh{stroke-width:3}
+.km-foot{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-top:12px;min-height:40px}
+.km-foot .k{color:var(--ink-2)}
+.km-list{display:grid;gap:18px;margin-top:22px}
+.km-list .k{margin-bottom:8px}
+.elbow svg{width:100%;display:block}
+.elbow polyline{fill:none;stroke:var(--ink-2);stroke-width:1.5}
+.elbow .eb{cursor:pointer}
+.elbow .eb .hit{fill:transparent}
+.elbow .eb .d{fill:#fff;stroke:var(--ink-2);stroke-width:1.5}
+.elbow .eb.on .d{fill:var(--matcha);stroke:var(--matcha-text)}
+.elbow .eb text{font-family:var(--mono);font-size:12px;fill:var(--ink-2);text-anchor:middle}
+.elbow .eb.on text{fill:var(--matcha-text)}
+
+/* B · hobby or side job */
+.game{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:48px;align-items:start}
+.gcard{position:relative;min-height:340px;padding:34px 32px 30px;border-radius:28px;background:var(--tile);user-select:none;-webkit-user-select:none;touch-action:pan-y}
+.gcard.ask{cursor:grab;transition:transform .45s var(--ease),opacity .2s}
+.gcard.ask.drag{transition:none;cursor:grabbing}
+.gcard .feat{margin-top:12px;font-size:clamp(28px,3.4vw,38px);font-weight:700;line-height:1.12;letter-spacing:-.01em;text-wrap:balance}
+.gcard .q{margin-top:18px;font-size:19px;color:var(--ink-2)}
+.gcard .hint{position:absolute;left:32px;bottom:26px;font-family:var(--mono);font-size:12.5px;color:var(--ink-2)}
+.lean{position:absolute;top:24px;padding:6px 12px;border-radius:980px;background:#fff;font-family:var(--mono);font-size:13px;opacity:0;transition:opacity .15s}
+.lean.l{right:24px}.lean.r{left:24px}
+.gcard[data-lean=hobby] .lean.l,.gcard[data-lean=job] .lean.r{opacity:1}
+.gbtns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.gbtns .btn{min-height:52px;font-size:16px}
+.deck-foot{display:flex;justify-content:space-between;align-items:center;margin-top:14px}
+.verdict{font-family:var(--mono);font-size:13px;color:var(--ink-2)}
+.verdict b{font-weight:400;color:var(--matcha-text)}
+.note{margin-top:4px;font-size:15px;color:var(--matcha-text)}
+.acts{display:flex;flex-wrap:wrap;gap:14px 22px;align-items:center;margin-top:22px}
+.acts a.cta{margin-top:0}
+.big{margin-top:6px;font-size:64px;font-weight:700;line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.cm table{border-collapse:separate;border-spacing:6px;margin:6px -6px 0}
+.cm th{font-family:var(--mono);font-size:12px;font-weight:400;color:var(--ink-2);text-align:left;padding-right:4px;white-space:nowrap}
+.cm thead th{text-align:center}
+.cm td{width:76px;height:56px;border-radius:12px;background:var(--tile);text-align:center;font-family:var(--mono);font-size:18px;color:var(--ink-2);font-variant-numeric:tabular-nums;transition:background .3s,color .3s}
+.cm td.diag.has{background:var(--matcha-wash);color:var(--matcha-text)}
+.cm td.has:not(.diag){background:var(--tile-2);color:var(--ink)}
+.cm td.flash{animation:flash .7s var(--ease)}
+@keyframes flash{from{box-shadow:0 0 0 3px var(--matcha)}}
+.cm .acc{margin-top:12px;font-family:var(--mono);font-size:13px;font-variant-numeric:tabular-nums}
+.cm .k.gap{color:var(--ink-2);line-height:1.5}
+details.data{margin-top:36px}
+details.data summary{display:inline-flex;align-items:center;min-height:44px;font-family:var(--mono);font-size:13px;color:var(--matcha-text);cursor:pointer}
+details.data table{width:100%;margin-top:10px;border-collapse:collapse;font-size:15px}
+details.data th{font-family:var(--mono);font-size:12px;font-weight:400;color:var(--ink-2);text-align:left}
+details.data th,details.data td{padding:10px 12px 10px 0;border-bottom:1px solid var(--line);vertical-align:top}
+details.data td:first-child{font-family:var(--mono);font-size:13px;color:var(--ink-2)}
+
+/* C · mixture of experts */
+.moe-q{display:flex;gap:10px;align-items:center;padding:6px 6px 6px 20px;border-radius:980px;background:var(--tile);transition:box-shadow .2s}
+.moe-q:focus-within{box-shadow:0 0 0 2px var(--matcha-text)}
+.moe-q label{font-family:var(--mono);font-size:13px;color:var(--matcha-text);white-space:nowrap}
+.moe-q input{flex:1;min-width:0;height:44px;border:0;background:none;font:inherit;font-size:18px;color:var(--ink);outline:none}
+.moe-q input::placeholder{color:#8e8e93}
+.moe-chips{margin-top:14px}
+.moe-chips .chip{font-size:14px}
+.formula{margin-top:22px;font-family:var(--mono);font-size:13px;color:var(--ink-2)}
+.moe{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:40px;margin-top:14px;align-items:start}
+.experts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.ex{display:grid;gap:10px;align-content:space-between;min-height:104px;padding:14px 14px 12px;border-radius:18px;background:var(--tile);text-align:left;transition:background .3s,opacity .3s,box-shadow .2s,transform .1s}
+.ex:hover{background:var(--tile-2)}
+.ex:active{transform:scale(.98)}
+.ex .n{display:flex;align-items:baseline;font-size:16px;line-height:1.25}
+.ex .n .mk{position:relative;top:-1px}
+.ex .o{display:block;margin-top:2px;font-family:var(--mono);font-size:12px;color:var(--ink-2);line-height:1.35}
+.ex .g{display:flex;align-items:center;gap:8px}
+.ex .bar{flex:1;height:6px;border-radius:3px;background:#e1e1e6;overflow:hidden}
+.ex .bar i{display:block;height:100%;background:var(--matcha);transform:scaleX(0);transform-origin:left;transition:transform .7s var(--ease)}
+.ex .p{min-width:2.8em;font-family:var(--mono);font-size:12px;color:var(--ink-2);text-align:right;font-variant-numeric:tabular-nums}
+.experts.routed .ex{opacity:.55}
+.experts.routed .ex.top{opacity:1;background:var(--matcha-wash)}
+.experts.routed .ex.top .p{color:var(--matcha-text)}
+.ex.sel{box-shadow:inset 0 0 0 1.5px var(--ink)}
+.route{font-family:var(--mono);font-size:13px;color:var(--ink-2);line-height:1.6}
+.route b{font-weight:400;color:var(--matcha-text)}
+.also{margin-top:20px;padding-top:16px;border-top:1px solid var(--line)}
+.also .chip{margin-top:8px}
+
+/* D · training run */
+.tr svg{width:100%;height:auto;display:block;user-select:none;-webkit-user-select:none;touch-action:pan-y;cursor:pointer}
+.tr .pre{fill:#f7f7f9}
+.tr .yl{font-family:var(--mono);font-size:12px;fill:var(--ink-2)}
+.tr .gl{stroke:#efeff2}
+.tr .ghost{fill:none;stroke:#e3e3e8;stroke-width:2}
+.tr .train{fill:none;stroke:var(--ink);stroke-width:2.25;stroke-linejoin:round}
+.tr .val{fill:none;stroke:var(--matcha);stroke-width:1.75;stroke-dasharray:5 5}
+.tr .ck{fill:#fff;stroke:#c7c7cc;stroke-width:1.5;transition:fill .25s,stroke .25s}
+.tr .ck.done{fill:var(--ink);stroke:var(--ink)}
+.tr .ck.on{fill:var(--matcha);stroke:var(--matcha-text)}
+.tr .now{stroke:var(--matcha-text);stroke-width:1.5;stroke-dasharray:2 4;transition:transform .5s var(--ease)}
+.tr-ctrl{display:flex;flex-wrap:wrap;gap:12px 18px;align-items:center;margin-top:14px}
+.tr-ctrl input{flex:1;min-width:180px;height:44px;accent-color:var(--matcha-text)}
+.tr-ctrl .btn{min-width:118px}
+.tr-key{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:12px;font-family:var(--mono);font-size:12.5px;color:var(--ink-2)}
+.tr-key i{display:inline-block;width:18px;height:0;margin-right:8px;vertical-align:4px;border-top:2.25px solid var(--ink)}
+.tr-key i.v{border-top:1.75px dashed var(--matcha)}
+.tr-out{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:48px;margin-top:34px;align-items:start}
+.dt{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.dt .chip{min-height:34px;font-family:var(--mono);font-size:13px}
+.pre-rows{margin-top:14px;border-top:1px solid var(--line)}
+.pre-rows div{display:grid;grid-template-columns:150px 1fr;gap:16px;padding:12px 0;border-bottom:1px solid var(--line)}
+.pre-rows b{font-weight:700}
+.pre-rows p{font-size:15px;color:var(--ink-2)}
+.theta .chips{margin-top:10px}
+.theta .chip{min-height:34px;font-family:var(--mono);font-size:13px}
+
+.foot{padding:56px 0 96px;font-family:var(--mono);font-size:13px;color:var(--ink-2);line-height:1.7}
+.foot p+p{margin-top:6px}
+
+@media (max-width:760px){
+  .km,.game,.moe,.tr-out{grid-template-columns:1fr;gap:30px}
+  .km .pt text{display:none}
+  .km .cl-l{font-size:22px}
+  .km .ax{font-size:20px}
+  .km .pt .shg{transform:scale(1.9)}
+  .km .pt .hit{transform:scale(1.4)}
+  .gcard{min-height:300px;padding:28px 24px 26px}
+  .gcard .hint{left:24px}
+  .experts{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .moe-q{padding-left:16px}
+  .moe-q input{font-size:16px}
+  .tr .yl{font-size:20px}
+  .tr .rl{display:none}
+  #moeOut{order:-1}
+  .pre-rows div{grid-template-columns:1fr;gap:2px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <p>design/mockups/interests.html · Interests page · v2</p>
+    <h1>Interests, take two</h1>
+    <p class="sub">Every side job is in now, so the separate “Also” list goes away. Twelve things, four ML ways to play with them. All live.</p>
+    <div class="legend" aria-label="Legend"><span><i class="mk hobby"></i>hobby</span><span><i class="mk job"></i>side job</span><span><i class="mk both"></i>both</span></div>
+    <nav class="jump"><a href="#a">A · Cluster my life</a><a href="#b">B · Hobby or side job?</a><a href="#c">C · Mixture of experts</a><a href="#d">D · Training run</a></nav>
+  </header>
+
+  <section class="mock" id="a">
+    <div class="lab">A · k-means</div>
+    <h2>Cluster my life</h2>
+    <p class="why">All twelve in one embedding. Pick <i>k</i> and watch k-means find the groups. Drag any point somewhere else and the clusters re-fit around it.</p>
+    <div class="stage km">
+      <div>
+        <div class="km-ctrl">
+          <span class="k">k =</span>
+          <div class="seg" id="kmK" role="group" aria-label="Number of clusters"></div>
+          <span class="stat" id="kmStat"></span>
+        </div>
+        <svg class="map" id="kmSvg" viewBox="0 0 640 440" role="img" aria-label="Interests and side jobs plotted as an embedding, grouped by k-means">
+          <g class="grid" id="kmGrid"></g>
+          <g id="kmHulls"></g><g id="kmLabels"></g><g id="kmC"></g><g id="kmPts"></g>
+        </svg>
+        <div class="km-foot"><span class="k">drag a point · click to read it</span><button class="chip" id="kmReset" type="button" hidden>Reset positions</button></div>
+        <div class="km-list" id="kmList"></div>
+      </div>
+      <div class="side">
+        <div class="card" id="kmCard" aria-live="polite"></div>
+        <div class="elbow"><p class="k">elbow plot · inertia by k</p><svg id="kmElbow" viewBox="0 0 300 136" aria-label="Elbow plot"></svg></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mock" id="b">
+    <div class="lab">B · binary classification</div>
+    <h2>Hobby or side job?</h2>
+    <p class="why">A labelling game. You see one feature, you predict the class, and a confusion matrix keeps score. Two of them are both.</p>
+    <div class="stage game">
+      <div class="deck">
+        <div class="gcard card" id="gcard" tabindex="0" aria-live="polite"></div>
+        <div class="gbtns" id="gbtns"><button class="btn ghost" type="button" data-y="hobby">← Hobby</button><button class="btn ghost" type="button" data-y="job">Side job →</button></div>
+        <div class="deck-foot"><span class="k" id="gprog"></span><button class="chip" id="grestart" type="button">Shuffle</button></div>
+      </div>
+      <div class="cm">
+        <p class="k">confusion matrix</p>
+        <table id="gcm"></table>
+        <p class="acc" id="gacc"></p>
+        <p class="k gap">Rows are the truth, columns your guess. “Both” counts either way.</p>
+      </div>
+    </div>
+    <details class="data"><summary>See the whole dataset · 12 rows</summary><table id="gdata"></table></details>
+  </section>
+
+  <section class="mock" id="c">
+    <div class="lab">C · mixture of experts</div>
+    <h2>Ask the mixture of experts</h2>
+    <p class="why">I’m twelve experts and a router. Ask anything. The router sends it to the two experts best placed to answer, and each one ends in an email.</p>
+    <div class="stage">
+      <form class="moe-q" id="moeForm"><label for="moeIn">x =</label><input id="moeIn" placeholder="e.g. I need a birthday cake" autocomplete="off" enterkeyhint="go"><button class="btn" type="submit">Route</button></form>
+      <div class="chips moe-chips" id="moeChips"></div>
+      <p class="formula">g(x) = top<sub>2</sub>(softmax(W<sub>g</sub>x))</p>
+      <div class="moe">
+        <div class="experts" id="moeEx"></div>
+        <div class="card" id="moeOut" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mock" id="d">
+    <div class="lab">D · pretraining + fine-tuning</div>
+    <h2>Pretrained on hobbies, fine-tuned on side jobs</h2>
+    <p class="why">The hobbies are the pretraining. Each side job is a fine-tuning step that taught me something. Scrub the loss curve or press Train.</p>
+    <div class="stage tr">
+      <svg id="trSvg" viewBox="0 0 640 296" aria-hidden="true">
+        <defs><clipPath id="trClip"><rect id="trClipR" x="0" y="0" width="0" height="296"/></clipPath></defs>
+        <g id="trBg"></g>
+        <path class="ghost" id="trGhost"/>
+        <g clip-path="url(#trClip)"><path class="val" id="trVal"/><path class="train" id="trTrain"/></g>
+        <line class="now" id="trNow" x1="0" x2="0" y1="30" y2="258"/>
+        <g id="trCk"></g>
+      </svg>
+      <div class="tr-key"><span><i></i>train loss</span><span><i class="v"></i>val loss</span></div>
+      <div class="tr-ctrl">
+        <button class="btn" id="trPlay" type="button" aria-pressed="false">▶ Train</button>
+        <input type="range" id="trR" min="0" max="8" step="1" value="0" aria-label="Training step">
+        <span class="stat" id="trStat"></span>
+      </div>
+      <div class="tr-out">
+        <div class="card" id="trCard" aria-live="polite"></div>
+        <div class="theta"><p class="k">θ so far</p><div class="chips" id="trTheta"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <p>Twelve items: four hobbies, two that are both (pastry, watches), and six side jobs from the CV and the old “Also” list.</p>
+    <p>Every number is made up: positions, gates, losses. The Δθ lessons in D are my guesses from your CV, so edit them.</p>
+    <p>design/mockups/interests-v1.html has the first four mockups.</p>
+  </footer>
+</div>
+
+<script>
+const $ = (s, r = document) => r.querySelector(s);
+const RM = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const MAIL = "gordonbie2@gmail.com";
+const mail = (s) => `mailto:${MAIL}?subject=${encodeURIComponent(s)}`;
+const LBL = { hobby: "hobby", job: "side job", both: "both" };
+const TYPE = { hobby: "Hobby", job: "Side job", both: "Hobby and side job" };
+const mark = (t) => `<i class="mk ${t}" aria-hidden="true"></i>`;
+
+// The twelve. s = short name on the map, x = the one feature shown in B, kw = what the router in C listens for.
+const ITEMS = [
+  { id: "matcha", t: "Matcha", s: "Matcha", type: "hobby", m: "Whisking · tasting · spending money", d: "Enjoyer since birth. Let’s connect and have matcha.", x: "a whisk and a chawan", cta: "Let’s get matcha →",
+    kw: "matcha tea green latte cafe thirsty whisk caffeine hang hangout meet catch chat coffee" },
+  { id: "fashion", t: "Fashion", s: "Fashion", type: "hobby", m: "Heritage · engineering · trend", d: "Cool clothes and accessories, and the stories about the people and history behind every piece.", x: "archive racks and old lookbooks", cta: "Talk clothes with me →",
+    kw: "fashion clothes clothing outfit wear style stylish shop shopping jacket shoes sneakers designer textile thrift vintage dress suit" },
+  { id: "chess", t: "Chess", s: "Chess", type: "hobby", m: "1700 puzzles · 1500 rapid · 1100 blitz", d: "Not very good. Puzzles daily, and games in Harvard Square over the summer.", x: "Harvard Square, summer afternoons", cta: "Challenge me to a game →",
+    kw: "chess game play board puzzle strategy compete competitive harvard bored rapid blitz opening" },
+  { id: "league", t: "League of Legends", s: "League", type: "hobby", m: "ARAM enjoyer", d: "Every now and then with friends. Used to be top 1%, and played competitively at university for a bit.", x: "Summoner’s Rift, with friends", cta: "Queue up an ARAM →",
+    kw: "league lol game gaming video aram play duo queue rank ranked esports bored compete competitive" },
+  { id: "watches", t: "Vintage watches", s: "Watches", org: "eBay", type: "both", m: "eBay business · 2024 – now", d: "I curate and sell vintage watches and watch parts on eBay.", x: "an eBay seller account", cta: "Ask me about a watch →",
+    kw: "watch rolex omega seiko cartier patek vintage ebay buy sell real fake authentic time horology gift wrist" },
+  { id: "pastry", t: "Pastry chef", s: "Pastry chef", org: "Swan Bakery, London", type: "both", m: "London · 2023 – 2024", d: "Pastries, cakes and tarts, and the lesson that professional baking is not all sunshine.", x: "Swan Bakery, London", cta: "Ask me for a recipe →",
+    kw: "cake bake baking baker bakery pastry pastries dessert croissant tart bread birthday hungry sweet food recipe kitchen" },
+  { id: "bar", t: "Bartender and waiter", s: "Bartender", org: "Noodle and Beer, London", type: "job", m: "London · 2023 – 2024", d: "Behind the bar and on the floor at a noodle bar in London.", x: "Noodle and Beer, London", cta: "Ask me where to eat in London →",
+    kw: "drink bar beer cocktail noodle dinner food hungry restaurant eat night party serve waiter london" },
+  { id: "consult", t: "Junior associate consultant", s: "Consultant", org: "Global Research &amp; Consulting Group", type: "job", m: "2024 – 2025", d: "Strategic analysis and operational recommendations for international organisations and public-sector clients.", x: "Global Research &amp; Consulting Group", cta: "Ask me about consulting →",
+    kw: "strategy consulting consultant consult business case client nonprofit government public operations advice recommendation analysis" },
+  { id: "disrupt", t: "Marketing coordinator", s: "Disrupt", org: "Disrupt Fintech Society", type: "job", m: "2024 – 2025", d: "Planned, marketed and ran events for students in fintech: hackathons, panels and research talks.", x: "Disrupt Fintech Society", cta: "Ask me about Disrupt →",
+    kw: "event hackathon panel talk marketing club society fintech finance promote poster speaker sponsor" },
+  { id: "generate", t: "Data science technical lead", s: "Generate", org: "Generate Product Development Studio", type: "job", m: "2025 – 2026", d: "Technical lead at a student-run product studio building ML and AI software for startups.", x: "Generate Product Development Studio", cta: "Pitch me your startup →",
+    kw: "startup ml ai model machine learning data product build app software tech code engineer founder prototype" },
+  { id: "ambassador", t: "Global program alumni ambassador", s: "Ambassador", org: "Northeastern Office of Global Experience", type: "job", m: "2024 – 2025", d: "Planned and gave talks on Northeastern’s global programs for prospective and incoming students.", x: "Office of Global Experience", cta: "Ask me about studying abroad →",
+    kw: "abroad study london travel global exchange international program prospective admit admitted" },
+  { id: "mentor", t: "BSIB student mentor", s: "Mentor", org: "D’Amore-McKim School of Business", type: "job", m: "2026 – now", d: "Mentoring undergraduates in the BSIB program on course planning, careers and study abroad.", x: "D’Amore-McKim, BSIB program", cta: "Ask me about BSIB →",
+    kw: "freshman first year course class schedule major bsib career advice mentor help new student plan registration abroad" },
+];
+const BY = Object.fromEntries(ITEMS.map((it) => [it.id, it]));
+const IDS = ITEMS.map((it) => it.id);
+const body = (it) => `<h3>${it.t}</h3>${it.org ? `<p class="org">${it.org}</p>` : ""}<p class="m">${it.m}</p><p class="d">${it.d}</p>`;
+const cta = (it) => `<a class="cta" href="${mail(it.t.replace(/&amp;/g, "&"))}">${it.cta}</a>`;
+const card = (it, extra = "") => `<p class="k">${mark(it.type)}${TYPE[it.type]}</p>${body(it)}${extra}${cta(it)}`;
+const reswap = (el) => { el.classList.remove("swap"); void el.offsetWidth; el.classList.add("swap"); };
+
+// ---------- A · k-means ----------
+(() => {
+  const svg = $("#kmSvg"), gPts = $("#kmPts"), stat = $("#kmStat"), reset = $("#kmReset");
+  const P0 = { matcha: [-.7, -.5], fashion: [-.45, -.22], chess: [-.82, .7], league: [-.58, .86], watches: [.1, -.5], pastry: [.36, -.82], bar: [.66, -.62],
+    consult: [.4, .56], generate: [.18, .82], disrupt: [.7, .2], ambassador: [.9, -.02], mentor: [.9, .46] };
+  const LEFT = { ambassador: 1 };
+  // Seeds double as names: the cluster that ends up holding a seed is called by its name.
+  const NAMES = {
+    1: { matcha: "k = 1: it’s all just me" },
+    2: { chess: "just for me", mentor: "for other people" },
+    3: { chess: "games with a ladder", pastry: "taste, both kinds", mentor: "the LinkedIn section" },
+    4: { chess: "games with a ladder", matcha: "things I buy", pastry: "things I’ve sold", mentor: "the LinkedIn section" },
+    5: { chess: "games with a ladder", matcha: "things I buy", pastry: "things I’ve sold", generate: "other people’s problems", mentor: "rooms full of people" },
+  };
+  let pos = structuredClone(P0), K = 3, sel = "pastry", A = [], C = [], tok = 0;
+  const SX = (x) => 40 + ((x + 1.1) / 2.2) * 560, SY = (y) => 220 - y * 180;
+  const d2 = (p, c) => (p[0] - c[0]) ** 2 + (p[1] - c[1]) ** 2;
+  const assign = (C) => IDS.map((id) => C.reduce((b, c, j) => (d2(pos[id], c) < d2(pos[id], C[b]) ? j : b), 0));
+  const update = (a, C) => C.map((c, j) => {
+    const m = IDS.filter((_, i) => a[i] === j);
+    return m.length ? [m.reduce((s, id) => s + pos[id][0], 0) / m.length, m.reduce((s, id) => s + pos[id][1], 0) / m.length] : c;
+  });
+  const same = (C1, C2) => C1.every((c, j) => d2(c, C2[j]) < 1e-12);
+  const fit = (C) => { let a; for (let n = 0; n < 30; n++) { a = assign(C); const C2 = update(a, C), done = same(C2, C); C = C2; if (done) break; } return [a, C]; };
+  const inertia = (a, C) => IDS.reduce((s, id, i) => s + d2(pos[id], C[a[i]]), 0);
+  const seeds = (k) => Object.keys(NAMES[k]).map((id) => [...pos[id]]);
+  const hull = (P) => {
+    P = P.slice().sort((p, q) => p[0] - q[0] || p[1] - q[1]);
+    if (P.length < 3) return P;
+    const cr = (o, a, b) => (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]), lo = [], up = [];
+    for (const p of P) { while (lo.length > 1 && cr(lo.at(-2), lo.at(-1), p) <= 0) lo.pop(); lo.push(p); }
+    for (const p of P.reverse()) { while (up.length > 1 && cr(up.at(-2), up.at(-1), p) <= 0) up.pop(); up.push(p); }
+    return lo.slice(0, -1).concat(up.slice(0, -1));
+  };
+  const shape = (t) => t === "hobby" ? '<circle class="sh" r="7"/>' : t === "job" ? '<rect class="sh" x="-6.5" y="-6.5" width="13" height="13" rx="1.5"/>' : '<rect class="sh" x="-6" y="-6" width="12" height="12" rx="1.5" transform="rotate(45)"/>';
+
+  $("#kmGrid").innerHTML = [-1, -.5, 0, .5, 1].map((v) => `<line x1="${SX(v)}" y1="20" x2="${SX(v)}" y2="420"/><line x1="20" y1="${SY(v * .9)}" x2="620" y2="${SY(v * .9)}"/>`).join("")
+    + `<text class="ax" x="26" y="430">← for me</text><text class="ax" x="614" y="430" text-anchor="end">for other people →</text>`;
+  gPts.innerHTML = ITEMS.map((it) => `<g class="pt" data-id="${it.id}" tabindex="0" role="button" aria-label="${it.t}"><circle class="hit" r="22"/><g class="shg">${shape(it.type)}</g><text x="${LEFT[it.id] ? -14 : 14}" y="5" text-anchor="${LEFT[it.id] ? "end" : "start"}">${it.s}</text></g>`).join("");
+  const place = () => gPts.querySelectorAll(".pt").forEach((g) => { const p = pos[g.dataset.id]; g.setAttribute("transform", `translate(${SX(p[0]).toFixed(1)} ${SY(p[1]).toFixed(1)})`); });
+  place();
+
+  const seg = $("#kmK");
+  seg.innerHTML = [1, 2, 3, 4, 5].map((k) => `<button type="button" data-k="${k}" aria-pressed="${k === K}">${k}</button>`).join("");
+  seg.addEventListener("click", (e) => { const b = e.target.closest("button"); if (b) setK(+b.dataset.k); });
+
+  const names = (groups) => groups.map((m, j) => { const id = Object.keys(NAMES[K]).find((x) => m.includes(x)); return id ? NAMES[K][id] : `cluster ${j + 1}`; });
+  const chip = (id) => `<button class="chip${id === sel ? " on" : ""}" type="button" data-id="${id}">${mark(BY[id].type)}${BY[id].s}</button>`;
+  function draw(a, Cn) {
+    A = a; C = Cn;
+    const groups = C.map((_, j) => IDS.filter((_, i) => a[i] === j)), nm = names(groups), sj = a[IDS.indexOf(sel)];
+    $("#kmHulls").innerHTML = groups.map((m, j) => {
+      if (!m.length) return "";
+      const h = hull(m.map((id) => [SX(pos[id][0]), SY(pos[id][1])]));
+      return `<path class="hull${j === sj ? " on" : ""}" d="M${h.map((p) => p.map((v) => v.toFixed(1)).join(" ")).join("L")}${h.length > 1 ? "Z" : "h.01"}"/>`;
+    }).join("");
+    $("#kmLabels").innerHTML = groups.map((m, j) => {
+      if (!m.length) return "";
+      const xs = m.map((id) => SX(pos[id][0])), lo = Math.min(...xs), hi = Math.max(...xs), mid = (lo + hi) / 2;
+      const y = Math.max(22, Math.min(...m.map((id) => SY(pos[id][1]))) - 38);
+      const [x, anc] = mid > 430 ? [Math.min(620, hi + 22), "end"] : mid < 210 ? [Math.max(20, lo - 22), "start"] : [mid, "middle"];
+      return `<text class="cl-l${j === sj ? " on" : ""}" x="${x.toFixed(1)}" y="${y.toFixed(1)}" text-anchor="${anc}">${nm[j]}</text>`;
+    }).join("");
+    const gc = $("#kmC");
+    if (gc.children.length !== C.length) gc.innerHTML = C.map(() => '<g class="cen"><path d="M-6 -6 6 6M6 -6-6 6"/></g>').join("");
+    [...gc.children].forEach((g, j) => { g.style.transform = `translate(${SX(C[j][0]).toFixed(1)}px,${SY(C[j][1]).toFixed(1)}px)`; });
+    gPts.querySelectorAll(".pt").forEach((g) => g.classList.toggle("on", g.dataset.id === sel));
+    $("#kmList").innerHTML = groups.map((m, j) => m.length ? `<div><p class="k">${nm[j]}</p><div class="chips">${m.map(chip).join("")}</div></div>` : "").join("");
+    const mates = groups[sj].filter((id) => id !== sel);
+    const extra = `<p class="k gap">cluster · ${nm[sj]}</p>` + (mates.length ? `<div class="chips" style="margin-top:8px">${mates.map(chip).join("")}</div>` : `<p class="m">A cluster of one.</p>`);
+    const el = $("#kmCard");
+    if (el.dataset.id !== sel) { reswap(el); el.dataset.id = sel; }
+    el.innerHTML = card(BY[sel], extra);
+  }
+  function elbow() {
+    const v = [1, 2, 3, 4, 5].map((k) => { const [a, Cn] = fit(seeds(k)); return inertia(a, Cn); }), mx = Math.max(...v);
+    const ex = (k) => 30 + (k - 1) * 60, ey = (y) => (100 - (y / mx) * 82).toFixed(1);
+    $("#kmElbow").innerHTML = `<polyline points="${v.map((y, i) => `${ex(i + 1)},${ey(y)}`).join(" ")}"/>`
+      + v.map((y, i) => `<g class="eb${i + 1 === K ? " on" : ""}" data-k="${i + 1}"><circle class="hit" cx="${ex(i + 1)}" cy="${ey(y)}" r="20"/><circle class="d" cx="${ex(i + 1)}" cy="${ey(y)}" r="5"/><text x="${ex(i + 1)}" y="128">k=${i + 1}</text></g>`).join("");
+  }
+  function setK(k) {
+    K = k; const my = ++tok; let Cn = seeds(k), it = 0;
+    seg.querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", String(+b.dataset.k === k)));
+    $("#kmC").innerHTML = ""; draw(assign(Cn), Cn); elbow();
+    stat.textContent = "seeding centroids";
+    const step = () => {
+      if (my !== tok) return;
+      const a = assign(Cn), C2 = update(a, Cn), done = same(C2, Cn);
+      Cn = C2; it++; draw(a, Cn);
+      stat.textContent = `${done ? "converged · " : ""}iteration ${it} · inertia ${inertia(a, Cn).toFixed(2)}`;
+      if (!done && it < 30) setTimeout(step, RM ? 0 : 560);
+    };
+    setTimeout(step, RM ? 0 : 300);
+  }
+  const select = (id) => { sel = id; draw(A, C); };
+  document.querySelector("#a .km").addEventListener("click", (e) => { const b = e.target.closest("button[data-id]"); if (b) select(b.dataset.id); });
+  $("#kmElbow").addEventListener("click", (e) => { const g = e.target.closest(".eb"); if (g) setK(+g.dataset.k); });
+  gPts.addEventListener("keydown", (e) => { const g = e.target.closest(".pt"); if (g && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); select(g.dataset.id); } });
+
+  // Drag a point: k-means re-fits from the current centroids on every move.
+  let drag = null;
+  const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+  gPts.addEventListener("touchstart", (e) => { if (e.target.closest(".pt")) e.preventDefault(); }, { passive: false });
+  gPts.addEventListener("pointerdown", (e) => {
+    const g = e.target.closest(".pt"); if (!g) return;
+    g.setPointerCapture(e.pointerId); drag = { g, id: g.dataset.id, x: e.clientX, y: e.clientY, moved: false };
+  });
+  gPts.addEventListener("pointermove", (e) => {
+    if (!drag || (!drag.moved && Math.hypot(e.clientX - drag.x, e.clientY - drag.y) < 5)) return;
+    drag.moved = true; drag.g.classList.add("drag");
+    const p = new DOMPoint(e.clientX, e.clientY).matrixTransform(svg.getScreenCTM().inverse());
+    pos[drag.id] = [clamp(((p.x - 40) / 560) * 2.2 - 1.1, -1.04, 1.04), clamp((220 - p.y) / 180, -.96, .96)];
+    place(); tok++; sel = drag.id;
+    const [a, Cn] = fit(C); draw(a, Cn);
+    stat.textContent = `re-fit · inertia ${inertia(a, Cn).toFixed(2)}`; reset.hidden = false;
+  });
+  const up = () => { if (!drag) return; drag.g.classList.remove("drag"); if (drag.moved) elbow(); else select(drag.id); drag = null; };
+  gPts.addEventListener("pointerup", up); gPts.addEventListener("pointercancel", up);
+  reset.addEventListener("click", () => { pos = structuredClone(P0); place(); reset.hidden = true; setK(K); });
+
+  setK(3);
+})();
+
+// ---------- B · hobby or side job ----------
+(() => {
+  const el = $("#gcard"), btns = $("#gbtns"), game = $("#b .game");
+  let order, i, st, tally;
+  const shuffle = (a) => { a = a.slice(); for (let j = a.length - 1; j > 0; j--) { const r = (Math.random() * (j + 1)) | 0; [a[j], a[r]] = [a[r], a[j]]; } return a; };
+  const score = () => { let n = 0, c = 0; for (const r in tally) for (const k in tally[r]) { n += tally[r][k]; if (r === "both" || r === k) c += tally[r][k]; } return { n, c }; };
+
+  function drawCM(fr, fk) {
+    const rows = ["hobby", "job", "both"], cols = ["hobby", "job"];
+    $("#gcm").innerHTML = `<thead><tr><th></th>${cols.map((k) => `<th scope="col">ŷ ${LBL[k]}</th>`).join("")}</tr></thead><tbody>`
+      + rows.map((r) => `<tr><th scope="row">y ${LBL[r]}</th>${cols.map((k) => `<td class="${r === "both" || r === k ? "diag" : ""}${tally[r][k] ? " has" : ""}${r === fr && k === fk ? " flash" : ""}">${tally[r][k]}</td>`).join("")}</tr>`).join("") + "</tbody>";
+    const { n, c } = score();
+    $("#gacc").textContent = n ? `accuracy ${c}/${n} · ${Math.round((100 * c) / n)}%` : "accuracy · no samples yet";
+  }
+  function ask() {
+    st = "ask"; const it = order[i];
+    el.className = "gcard card ask"; el.style.transform = ""; el.style.opacity = ""; el.dataset.lean = ""; reswap(el);
+    el.innerHTML = `<span class="lean l">hobby</span><span class="lean r">side job</span><p class="k">x<sub>${i + 1}</sub> =</p><p class="feat">${it.x}</p><p class="q">Hobby, or a side job?</p><p class="hint">swipe the card or press ← →</p>`;
+    btns.hidden = false; $("#gprog").textContent = `sample ${i + 1} of ${order.length}`;
+  }
+  function answer(y) {
+    const it = order[i], t = it.type, ok = t === "both" || t === y;
+    tally[t][y]++; st = "show"; btns.hidden = true;
+    el.className = "gcard card"; el.style.transform = ""; el.style.opacity = ""; reswap(el);
+    el.innerHTML = `<p class="verdict">ŷ = ${LBL[y]} · y = ${LBL[t]} · ${ok ? "<b>correct ✓</b>" : "misclassified ✗"}</p>${t === "both" ? '<p class="note">Label noise: it’s both, so you get the point.</p>' : ""}`
+      + `<div style="margin-top:12px">${body(it)}</div><div class="acts"><button class="btn" id="gnext" type="button">${i + 1 < order.length ? "Next sample →" : "See test accuracy →"}</button>${cta(it).replace('class="cta"', 'class="cta" style="margin-top:0"')}</div>`;
+    $("#gnext").addEventListener("click", next); $("#gnext").focus({ preventScroll: true });
+    drawCM(t, y);
+  }
+  function next() { i++; i < order.length ? ask() : end(); }
+  function end() {
+    st = "end"; const { n, c } = score(), p = Math.round((100 * c) / n);
+    const v = p === 100 ? "Overfit. Are you me?" : p >= 75 ? "Generalises well. You’d make a decent recruiter." : p >= 50 ? "Better than a coin flip." : "Worse than a coin flip, which is its own kind of talent.";
+    el.className = "gcard card"; reswap(el); btns.hidden = true; $("#gprog").textContent = "test set done";
+    el.innerHTML = `<p class="k">test accuracy · ${c} of ${n}</p><p class="big">${p}%</p><h3 style="margin-top:12px">${v}</h3><p class="d" style="color:var(--ink-2)">Pastry and vintage watches were both.</p>`
+      + `<div class="acts"><button class="btn" id="gagain" type="button">Shuffle and retrain</button><a class="cta" href="${mail("Hobby or side job?")}">Tell me which one fooled you →</a></div>`;
+    $("#gagain").addEventListener("click", start);
+  }
+  function start() { order = shuffle(ITEMS); i = 0; tally = { hobby: { hobby: 0, job: 0 }, job: { hobby: 0, job: 0 }, both: { hobby: 0, job: 0 } }; drawCM(); ask(); }
+  // Fly the card off to the chosen side, then reveal.
+  function fly(y) {
+    if (st !== "ask") return; st = "flying";
+    const s = y === "hobby" ? -1 : 1;
+    el.classList.remove("drag"); el.style.transform = `translateX(${s * 115}%) rotate(${s * 10}deg)`; el.style.opacity = "0";
+    setTimeout(() => answer(y), RM ? 0 : 230);
+  }
+  btns.addEventListener("click", (e) => { const b = e.target.closest("button[data-y]"); if (b) fly(b.dataset.y); });
+  $("#grestart").addEventListener("click", start);
+  addEventListener("keydown", (e) => {
+    if (st !== "ask" || !/^Arrow(Left|Right)$/.test(e.key) || e.target.closest("input,textarea")) return;
+    const r = game.getBoundingClientRect(); if (r.top > innerHeight * .7 || r.bottom < innerHeight * .3) return;
+    e.preventDefault(); fly(e.key === "ArrowLeft" ? "hobby" : "job");
+  });
+
+  // Swipe: follows the finger 1:1, commits on distance or a flick, springs back otherwise.
+  let d = null;
+  el.addEventListener("pointerdown", (e) => { if (st !== "ask" || e.button) return; el.setPointerCapture(e.pointerId); d = { x: e.clientX, dx: 0, h: [[e.clientX, e.timeStamp]] }; });
+  el.addEventListener("pointermove", (e) => {
+    if (!d) return; d.dx = e.clientX - d.x; d.h = [...d.h.slice(-4), [e.clientX, e.timeStamp]];
+    if (Math.abs(d.dx) > 4) el.classList.add("drag");
+    el.style.transform = `translateX(${d.dx}px) rotate(${d.dx / 26}deg)`;
+    el.dataset.lean = d.dx < -40 ? "hobby" : d.dx > 40 ? "job" : "";
+  });
+  const release = (e) => {
+    if (!d) return; const [x0, t0] = d.h[0], v = (e.clientX - x0) / Math.max(16, e.timeStamp - t0), proj = d.dx + v * 160;
+    el.classList.remove("drag"); el.dataset.lean = ""; d = null;
+    if (Math.abs(proj) > 130) fly(proj < 0 ? "hobby" : "job"); else el.style.transform = "";
+  };
+  el.addEventListener("pointerup", release); el.addEventListener("pointercancel", release);
+
+  $("#gdata").innerHTML = `<thead><tr><th>x</th><th>y</th><th>What it is</th><th>When</th></tr></thead><tbody>${ITEMS.map((it) => `<tr><td>${it.x}</td><td>${LBL[it.type]}</td><td>${it.t}${it.org ? `, ${it.org}` : ""}</td><td>${it.m.split(" · ").at(-1)}</td></tr>`).join("")}</tbody>`;
+  start();
+})();
+
+// ---------- C · mixture of experts ----------
+(() => {
+  const ex = $("#moeEx"), out = $("#moeOut"), input = $("#moeIn");
+  const stem = (w) => w.toLowerCase().replace(/[^a-z0-9]/g, "").replace(/(ing|ed|es|s)$/, "");
+  const KW = ITEMS.map((it) => new Set(it.kw.split(" ").map(stem)));
+  // Neighbours get a share of each other's score, so the second expert is a sensible one.
+  const NEAR = { matcha: ["pastry", "fashion"], fashion: ["watches", "matcha"], chess: ["league"], league: ["chess"], watches: ["fashion"], pastry: ["bar", "matcha"], bar: ["pastry"],
+    consult: ["generate"], disrupt: ["generate", "consult"], generate: ["consult", "disrupt"], ambassador: ["mentor"], mentor: ["ambassador"] };
+  const PROMPTS = ["I need a birthday cake", "Is this vintage Rolex real?", "My startup needs an ML model", "I’m a freshman, help", "Bored. Quick game?", "Where should we get dinner?", "We’re running a hackathon", "Thinking about studying abroad", "What should I wear?"];
+  const used = new Set();
+  let gate = null;
+
+  ex.innerHTML = ITEMS.map((it) => `<button class="ex" type="button" data-id="${it.id}"><span><span class="n">${mark(it.type)}${it.s}</span><span class="o">${it.org || TYPE[it.type]}</span></span><span class="g"><span class="bar"><i></i></span><span class="p">·</span></span></button>`).join("");
+  $("#moeChips").innerHTML = PROMPTS.map((p) => `<button class="chip" type="button">${p}</button>`).join("");
+
+  function route(q) {
+    const toks = q.split(/\s+/).map(stem).filter((w) => w.length > 2 || w === "ml" || w === "ai");
+    const s = KW.map((set) => toks.filter((w) => set.has(w)).length);
+    if (!s.some(Boolean)) {
+      gate = null; ex.classList.remove("routed");
+      ex.querySelectorAll(".ex").forEach((b) => { b.classList.remove("top", "sel"); b.querySelector(".bar i").style.transform = `scaleX(${1 / 12})`; b.querySelector(".p").textContent = ".08"; });
+      reswap(out);
+      out.innerHTML = `<p class="k">router · low confidence</p><h3>No expert recognised that.</h3><p class="d">With a flat router every expert gets 8%. Try “cake”, “Rolex”, “startup” or “chess”.</p>`;
+      return;
+    }
+    const z = IDS.map((id, i) => 2.2 * s[i] + 0.9 * NEAR[id].reduce((a, n) => a + s[IDS.indexOf(n)], 0));
+    const mx = Math.max(...z), e = z.map((v) => Math.exp(v - mx)), sum = e.reduce((a, b) => a + b, 0);
+    gate = e.map((v) => v / sum);
+    const top = IDS.map((_, i) => i).sort((a, b) => gate[b] - gate[a]).slice(0, 2);
+    top.forEach((i) => used.add(i));
+    ex.classList.add("routed");
+    ex.querySelectorAll(".ex").forEach((b, i) => {
+      b.classList.toggle("top", top.includes(i));
+      b.querySelector(".bar i").style.transform = `scaleX(${gate[i].toFixed(3)})`;
+      b.querySelector(".p").textContent = gate[i].toFixed(2).replace(/^0/, "");
+    });
+    show(IDS[top[0]], top, q);
+  }
+  function show(id, top = null, q = null) {
+    ex.querySelectorAll(".ex").forEach((b) => b.classList.toggle("sel", b.dataset.id === id));
+    const [a, b] = top ? top.map((i) => BY[IDS[i]]) : [];
+    const head = top ? `<p class="route">x = “${q.replace(/&/g, "&amp;").replace(/</g, "&lt;")}”<br>→ <b>${a.s} ${gate[top[0]].toFixed(2)}</b> + <b>${b.s} ${gate[top[1]].toFixed(2)}</b></p><p class="route">experts used so far · ${used.size} of 12</p><div style="height:18px"></div>` : "";
+    const other = top ? `<div class="also"><p class="k">second expert</p><button class="chip" type="button" data-id="${b.id}">${mark(b.type)}${b.t}</button></div>` : "";
+    reswap(out);
+    out.innerHTML = head + card(BY[id]) + other;
+  }
+  $("#moeForm").addEventListener("submit", (e) => { e.preventDefault(); const q = input.value.trim(); if (q) route(q); });
+  $("#moeChips").addEventListener("click", (e) => { const b = e.target.closest(".chip"); if (b) { input.value = b.textContent; route(b.textContent); } });
+  ex.addEventListener("click", (e) => { const b = e.target.closest(".ex"); if (b) show(b.dataset.id); });
+  out.addEventListener("click", (e) => { const b = e.target.closest("button[data-id]"); if (b) show(b.dataset.id); });
+
+  input.value = PROMPTS[0]; route(PROMPTS[0]);
+})();
+
+// ---------- D · training run ----------
+(() => {
+  const S = [
+    { t: 2022.62, l: 1 },
+    { id: "pastry", t: 2023.2, l: .84, g: ["precision", "humility"] },
+    { id: "bar", t: 2023.65, l: .74, g: ["hospitality", "speed"] },
+    { id: "watches", t: 2024.05, l: .66, g: ["sourcing", "negotiation"] },
+    { id: "consult", t: 2024.3, l: .6, g: ["structured thinking", "client work"] },
+    { id: "disrupt", t: 2024.55, l: .55, g: ["event planning", "marketing"] },
+    { id: "ambassador", t: 2024.8, l: .5, g: ["public speaking"] },
+    { id: "generate", t: 2025.4, l: .42, g: ["technical leadership"] },
+    { id: "mentor", t: 2026.35, l: .35, g: ["advising"] },
+  ];
+  const HOB = ITEMS.filter((it) => it.type === "hobby");
+  const X = (t) => 56 + ((t - 2022.3) / (2026.9 - 2022.3)) * 560, Y = (l) => 250 - ((l - .2) / (1.05 - .2)) * 210;
+  const svg = $("#trSvg"), rng = $("#trR"), play = $("#trPlay");
+  let cur = -1, clipW = 0, timer = null;
+
+  // A noisy, decreasing curve through the checkpoints (deterministic noise, zero at each checkpoint).
+  const pts = [[2022.32, 1.04], [S[0].t, S[0].l]];
+  for (let k = 0; k < S.length - 1; k++) for (let n = 1; n <= 12; n++) {
+    const u = n / 12, t = S[k].t + (S[k + 1].t - S[k].t) * u, base = S[k].l + (S[k + 1].l - S[k].l) * (1 - (1 - u) ** 2);
+    pts.push([t, base + .028 * Math.sin(Math.PI * u) * Math.sin(41 * t + k)]);
+  }
+  pts.push([2026.86, .335]);
+  const path = (f) => "M" + pts.map(([t, l]) => `${X(t).toFixed(1)} ${Y(f(l, t)).toFixed(1)}`).join("L");
+  $("#trGhost").setAttribute("d", path((l) => l));
+  $("#trTrain").setAttribute("d", path((l) => l));
+  $("#trVal").setAttribute("d", path((l, t) => l + .05 + .012 * Math.sin(23 * t)));
+  $("#trBg").innerHTML = `<rect class="pre" x="${X(2022.3)}" y="24" width="${X(2023) - X(2022.3)}" height="236" rx="10"/>`
+    + `<text class="yl rl" x="${X(2022.3) + 10}" y="250">pretraining</text><text class="yl rl" x="${X(2023) + 10}" y="250">fine-tuning →</text>`
+    + [.4, .6, .8, 1].map((l) => `<line class="gl" x1="${X(2023)}" x2="616" y1="${Y(l)}" y2="${Y(l)}"/><text class="yl" x="48" y="${Y(l) + 4}" text-anchor="end">${l.toFixed(1)}</text>`).join("")
+    + [2023, 2024, 2025, 2026].map((y) => `<text class="yl" x="${X(y + .5)}" y="284" text-anchor="middle">${y}</text>`).join("");
+  $("#trCk").innerHTML = S.map((s, i) => `<g data-i="${i}"><circle cx="${X(s.t)}" cy="${Y(s.l)}" r="16" fill="transparent"/><circle class="ck" cx="${X(s.t)}" cy="${Y(s.l)}" r="6"/></g>`).join("");
+
+  function tweenClip(to) {
+    const from = clipW, t0 = performance.now(), dur = RM ? 0 : 600, r = $("#trClipR");
+    const f = (now) => { const u = dur ? Math.min(1, Math.max(0, (now - t0) / dur)) : 1; clipW = from + (to - from) * (1 - (1 - u) ** 3); r.setAttribute("width", clipW.toFixed(1)); if (u < 1) requestAnimationFrame(f); };
+    requestAnimationFrame(f);
+  }
+  function go(i) {
+    if (i === cur) return; cur = i; rng.value = i;
+    const s = S[i];
+    tweenClip(X(s.t) + 1);
+    $("#trNow").style.transform = `translateX(${X(s.t).toFixed(1)}px)`;
+    $("#trCk").querySelectorAll(".ck").forEach((c, j) => { c.classList.toggle("on", j === i); c.classList.toggle("done", j < i); });
+    $("#trStat").textContent = `step ${i} of 8 · train ${s.l.toFixed(2)} · val ${(s.l + .05).toFixed(2)}`;
+    const el = $("#trCard"); reswap(el);
+    if (!s.id) {
+      el.innerHTML = `<p class="k">step 0 · pretraining · since forever</p><h3>The base model</h3><p class="d">Things I’ve loved since before anyone paid me for anything.</p><div class="pre-rows">${HOB.map((it) => `<div><b>${it.t}</b><p>${it.d}</p></div>`).join("")}</div>`;
+    } else {
+      el.innerHTML = card(BY[s.id], `<p class="k gap">fine-tune step ${i} · loss ${S[i - 1].l.toFixed(2)} → ${s.l.toFixed(2)}</p><div class="dt">${s.g.map((g) => `<span class="chip new">Δθ + ${g}</span>`).join("")}</div>`);
+    }
+    $("#trTheta").innerHTML = HOB.map((it) => `<span class="chip">${it.s.toLowerCase()}</span>`).join("")
+      + S.slice(1, i + 1).flatMap((x, j) => x.g.map((g) => `<span class="chip${j + 1 === i ? " new" : ""}">${g}</span>`)).join("");
+  }
+  const stop = () => { clearInterval(timer); timer = null; play.textContent = "▶ Train"; play.setAttribute("aria-pressed", "false"); };
+  play.addEventListener("click", () => {
+    if (timer) return stop();
+    if (cur === S.length - 1) go(0);
+    play.textContent = "❚❚ Pause"; play.setAttribute("aria-pressed", "true");
+    timer = setInterval(() => { cur < S.length - 1 ? go(cur + 1) : stop(); }, RM ? 1800 : 1400);
+  });
+  rng.addEventListener("input", () => { stop(); go(+rng.value); });
+  // Click or drag on the chart snaps to the nearest checkpoint.
+  let down = false;
+  const nearest = (e) => { const p = new DOMPoint(e.clientX, e.clientY).matrixTransform(svg.getScreenCTM().inverse()); return S.reduce((b, s, i) => (Math.abs(X(s.t) - p.x) < Math.abs(X(S[b].t) - p.x) ? i : b), 0); };
+  svg.addEventListener("pointerdown", (e) => { down = true; svg.setPointerCapture(e.pointerId); stop(); go(nearest(e)); });
+  svg.addEventListener("pointermove", (e) => { if (down) go(nearest(e)); });
+  svg.addEventListener("pointerup", () => { down = false; });
+  svg.addEventListener("pointercancel", () => { down = false; });
+  go(0);
+})();
+</script>
+</body>
+</html>

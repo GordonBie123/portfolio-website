@@ -1,0 +1,344 @@
+// Archived 2026-11-27: the mercury k-means version of the Sidequests page, replaced by src/lib/eigen/embedding.ts.
+// Not built (.txt). To restore: rename to src/lib/eigen/clusters.ts, put the names below back into interestMap,
+// paste the .clu styles below into globals.css, and in app.ts call wireClusters(clu) on the .clu element after render.
+/*
+  // The cluster names, keyed by who is in the group. Raising k only ever splits a group in two.
+  names: [
+    [["chess", "league", "matcha", "fashion", "watches", "pastry", "bar", "consult", "generate", "disrupt", "ambassador", "mentor"], "it’s all just me"],
+    [["chess", "league", "matcha", "fashion", "watches", "pastry", "bar"], "not on my LinkedIn"],
+    [["consult", "generate", "disrupt", "ambassador", "mentor"], "on my LinkedIn"],
+    [["chess", "league"], "games with a ladder"],
+    [["matcha", "fashion", "watches", "pastry", "bar"], "taste, both kinds"],
+    [["matcha", "fashion"], "things I buy"],
+    [["watches", "pastry", "bar"], "things I’ve sold"],
+    [["consult", "generate"], "other people’s problems"],
+    [["disrupt", "ambassador", "mentor"], "rooms full of people"],
+  ],
+*/
+
+/* ---- the .clu styles that went with it (globals.css) ----
+.clu-ctl{display:flex;align-items:center;gap:14px}
+.clu-k{font-size:20px;color:var(--ink-2)}
+.clu-seg{display:inline-flex;gap:4px;padding:4px;border-radius:980px;background:var(--tile)}
+.clu-seg button{min-width:44px;min-height:40px;border:0;border-radius:980px;background:none;font:inherit;font-size:16px;color:var(--ink-2);cursor:pointer;transition:background .2s,color .2s,box-shadow .2s,transform .1s ease-out}
+.clu-seg button:hover{color:var(--ink)}
+.clu-seg button:active{transform:scale(.95)}
+.clu-seg button[aria-pressed=true]{background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.08),0 0 0 .5px rgba(0,0,0,.06)}
+.clu-main{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:48px;align-items:start;margin-top:20px}
+.clu-stage{position:relative}
+.clu-stage canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.clu-stage svg{position:relative;display:block;width:100%;height:auto;overflow:visible;user-select:none;-webkit-user-select:none}
+.clu svg text{paint-order:stroke;stroke:rgba(255,255,255,.88);stroke-width:3.5px;stroke-linejoin:round}
+.clu .cn{font-style:italic;font-size:16px;fill:var(--ink-2);transition:opacity .45s var(--ease-out),fill .3s}
+.clu .cn.on{fill:var(--matcha-text)}
+.clu-names.hide .cn{opacity:0;transition:opacity .15s}
+.clu .pt{cursor:grab;outline:none}
+.clu.dragging,.clu.dragging .pt{cursor:grabbing}
+.clu .pt .hit{fill:transparent}
+.clu .pt .bead{display:none}
+.clu.nogl .pt .bead{display:block;fill:var(--tile);stroke:var(--line)}
+.clu .pt text{font-size:17px;fill:var(--ink);transition:fill .2s}
+.clu .pt:hover text,.clu .pt:focus-visible text{fill:var(--matcha-text)}
+.clu .pt:focus-visible text{text-decoration:underline;text-underline-offset:4px}
+.clu .pt.on text{font-weight:700;fill:var(--matcha-text)}
+.clu-hint{margin-top:8px;font-family:var(--mono);font-size:12.5px;color:var(--ink-2)}
+.clu-card{padding-top:40px}
+(card styles: same as .emb-card)
+@media (max-width:760px){.clu-main{grid-template-columns:1fr;gap:4px}.clu-card{padding-top:16px}.clu .pt text{font-size:24px}.clu .cn{font-size:21px}.clu svg text{stroke-width:6px}}
+@media (prefers-reduced-motion:reduce){.clu .cn,.clu-seg button{transition:none}}
+*/
+
+// The Sidequests page: hobbies and side jobs as beads of mercury, grouped by cutting one merge tree at k.
+// A fragment shader turns a metaball field of tapered capsules into a height and reflects the landing page's studio in it.
+// Every bead and neck is a spring, so any change can be interrupted and redirected. The copy lives in site.ts.
+import { contact, interestMap, type Interest } from "@/data/site";
+
+// ---------- the clustering: one merge tree, so raising k only ever splits a group in two ----------
+type Node = string | { h: number; kids: [Node, Node] };
+const N = (h: number, a: Node, b: Node): Node => ({ h, kids: [a, b] });
+const TREE = N(.92,
+  N(.7, N(.18, "chess", "league"), N(.54, N(.26, "matcha", "fashion"), N(.36, "watches", N(.2, "pastry", "bar")))),
+  N(.46, N(.24, "consult", "generate"), N(.31, "disrupt", N(.16, "ambassador", "mentor"))));
+const leaves = (n: Node): string[] => (typeof n === "string" ? [n] : n.kids.flatMap(leaves));
+const cut = (h: number, n: Node = TREE): string[][] => (typeof n === "string" || n.h < h ? [leaves(n)] : n.kids.flatMap((c) => cut(h, c)));
+const HS = (function hs(n: Node): number[] { return typeof n === "string" ? [] : [n.h, ...n.kids.flatMap(hs)]; })(TREE).sort((a, b) => b - a);
+const hForK = (k: number) => (k <= 1 ? .97 : (HS[k - 2] + HS[k - 1]) / 2);
+const key = (g: string[]) => [...g].sort().join(" ");
+
+// ---------- the layout ----------
+// where each bead sits, in [-1, 1]²
+const P: Record<string, [number, number]> = { chess: [-.8, .7], league: [-.5, .86], matcha: [-.74, -.4], fashion: [-.46, -.1], watches: [-.06, -.5],
+  pastry: [.3, -.82], bar: [.5, -.66], consult: [.22, .56], generate: [0, .84], disrupt: [.64, .14], ambassador: [.86, -.06], mentor: [.9, .36] };
+type Spot = [number, number, "start" | "middle" | "end"];
+// label spots, searched so no label sits on a bead or neck at any k: [dx, dy, anchor]; phones override a couple
+const LAB: Record<string, Spot> = { chess: [-34, 6, "end"], league: [0, -32, "middle"], matcha: [-34, 6, "end"], fashion: [26, -20, "start"],
+  watches: [26, -20, "start"], pastry: [0, 46, "middle"], bar: [34, 6, "start"], consult: [26, -20, "start"], generate: [0, -32, "middle"],
+  disrupt: [-34, 6, "end"], ambassador: [-34, 6, "end"], mentor: [0, -32, "middle"] };
+const LAB_TALL: Record<string, Spot> = { disrupt: [-26, 34, "end"], ambassador: [0, 46, "middle"] };
+// cluster names, placed by hand in the empty space beside each group: [wide, phone], keyed by the group's members
+const NAME_AT: Record<string, [Spot, Spot]> = Object.fromEntries(([
+  [Object.keys(P), [338, 25, "middle"], [338, 43, "middle"]],
+  [["chess", "league", "matcha", "fashion", "watches", "pastry", "bar"], [100, 205, "middle"], [96, 262, "middle"]],
+  [["consult", "generate", "disrupt", "ambassador", "mentor"], [628, 92, "end"], [456, 48, "middle"]],
+  [["chess", "league"], [151, 177, "middle"], [151, 209, "middle"]],
+  [["matcha", "fashion", "watches", "pastry", "bar"], [250, 382, "middle"], [296, 283, "middle"]],
+  [["matcha", "fashion"], [164, 359, "middle"], [164, 484, "middle"]],
+  [["watches", "pastry", "bar"], [288, 250, "start"], [398, 607, "middle"]],
+  [["consult", "generate"], [348, 28, "middle"], [348, 48, "middle"]],
+  [["disrupt", "ambassador", "mentor"], [628, 92, "end"], [630, 416, "end"]],
+] as [string[], Spot, Spot][]).map(([g, w, t]) => [key(g), [w, t]]));
+const NAMES: Record<string, string> = Object.fromEntries(interestMap.names.map(([g, n]) => [key(g), n]));
+const BY: Record<string, Interest> = Object.fromEntries(interestMap.items.map((it) => [it.id, it]));
+
+// ---------- the shader ----------
+const MAX = 48, BEAD = 46, NECK_END = 37, NECK_MID = 29, THREAD = .42;
+const FS = `#version 300 es
+precision highp float;
+uniform vec4 uP[${MAX}], uQ[${MAX}]; uniform int uN; uniform vec2 uView; uniform float uPx, uT;
+in vec2 vUv; out vec4 o;
+const float T = .4, H = 36.;
+vec3 aces(vec3 x){ return clamp((x*(2.51*x+.03))/(x*(2.43*x+.59)+.14),0.,1.); }
+float box(vec3 r, vec3 L, vec3 X, float w, float h, float s){ vec3 Y = normalize(cross(L, X)); X = cross(Y, L);
+  return step(0., dot(r, L)) * smoothstep(w, w - s, abs(dot(r, X))) * smoothstep(h, h - s, abs(dot(r, Y))); }
+// the hero drop's studio, seen front-on: bright sky, a dark horizon, a grey floor, a softbox up and to the left
+// and a strip light on the right. The lights sway very slowly, so the reflections slide the way they do on liquid metal.
+vec3 env(vec3 r){
+  float y = dot(r, normalize(vec3(0., 1., .2)));
+  vec3 c = y > 0. ? mix(vec3(.42), vec3(1.18), smoothstep(.02, .9, y)) : mix(vec3(.12), vec3(.6), smoothstep(-.12, -1., y));
+  c *= 1. - .78 * exp(-pow((y - .015) / .055, 2.));
+  c += 2.2 * box(r, normalize(vec3(-.42 + .1 * sin(uT * .21), .52 + .04 * sin(uT * .29), .74)), vec3(1., 0., .3), .2, .12, .05);
+  c += 2.6 * box(r, normalize(vec3(.62 + .06 * sin(uT * .17 + 1.), .3, .72)), vec3(1., 0., -.8), .035, .28, .02);
+  return c;
+}
+// metaball field of tapered capsules; Q = (radius at a, radius at b, how much the waist pinches, matcha)
+void field(vec2 p, out float F, out vec2 G, out float S){
+  F = 0.; S = 0.; G = vec2(0.);
+  for (int i = 0; i < ${MAX}; i++) {
+    if (i >= uN) break;
+    vec4 A = uP[i], Q = uQ[i]; vec2 ab = A.zw - A.xy; float L2 = dot(ab, ab);
+    float t = L2 > 1e-3 ? clamp(dot(p - A.xy, ab) / L2, 0., 1.) : 0.;
+    float R = mix(Q.x, Q.y, t) * (1. - Q.z * sin(3.14159 * t));
+    if (R < 1.) continue;
+    vec2 d = p - A.xy - ab * t; float q = dot(d, d) / (R * R);
+    if (q < 1.) { float k = 1. - q, f = k * k * k; F += f; S += f * Q.w; G += -6. * k * k * d / (R * R); }
+  }
+}
+void main(){
+  vec2 p = vec2(vUv.x * uView.x, (1. - vUv.y) * uView.y);
+  float F, S, Fs, Ss; vec2 G, Gs;
+  field(p, F, G, S);
+  field(p - vec2(0., 11.), Fs, Gs, Ss);   // contact shadow: the same liquid, nudged down
+  float aa = length(G) * uPx + 1e-4, a = smoothstep(T - aa, T + aa, F);
+  float sh = .14 * smoothstep(.02, .9, Fs) * (1. - a);
+  if (a <= 0.) { o = vec4(0., 0., 0., sh); return; }
+  vec2 gz = H * .5 * inversesqrt(max(F - T, 2e-3)) * G;
+  vec3 n = normalize(vec3(-gz.x, gz.y, 1.));
+  vec3 c = pow(aces(env(reflect(vec3(0., 0., -1.), n))), vec3(1. / 2.2)) * vec3(.985, .99, 1.005);
+  float m = clamp(S / max(F, 1e-4), 0., 1.), L = dot(c, vec3(.333));
+  c = mix(c, mix(c * vec3(.86, .94, .7), vec3(1.), smoothstep(.86, 1., L)), m * .7);   // matcha chrome; highlights stay white
+  o = vec4(c * a, a) + vec4(0., 0., 0., sh) * (1. - a);
+}`;
+
+type Bead = { x: number; y: number; vx: number; vy: number; r: number; vr: number; tr: number; s: number; ts: number; ax: number; ay: number; ph: number; ph2: number };
+type Neck = { a: string; b: string; g: number; vg: number; tg: number; s: number; ts: number; rest: number; ph: number };
+// a spring in Apple's terms: response (seconds) and damping ratio (1 = no overshoot)
+function spring(x: number, v: number, to: number, dt: number, response: number, damping: number): [number, number] {
+  const w = (2 * Math.PI) / response; v += (w * w * (to - x) - 2 * damping * w * v) * dt; return [x + v * dt, v];
+}
+// past its home, a dragged bead resists more the further it goes (UIScrollView's rubber band)
+const rubber = (d: number, dim = 170) => (d * dim * .55) / (dim + .55 * d);
+
+/** Wires one Sidequests cluster widget. Returns a cleanup function. */
+export function wireClusters(root: HTMLElement): () => void {
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const stage = root.querySelector<HTMLElement>(".clu-stage")!, cv = stage.querySelector("canvas")!, svg = stage.querySelector("svg")!;
+  const gPts = svg.querySelector<SVGGElement>(".clu-pts")!, gNames = svg.querySelector<SVGGElement>(".clu-names")!, card = root.querySelector<HTMLElement>(".clu-card")!;
+  const seg = root.querySelector<HTMLElement>(".clu-seg")!;
+  let tall = false, VH = 440, K = 3, sel = "pastry", hover: string | null = null, press: string | null = null;
+  let raf = 0, last = 0, visible = true, nameTimer = 0, ptEls: SVGGElement[] = [];
+  const SX = (x: number) => 60 + ((x + 1) / 2) * 520, SY = (y: number) => (tall ? 70 + ((1 - y) / 2) * 500 : 229 - y * 165);
+  const xy = (id: string): [number, number] => [SX(P[id][0]), SY(P[id][1])];
+
+  // ----- WebGL -----
+  const gl = cv.getContext("webgl2", { premultipliedAlpha: true, antialias: false });
+  if (!gl) root.classList.add("nogl");   // the words and plain beads still work without it
+  const U: Record<string, WebGLUniformLocation | null> = {};
+  if (gl) {
+    const sh = (type: number, src: string) => { const x = gl.createShader(type)!; gl.shaderSource(x, src); gl.compileShader(x); if (!gl.getShaderParameter(x, gl.COMPILE_STATUS)) console.error(gl.getShaderInfoLog(x)); return x; };
+    const pr = gl.createProgram()!;
+    gl.attachShader(pr, sh(gl.VERTEX_SHADER, "#version 300 es\nin vec2 a; out vec2 vUv; void main(){ vUv = a * .5 + .5; gl_Position = vec4(a, 0., 1.); }"));
+    gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, FS)); gl.linkProgram(pr); gl.useProgram(pr);
+    gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer()); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+    const loc = gl.getAttribLocation(pr, "a"); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+    for (const n of ["uP", "uQ", "uN", "uView", "uPx", "uT"]) U[n] = gl.getUniformLocation(pr, n);
+  }
+  const bufP = new Float32Array(MAX * 4), bufQ = new Float32Array(MAX * 4);
+
+  // ----- the liquid -----
+  const beads = new Map<string, Bead>(), necks = new Map<string, Neck>();
+  const ptr = { x: 0, y: 0, hist: [] as [number, number, number][] };
+  let drag: { id: string; cx: number; cy: number; ox: number; oy: number; on: boolean } | null = null;
+  function mst(g: string[]): [string, string][] {
+    const p = g.map(xy), seen = [0], out: [string, string][] = [];
+    while (seen.length < p.length) {
+      let best: [number, number, number] | null = null;
+      for (const a of seen) for (let b = 0; b < p.length; b++) if (!seen.includes(b)) { const d = Math.hypot(p[a][0] - p[b][0], p[a][1] - p[b][1]); if (!best || d < best[2]) best = [a, b, d]; }
+      seen.push(best![1]); out.push([g[best![0]], g[best![1]]].sort() as [string, string]);
+    }
+    return out;
+  }
+  const groups = () => cut(hForK(K));
+  function retarget() {
+    const gs = groups(), sj = gs.findIndex((g) => g.includes(sel)), keep = new Set<string>();
+    gs.forEach((g, j) => {
+      g.forEach((id) => {
+        let b = beads.get(id);
+        if (!b) { const [x, y] = xy(id); b = { x, y, vx: 0, vy: 0, r: BEAD, vr: 0, tr: BEAD, s: +(j === sj), ts: 0, ax: x, ay: y, ph: Math.random() * 6.28, ph2: Math.random() * 6.28 }; beads.set(id, b); }
+        [b.ax, b.ay] = xy(id); b.ts = +(j === sj);
+        b.tr = BEAD * (press === id ? .94 : hover === id ? 1.08 : 1);   // press squishes, hover swells
+      });
+      mst(g).forEach(([a, b]) => {
+        const k = a + "|" + b; keep.add(k);
+        let n = necks.get(k);
+        if (!n) { n = { a, b, g: 0, vg: 0, tg: 1, s: +(j === sj), ts: 0, rest: 0, ph: Math.random() * 6.28 }; necks.set(k, n); }
+        const [ax, ay] = xy(a), [bx, by] = xy(b); n.rest = Math.hypot(bx - ax, by - ay); n.tg = 1; n.ts = +(j === sj);
+      });
+    });
+    for (const [k, n] of necks) if (!keep.has(k)) n.tg = 0;
+    kick();
+  }
+  function step(dt: number, t: number) {
+    for (const [id, b] of beads) {
+      // a slow drift keeps it liquid; everything else only moves because something happened
+      let tx = b.ax + 3.5 * Math.sin(t * .27 + b.ph) + 1.5 * Math.sin(t * .53 + b.ph2), ty = b.ay + 3 * Math.sin(t * .31 + b.ph2) + 1.5 * Math.sin(t * .47 + b.ph);
+      if (reduce) { tx = b.ax; ty = b.ay; }
+      if (drag?.on && drag.id === id) {
+        // direct manipulation: glued to the pointer from where it was grabbed, with a rubber band past home
+        const dx = ptr.x - drag.ox - tx, dy = ptr.y - drag.oy - ty, d = Math.hypot(dx, dy) || 1, f = rubber(d) / d;
+        b.x = tx + dx * f; b.y = ty + dy * f;
+      } else if (reduce) { b.x = tx; b.y = ty; }
+      else { [b.x, b.vx] = spring(b.x, b.vx, tx, dt, .55, .72); [b.y, b.vy] = spring(b.y, b.vy, ty, dt, .55, .72); }
+      if (reduce) { b.r = b.tr; b.s = b.ts; } else { [b.r, b.vr] = spring(b.r, b.vr, b.tr, dt, .3, 1); b.s += (b.ts - b.s) * Math.min(1, dt * 7); }
+    }
+    for (const [k, n] of necks) {
+      if (reduce) n.g = n.tg; else [n.g, n.vg] = spring(n.g, n.vg, n.tg, dt, .7, 1);   // k changes settle without bouncing
+      n.s += (n.ts - n.s) * Math.min(1, reduce ? 1 : dt * 7);
+      if (!n.tg && n.g < .01) necks.delete(k);
+    }
+  }
+  function render(t: number) {
+    ptEls.forEach((el) => { const b = beads.get(el.dataset.id!)!; el.setAttribute("transform", `translate(${b.x.toFixed(1)} ${b.y.toFixed(1)})`); });
+    if (!gl) return;
+    let i = 0;
+    const put = (ax: number, ay: number, bx: number, by: number, ra: number, rb: number, pinch: number, s: number) => {
+      if (i >= MAX) return; bufP.set([ax, ay, bx, by], i * 4); bufQ.set([ra, rb, pinch, s], i * 4); i++;
+    };
+    for (const b of beads.values()) put(b.x, b.y, b.x, b.y, b.r, b.r, 0, b.s);
+    for (const n of necks.values()) {
+      // like real liquid: two thin tongues reach out and touch, then the thread thickens into a neck;
+      // a split runs it backwards (the neck thins to a thread, snaps, and each half pulls back into its bead)
+      const A = beads.get(n.a)!, B = beads.get(n.b)!, g = Math.max(0, Math.min(1, n.g)), mx = (A.x + B.x) / 2, my = (A.y + B.y) / 2;
+      const stretch = Math.sqrt(Math.min(1, Math.max(.45, n.rest / (Math.hypot(B.x - A.x, B.y - A.y) || 1))));   // a pulled neck thins
+      if (g >= .6) {
+        const breathe = reduce ? 1 : 1 + .04 * Math.sin(t * 1.1 + n.ph), waist = (THREAD + ((NECK_MID / NECK_END) * breathe - THREAD) * ((g - .6) / .4)) * stretch;
+        put(A.x, A.y, B.x, B.y, NECK_END, NECK_END, 1 - waist, n.s); continue;
+      }
+      const u = g / .6;
+      if (u > .03) {
+        put(A.x, A.y, A.x + (mx - A.x) * u, A.y + (my - A.y) * u, NECK_END, NECK_END * THREAD, 0, n.s);
+        put(B.x, B.y, B.x + (mx - B.x) * u, B.y + (my - B.y) * u, NECK_END, NECK_END * THREAD, 0, n.s);
+      }
+    }
+    gl.viewport(0, 0, cv.width, cv.height); gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.uniform4fv(U.uP, bufP); gl.uniform4fv(U.uQ, bufQ); gl.uniform1i(U.uN, i); gl.uniform2f(U.uView, 640, VH);
+    gl.uniform1f(U.uPx, 640 / cv.width); gl.uniform1f(U.uT, reduce ? 0 : t);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+  }
+  function frame(now: number) {
+    const dt = Math.min(.033, (now - (last || now)) / 1000); last = now;
+    step(dt, now / 1000); render(now / 1000);
+    raf = visible && !reduce ? requestAnimationFrame(frame) : 0;   // reduced motion: draw on change only
+    if (!raf) last = 0;
+  }
+  const kick = () => { if (!raf && visible) raf = requestAnimationFrame(frame); };
+
+  // ----- words -----
+  function names() {
+    const gs = groups(), sj = gs.findIndex((g) => g.includes(sel));
+    gNames.innerHTML = gs.map((g, j) => {
+      const k = key(g), at = NAME_AT[k]?.[+tall]; if (!at || !NAMES[k]) return "";
+      return `<text class="cn${j === sj ? " on" : ""}" x="${at[0]}" y="${at[1]}" text-anchor="${at[2]}">${NAMES[k]}</text>`;
+    }).join("");
+    ptEls.forEach((el) => { const on = el.dataset.id === sel; el.classList.toggle("on", on); el.setAttribute("aria-pressed", String(on)); });
+    showCard(gs[sj]);
+  }
+  function showCard(g: string[]) {
+    const it = BY[sel], nm = NAMES[key(g)], k = sel + "|" + nm;
+    if (card.dataset.key === k) return;
+    card.dataset.key = k;
+    card.innerHTML = `<p class="kind">${interestMap.kinds[it.kind]}</p><h3>${it.title}</h3>${it.org ? `<p class="org">${it.org}</p>` : ""}<p class="meta">${it.meta}</p><p class="d">${it.desc}</p>`
+      + `<p class="in">${nm ? `Clustered under <i>${nm}</i>` : "A cluster of one"}</p><a href="mailto:${contact.email}?subject=${encodeURIComponent(it.title.replace(/&amp;/g, "&"))}">${it.cta}</a>`;
+    if (!reduce) card.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 240, easing: "cubic-bezier(.16,1,.3,1)" });   // crossfade, in place
+  }
+  function layout() {
+    tall = svg.clientWidth < 520; VH = tall ? 625 : 440;
+    svg.setAttribute("viewBox", `0 0 640 ${VH}`);
+    gPts.innerHTML = interestMap.items.map((it) => {
+      const [dx, dy, an] = (tall && LAB_TALL[it.id]) || LAB[it.id];
+      return `<g class="pt" data-id="${it.id}" tabindex="0" role="button" aria-label="${it.title}"><circle class="hit" r="30"/><circle class="bead" r="22"/><text x="${dx}" y="${dy}" text-anchor="${an}">${it.short}</text></g>`;
+    }).join("");
+    ptEls = [...gPts.querySelectorAll<SVGGElement>(".pt")];
+    const dpr = Math.min(2, devicePixelRatio || 1);
+    cv.width = Math.round(svg.clientWidth * dpr); cv.height = Math.round(svg.clientHeight * dpr);
+    beads.clear(); necks.clear(); retarget(); necks.forEach((n) => { n.g = 1; }); names(); render(performance.now() / 1000);
+  }
+  function setK(k: number) {
+    K = k; retarget();
+    seg.querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", String(+b.dataset.k! === k)));
+    gNames.classList.add("hide"); clearTimeout(nameTimer);
+    nameTimer = window.setTimeout(() => { names(); gNames.classList.remove("hide"); }, reduce ? 0 : 420);
+  }
+  const choose = (id: string) => { sel = id; retarget(); names(); };
+
+  // ----- input -----
+  const local = (e: PointerEvent) => {
+    const r = svg.getBoundingClientRect(); ptr.x = ((e.clientX - r.left) / r.width) * 640; ptr.y = ((e.clientY - r.top) / r.height) * VH;
+    ptr.hist.push([e.timeStamp, ptr.x, ptr.y]); if (ptr.hist.length > 5) ptr.hist.shift();
+  };
+  const onDown = (e: PointerEvent) => {
+    const el = (e.target as Element).closest<SVGGElement>(".pt"); if (!el || e.button) return;
+    local(e); const b = beads.get(el.dataset.id!)!;
+    drag = { id: el.dataset.id!, cx: e.clientX, cy: e.clientY, ox: ptr.x - b.x, oy: ptr.y - b.y, on: false };
+    press = drag.id; retarget();   // feedback on the press, not the release
+  };
+  const onMove = (e: PointerEvent) => {
+    local(e);
+    if (drag && !drag.on && Math.hypot(e.clientX - drag.cx, e.clientY - drag.cy) > 6) { drag.on = true; svg.setPointerCapture(e.pointerId); root.classList.add("dragging"); }
+    if (drag?.on) kick();
+  };
+  const onUp = (e: PointerEvent) => {
+    if (!drag) return;
+    const was = drag; drag = null; press = null; root.classList.remove("dragging"); retarget();
+    if (e.type === "pointercancel") return;   // the page scrolled instead: not a tap
+    if (!was.on) { choose(was.id); return; }
+    // hand the flick's velocity to the spring that carries it home, so there's no seam between drag and animation
+    const b = beads.get(was.id)!, [t0, x0, y0] = ptr.hist[0], [t1, x1, y1] = ptr.hist[ptr.hist.length - 1], dt = Math.max(16, t1 - t0) / 1000;
+    b.vx = (x1 - x0) / dt; b.vy = (y1 - y0) / dt;
+  };
+  svg.addEventListener("pointerdown", onDown); svg.addEventListener("pointermove", onMove);
+  svg.addEventListener("pointerup", onUp); svg.addEventListener("pointercancel", onUp);
+  gPts.addEventListener("keydown", (e) => { const el = (e.target as Element).closest<SVGGElement>(".pt"); if (el && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); choose(el.dataset.id!); } });
+  gPts.addEventListener("pointerover", (e) => { const el = (e.target as Element).closest<SVGGElement>(".pt"); if (el && hover !== el.dataset.id) { hover = el.dataset.id!; retarget(); } });
+  gPts.addEventListener("pointerout", (e) => { if (!(e.relatedTarget as Element | null)?.closest?.(".pt")) { hover = null; retarget(); } });
+  seg.addEventListener("click", (e) => { const b = (e.target as Element).closest<HTMLButtonElement>("button[data-k]"); if (b) setK(+b.dataset.k!); });
+
+  const ro = new ResizeObserver(() => { if (Math.round(svg.clientWidth * Math.min(2, devicePixelRatio || 1)) !== cv.width) layout(); });
+  const io = new IntersectionObserver(([en]) => { visible = en.isIntersecting; if (visible) kick(); });
+  ro.observe(svg); io.observe(stage);
+  layout();
+
+  return () => {
+    cancelAnimationFrame(raf); clearTimeout(nameTimer); ro.disconnect(); io.disconnect();
+    gl?.getExtension("WEBGL_lose_context")?.loseContext();   // browsers cap live WebGL contexts; give this one back
+  };
+}
