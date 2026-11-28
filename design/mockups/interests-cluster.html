@@ -1,0 +1,585 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Clustering mockups</title>
+<style>
+@font-face{font-family:"CMS";src:url("../../public/fonts/cmu/cmunrm.woff") format("woff");font-weight:400}
+@font-face{font-family:"CMS";src:url("../../public/fonts/cmu/cmunbx.woff") format("woff");font-weight:700}
+@font-face{font-family:"CMS";src:url("../../public/fonts/cmu/cmunti.woff") format("woff");font-style:italic}
+@font-face{font-family:"CMT";src:url("../../public/fonts/cmu/cmuntt.woff") format("woff");font-weight:400}
+:root{--bg:#fff;--tile:#f5f5f7;--tile-2:#e8e8ed;--ink:#1d1d1f;--ink-2:#5f5f64;--line:#d2d2d7;--matcha:#8a9a5b;--matcha-text:#55633a;--matcha-wash:#eef1e4;
+  --serif:"CMS",Georgia,serif;--mono:"CMT",ui-monospace,Menlo,monospace;--ease:cubic-bezier(.16,1,.3,1);--glide:cubic-bezier(.32,.72,0,1)}
+*{box-sizing:border-box;margin:0}
+[hidden]{display:none!important}
+html{-webkit-font-smoothing:antialiased}
+body{background:var(--bg);color:var(--ink);font-family:var(--serif);font-size:17px;line-height:1.5}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;touch-action:manipulation}
+:focus-visible{outline:2px solid var(--matcha-text);outline-offset:3px;border-radius:8px}
+svg :focus{outline:none}
+.wrap{max-width:1020px;margin:0 auto;padding:0 22px}
+.top{padding:64px 0 8px}
+.top>p:first-child{font-family:var(--mono);font-size:13px;color:var(--ink-2)}
+.top h1{margin-top:10px;font-size:clamp(40px,5vw,60px);font-weight:700;letter-spacing:-.015em;line-height:1.05}
+.top .sub{margin-top:12px;font-size:19px;color:var(--ink-2);max-width:54ch}
+.jump{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.jump a{font-family:var(--mono);font-size:13px;padding:10px 16px;border-radius:980px;background:var(--tile);color:var(--ink);text-decoration:none}
+.jump a:hover{background:var(--tile-2)}
+section.mock{padding:96px 0 56px;border-bottom:1px solid var(--line)}
+.lab{font-family:var(--mono);font-size:13px;color:var(--matcha-text)}
+.mock h2{margin-top:6px;font-size:clamp(28px,3vw,36px);font-weight:700;letter-spacing:-.005em;line-height:1.14}
+.mock .why{margin-top:8px;color:var(--ink-2);max-width:60ch}
+.two{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:56px;align-items:start;margin-top:40px}
+.ctl{display:flex;align-items:center;gap:14px;margin-bottom:22px}
+.ctl .kl{font-size:20px;color:var(--ink-2)}
+.seg{display:inline-flex;gap:4px;padding:4px;border-radius:980px;background:var(--tile)}
+.seg button{min-width:44px;min-height:40px;border-radius:980px;font-size:16px;color:var(--ink-2);transition:background .2s,color .2s}
+.seg button:hover{color:var(--ink)}
+.seg button[aria-pressed=true]{background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.08),0 0 0 .5px rgba(0,0,0,.06)}
+
+/* the card, shared */
+.card{padding-top:66px}
+.card .k{font-family:var(--mono);font-size:12.5px;color:var(--matcha-text)}
+.card h3{margin-top:6px;font-size:28px;font-weight:700;letter-spacing:-.005em;line-height:1.15;text-wrap:balance}
+.card .org{margin-top:2px;color:var(--ink-2)}
+.card .m{margin-top:6px;font-family:var(--mono);font-size:12.5px;color:var(--ink-2)}
+.card .d{margin-top:16px;line-height:1.55;text-wrap:pretty}
+.card .in{margin-top:18px;padding-top:14px;border-top:1px solid var(--line);font-size:15px;color:var(--ink-2)}
+.card .in i{color:var(--matcha-text)}
+.card a{display:inline-block;margin-top:14px;color:var(--matcha-text);text-decoration:none}
+.card a:hover{text-decoration:underline;text-underline-offset:4px}
+.swap{animation:swap .45s var(--ease)}
+@keyframes swap{from{opacity:0;transform:translateY(6px)}}
+
+/* A · mercury: a WebGL canvas draws the liquid; an SVG on top carries the words and the hit areas */
+.mstage{position:relative}
+.mstage canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.msvg{position:relative;width:100%;height:auto;display:block;overflow:visible;user-select:none;-webkit-user-select:none}
+.msvg text{paint-order:stroke;stroke:rgba(255,255,255,.88);stroke-width:3.5px;stroke-linejoin:round}
+.msvg .cn{font-style:italic;font-size:16px;fill:var(--ink-2);transition:opacity .45s .1s,fill .3s}
+.msvg .cn.on{fill:var(--matcha-text)}
+#mNames.hide .cn{opacity:0;transition:opacity .15s}
+.msvg{cursor:default}
+.msvg .pt{cursor:grab}
+.msvg.dragging,.msvg.dragging .pt{cursor:grabbing}
+.msvg .pt .hit{fill:transparent}
+.msvg .pt text{font-size:17px;fill:var(--ink);transition:fill .2s}
+.msvg .pt:hover text,.msvg .pt:focus-visible text{fill:var(--matcha-text)}
+.msvg .pt.on text{font-weight:700;fill:var(--matcha-text)}
+
+/* B · dendrogram */
+.dwrap{position:relative}
+.dsvg{display:block;width:100%;user-select:none;-webkit-user-select:none;touch-action:pan-y}
+.dsvg .br{fill:none;stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round}
+.dsvg .br.up{stroke:#d2d2d7}
+.dsvg .br.in{stroke:var(--ink-2)}
+.dsvg .br.on{stroke:var(--matcha-text);stroke-width:2.2}
+.dsvg .band{fill:var(--tile);transition:fill .25s}
+.dsvg .band.on{fill:var(--matcha-wash)}
+.dsvg .row{cursor:pointer}
+.dsvg .row .hit{fill:transparent}
+.dsvg .row text{font-size:17px;fill:var(--ink)}
+.dsvg .row:hover text,.dsvg .row:focus-visible text{fill:var(--matcha-text)}
+.dsvg .row.on text{font-weight:700;fill:var(--matcha-text)}
+.dsvg .lbl{font-style:italic;font-size:15px;fill:var(--ink-2);text-anchor:end}
+.dsvg .lbl.on{fill:var(--matcha-text)}
+.dsvg .x{fill:#fff;stroke:var(--ink-2);stroke-width:1.5}
+.dsvg .x.on{fill:var(--matcha);stroke:var(--matcha-text)}
+.dsvg .cutl{stroke:var(--matcha-text);stroke-width:1.5;stroke-dasharray:3 4}
+.dsvg .zone{fill:transparent;cursor:ew-resize}
+.dsvg .hd{cursor:ew-resize}
+.dsvg .hd rect{fill:var(--ink)}
+.dsvg .hd text{font-family:var(--mono);font-size:12.5px;fill:#fff;text-anchor:middle}
+.dsvg .hd:focus-visible rect{stroke:var(--matcha);stroke-width:3}
+
+/* C · typeset */
+.ts{display:grid;grid-template-columns:repeat(var(--k,3),minmax(0,1fr));gap:28px 24px;align-items:start}
+.ts-h{min-height:calc(2.7em + 10px);font-style:italic;font-size:16px;line-height:1.35;color:var(--ink-2);border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:8px;display:flex;align-items:flex-end;animation:swap .5s var(--ease)}
+.ts-col.on .ts-h{color:var(--matcha-text);border-color:var(--matcha)}
+.ts-l{display:grid}
+.ts-n{display:flex;align-items:center;min-height:40px;padding:0;text-align:left;white-space:nowrap;font-size:18px;line-height:1.2;transition:transform .6s var(--glide),color .2s}
+.ts-n:hover{color:var(--matcha-text)}
+.ts-n.on{color:var(--matcha-text);font-weight:700}
+
+.foot{padding:56px 0 96px;font-family:var(--mono);font-size:13px;color:var(--ink-2);line-height:1.7}
+.foot p+p{margin-top:6px}
+
+@media (max-width:760px){
+  .two{grid-template-columns:1fr;gap:8px;margin-top:30px}
+  .card{padding-top:24px}
+  .msvg .pt text{font-size:24px}
+  .msvg .cn{font-size:21px}
+  .msvg text{stroke-width:6px}
+  .dsvg .row text{font-size:16px}
+  .dsvg .lbl{font-size:13.5px}
+  .ts{grid-template-columns:repeat(var(--km,2),minmax(0,1fr))}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <p>design/mockups/interests-cluster.html · Interests page · clustering, round two</p>
+    <h1>Clustering, simplified</h1>
+    <p class="sub">Three calmer takes on the clustering idea. Each has one control and one card. All three cut the same tree, so raising <i>k</i> only ever splits a group in two, which keeps it easy to follow.</p>
+    <nav class="jump"><a href="#a">A · Mercury</a><a href="#b">B · Dendrogram</a><a href="#c">C · Columns</a></nav>
+  </header>
+
+  <section class="mock" id="a">
+    <div class="lab">A · mercury</div>
+    <h2>Clusters as mercury</h2>
+    <p class="why">Change <i>k</i> and the mercury pinches apart or flows back together. Move your pointer through it, grab a bead and stretch it, or click a name to read it.</p>
+    <div class="two">
+      <div>
+        <div class="ctl"><span class="kl"><i>k</i> =</span><div class="seg" id="mK" role="group" aria-label="Number of clusters"></div></div>
+        <div class="mstage">
+          <canvas id="mGl" aria-hidden="true"></canvas>
+          <svg class="msvg" id="mSvg" viewBox="0 0 640 440" role="group" aria-label="Interests and side jobs, clustered"><g id="mNames"></g><g id="mPts"></g></svg>
+        </div>
+      </div>
+      <div class="card" id="mCard" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section class="mock" id="b">
+    <div class="lab">B · dendrogram</div>
+    <h2>Cut the tree</h2>
+    <p class="why">Hierarchical clustering, drawn the way papers draw it. Drag the dashed line: further right, more clusters. Click a name to read it.</p>
+    <div class="two">
+      <div class="dwrap" id="dWrap">
+        <svg class="dsvg" id="dSvg">
+          <g id="dBands"></g><g id="dTree"></g><g id="dLbls"></g><g id="dRows"></g>
+          <rect class="zone" id="dZone"/>
+          <line class="cutl" id="dCut"/><g id="dX"></g>
+          <g class="hd" id="dHd" tabindex="0" role="slider" aria-label="Number of clusters" aria-valuemin="1" aria-valuemax="12"><rect x="-38" y="4" width="76" height="28" rx="14"/><text y="23"></text></g>
+        </svg>
+      </div>
+      <div class="card" id="dCard" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section class="mock" id="c">
+    <div class="lab">C · columns</div>
+    <h2>Sorted into <i>k</i> piles</h2>
+    <p class="why">The quietest version: just the names, which glide into new columns as <i>k</i> changes. Click a name to read it.</p>
+    <div class="two">
+      <div>
+        <div class="ctl"><span class="kl"><i>k</i> =</span><div class="seg" id="tK" role="group" aria-label="Number of clusters"></div></div>
+        <div class="ts" id="tCols"></div>
+      </div>
+      <div class="card" id="tCard" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <p>Same twelve items and copy as before. The tree, its heights and the map positions are made up; the cluster names are the jokes, so edit them freely.</p>
+    <p>Earlier rounds: interests-v1.html, interests.html.</p>
+  </footer>
+</div>
+
+<script>
+const $ = (s, r = document) => r.querySelector(s);
+const RM = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const MAIL = "gordonbie2@gmail.com";
+const TYPE = { hobby: "Hobby", job: "Side job", both: "Hobby and side job" };
+
+const ITEMS = [
+  { id: "chess", t: "Chess", s: "Chess", type: "hobby", m: "1700 puzzles · 1500 rapid · 1100 blitz", d: "Not very good. Puzzles daily, and games in Harvard Square over the summer.", cta: "Challenge me to a game →" },
+  { id: "league", t: "League of Legends", s: "League", type: "hobby", m: "ARAM enjoyer", d: "Every now and then with friends. Used to be top 1%, and played competitively at university for a bit.", cta: "Queue up an ARAM →" },
+  { id: "matcha", t: "Matcha", s: "Matcha", type: "hobby", m: "Whisking · tasting · spending money", d: "Enjoyer since birth. Let’s connect and have matcha.", cta: "Let’s get matcha →" },
+  { id: "fashion", t: "Fashion", s: "Fashion", type: "hobby", m: "Heritage · engineering · trend", d: "Cool clothes and accessories, and the stories about the people and history behind every piece.", cta: "Talk clothes with me →" },
+  { id: "watches", t: "Vintage watches", s: "Watches", org: "eBay", type: "both", m: "eBay business · 2024 – now", d: "I curate and sell vintage watches and watch parts on eBay.", cta: "Ask me about a watch →" },
+  { id: "pastry", t: "Pastry chef", s: "Pastry chef", org: "Swan Bakery, London", type: "both", m: "London · 2023 – 2024", d: "Pastries, cakes and tarts, and the lesson that professional baking is not all sunshine.", cta: "Ask me for a recipe →" },
+  { id: "bar", t: "Bartender and waiter", s: "Bartender", org: "Noodle and Beer, London", type: "job", m: "London · 2023 – 2024", d: "Behind the bar and on the floor at a noodle bar in London.", cta: "Ask me where to eat in London →" },
+  { id: "consult", t: "Junior associate consultant", s: "Consultant", org: "Global Research &amp; Consulting Group", type: "job", m: "2024 – 2025", d: "Strategic analysis and operational recommendations for international organisations and public-sector clients.", cta: "Ask me about consulting →" },
+  { id: "generate", t: "Data science technical lead", s: "Generate", org: "Generate Product Development Studio", type: "job", m: "2025 – 2026", d: "Technical lead at a student-run product studio building ML and AI software for startups.", cta: "Pitch me your startup →" },
+  { id: "disrupt", t: "Marketing coordinator", s: "Disrupt", org: "Disrupt Fintech Society", type: "job", m: "2024 – 2025", d: "Planned, marketed and ran events for students in fintech: hackathons, panels and research talks.", cta: "Ask me about Disrupt →" },
+  { id: "ambassador", t: "Global program alumni ambassador", s: "Ambassador", org: "Northeastern Office of Global Experience", type: "job", m: "2024 – 2025", d: "Planned and gave talks on Northeastern’s global programs for prospective and incoming students.", cta: "Ask me about studying abroad →" },
+  { id: "mentor", t: "BSIB student mentor", s: "Mentor", org: "D’Amore-McKim School of Business", type: "job", m: "2026 – now", d: "Mentoring undergraduates in the BSIB program on course planning, careers and study abroad.", cta: "Ask me about BSIB →" },
+];
+const BY = Object.fromEntries(ITEMS.map((it) => [it.id, it]));
+const IDS = ITEMS.map((it) => it.id);
+
+// One merge tree for all three mockups. h is the merge height; cutting at h gives the clusters.
+const N = (h, a, b) => ({ h, kids: [a, b] });
+const TREE = N(.92,
+  N(.7, N(.18, "chess", "league"), N(.54, N(.26, "matcha", "fashion"), N(.36, "watches", N(.2, "pastry", "bar")))),
+  N(.46, N(.24, "consult", "generate"), N(.31, "disrupt", N(.16, "ambassador", "mentor"))));
+const leaves = (n) => (typeof n === "string" ? [n] : n.kids.flatMap(leaves));
+const cut = (h, n = TREE) => (typeof n === "string" || n.h < h ? [leaves(n)] : n.kids.flatMap((c) => cut(h, c)));
+const HS = (function hs(n) { return typeof n === "string" ? [] : [n.h, ...n.kids.flatMap(hs)]; })(TREE).sort((a, b) => b - a);
+const hForK = (k) => (k <= 1 ? .97 : k >= 12 ? .08 : (HS[k - 2] + HS[k - 1]) / 2);
+const NAMES = {};
+[[IDS, "it’s all just me"], [["chess", "league", "matcha", "fashion", "watches", "pastry", "bar"], "not on my LinkedIn"],
+ [["consult", "generate", "disrupt", "ambassador", "mentor"], "on my LinkedIn"], [["chess", "league"], "games with a ladder"],
+ [["matcha", "fashion", "watches", "pastry", "bar"], "taste, both kinds"], [["matcha", "fashion"], "things I buy"],
+ [["watches", "pastry", "bar"], "things I’ve sold"], [["consult", "generate"], "other people’s problems"],
+ [["disrupt", "ambassador", "mentor"], "rooms full of people"], [["pastry", "bar"], "London, 2023"], [["ambassador", "mentor"], "helping new students"],
+].forEach(([ids, s]) => { NAMES[[...ids].sort().join()] = s; });
+const nameOf = (g) => NAMES[[...g].sort().join()] || "";
+
+const card = (id, g) => {
+  const it = BY[id], nm = nameOf(g);
+  return `<p class="k">${TYPE[it.type]}</p><h3>${it.t}</h3>${it.org ? `<p class="org">${it.org}</p>` : ""}<p class="m">${it.m}</p><p class="d">${it.d}</p>`
+    + `<p class="in">${nm ? `Clustered under <i>${nm}</i>` : "A cluster of one"}</p><a href="mailto:${MAIL}?subject=${encodeURIComponent(it.t.replace(/&amp;/g, "&"))}">${it.cta}</a>`;
+};
+function showCard(el, id, g) {
+  const key = id + "|" + nameOf(g);
+  if (el.dataset.key === key) return;
+  el.dataset.key = key; el.innerHTML = card(id, g);
+  el.classList.remove("swap"); void el.offsetWidth; el.classList.add("swap");
+}
+function seg(el, k, on) {
+  el.innerHTML = [1, 2, 3, 4, 5].map((n) => `<button type="button" data-k="${n}" aria-pressed="${n === k}">${n}</button>`).join("");
+  el.addEventListener("click", (e) => { const b = e.target.closest("button"); if (!b) return; el.querySelectorAll("button").forEach((x) => x.setAttribute("aria-pressed", String(x === b))); on(+b.dataset.k); });
+}
+
+// ---------- A · mercury ----------
+// Each item is a bead of mercury; a cluster is its beads joined by tapered necks along the cluster's minimum spanning tree.
+// A fragment shader turns the metaball field into a height and reflects the landing page's studio in it. The beads are
+// springs: they drift, lean towards the pointer, can be dragged, and recoil when a neck snaps.
+(() => {
+  const P = { chess: [-.8, .7], league: [-.5, .86], matcha: [-.74, -.4], fashion: [-.46, -.1], watches: [-.06, -.5], pastry: [.3, -.82], bar: [.5, -.66],
+    consult: [.22, .56], generate: [.0, .84], disrupt: [.64, .14], ambassador: [.86, -.06], mentor: [.9, .36] };
+  // Label spots were searched offline so no label sits on a bead or neck at any k: [dx, dy, anchor], wide then tall.
+  const LAB = { chess: [-34, 6, "end"], league: [0, -32, "middle"], matcha: [-34, 6, "end"], fashion: [26, -20, "start"], watches: [26, -20, "start"],
+    pastry: [0, 46, "middle"], bar: [34, 6, "start"], consult: [26, -20, "start"], generate: [0, -32, "middle"], disrupt: [-34, 6, "end"],
+    ambassador: [-34, 6, "end"], mentor: [0, -32, "middle"] };
+  const LAB_TALL = { disrupt: [-26, 34, "end"], ambassador: [0, 46, "middle"] };
+  // Cluster names, placed by hand in the empty space beside each cluster: [x, y, anchor], wide then tall.
+  const NAME_AT = {
+    "it’s all just me": [[338, 25, "middle"], [338, 43, "middle"]], "not on my LinkedIn": [[100, 205, "middle"], [96, 262, "middle"]],
+    "on my LinkedIn": [[628, 92, "end"], [456, 48, "middle"]], "games with a ladder": [[151, 177, "middle"], [151, 209, "middle"]],
+    "taste, both kinds": [[250, 382, "middle"], [296, 283, "middle"]], "things I buy": [[164, 359, "middle"], [164, 484, "middle"]],
+    "things I’ve sold": [[288, 250, "start"], [398, 607, "middle"]], "other people’s problems": [[348, 28, "middle"], [348, 48, "middle"]],
+    "rooms full of people": [[628, 92, "end"], [630, 416, "end"]] };
+  const MAX = 64, BEAD = 46, NECK_END = 37, NECK_MID = 29, THREAD = .42, CURSOR = 30;
+  const cv = $("#mGl"), svg = $("#mSvg"), stage = cv.parentNode;
+  let tall = false, VH = 440, K = 3, sel = "pastry", hover = null, raf = 0, last = 0, visible = true, nameTimer = 0, ptEls = [];
+  const SX = (x) => 60 + ((x + 1) / 2) * 520, SY = (y) => (tall ? 70 + ((1 - y) / 2) * 500 : 229 - y * 165);
+  const xy = (id) => [SX(P[id][0]), SY(P[id][1])];
+
+  // ----- WebGL: every shape is a tapered capsule (a bead is a capsule of length zero) -----
+  const gl = cv.getContext("webgl2", { premultipliedAlpha: true, antialias: false });
+  // shortcut: without WebGL2 only the words show; add an SVG fallback before this ships.
+  const FS = `#version 300 es
+precision highp float;
+uniform vec4 uP[${MAX}], uQ[${MAX}]; uniform int uN; uniform vec2 uView; uniform float uPx, uT;
+in vec2 vUv; out vec4 o;
+const float T = .4, H = 36.;
+vec3 aces(vec3 x){ return clamp((x*(2.51*x+.03))/(x*(2.43*x+.59)+.14),0.,1.); }
+float box(vec3 r, vec3 L, vec3 X, float w, float h, float s){ vec3 Y = normalize(cross(L, X)); X = cross(Y, L);
+  return step(0., dot(r, L)) * smoothstep(w, w - s, abs(dot(r, X))) * smoothstep(h, h - s, abs(dot(r, Y))); }
+// the landing page's studio, seen nearly front-on like the hero drop: bright sky, a dark horizon, a grey floor,
+// a softbox up and to the left and a strip light on the right; the lights sway a little so the reflections slide
+vec3 env(vec3 r){
+  float y = dot(r, normalize(vec3(0., 1., .2)));
+  vec3 c = y > 0. ? mix(vec3(.42), vec3(1.18), smoothstep(.02, .9, y)) : mix(vec3(.12), vec3(.6), smoothstep(-.12, -1., y));
+  c *= 1. - .8 * exp(-pow((y - .015) / .055, 2.));
+  c += 2.2 * box(r, normalize(vec3(-.42 + .12 * sin(uT * .23), .52 + .06 * sin(uT * .31), .74)), vec3(1., 0., .3), .2, .12, .05);
+  c += 2.6 * box(r, normalize(vec3(.62 + .08 * sin(uT * .19 + 1.), .3, .72)), vec3(1., 0., -.8), .035, .28, .02);
+  return c;
+}
+// metaball field of tapered capsules; Q = (radius at a, radius at b, how much the waist pinches, matcha)
+void field(vec2 p, out float F, out vec2 G, out float S){
+  F = 0.; S = 0.; G = vec2(0.);
+  for (int i = 0; i < ${MAX}; i++) {
+    if (i >= uN) break;
+    vec4 A = uP[i], Q = uQ[i]; vec2 ab = A.zw - A.xy; float L2 = dot(ab, ab);
+    float t = L2 > 1e-3 ? clamp(dot(p - A.xy, ab) / L2, 0., 1.) : 0.;
+    float R = mix(Q.x, Q.y, t) * (1. - Q.z * sin(3.14159 * t));
+    if (R < 1.) continue;
+    vec2 d = p - A.xy - ab * t; float q = dot(d, d) / (R * R);
+    if (q < 1.) { float k = 1. - q, f = k * k * k; F += f; S += f * Q.w; G += -6. * k * k * d / (R * R); }
+  }
+}
+void main(){
+  vec2 p = vec2(vUv.x * uView.x, (1. - vUv.y) * uView.y);
+  float F, S, Fs, Ss; vec2 G, Gs;
+  field(p, F, G, S);
+  field(p - vec2(0., 11.), Fs, Gs, Ss);   // contact shadow: the same liquid, nudged down
+  float aa = length(G) * uPx + 1e-4, a = smoothstep(T - aa, T + aa, F);
+  float sh = .15 * smoothstep(.02, .9, Fs) * (1. - a);
+  if (a <= 0.) { o = vec4(0., 0., 0., sh); return; }
+  vec2 gz = H * .5 * inversesqrt(max(F - T, 2e-3)) * G;
+  // slow ripples travel across the surface, away from the edges, so the metal always looks wet
+  float ins = smoothstep(T, T + .35, F), A1 = p.x * .045 + uT * .7, B1 = p.y * .05 - uT * .5, C1 = (p.x - p.y) * .032 + uT * .9;
+  gz += 4.5 * ins * vec2(.045 * cos(A1) * sin(B1) + .016 * cos(C1), .05 * sin(A1) * cos(B1) - .016 * cos(C1));
+  vec3 n = normalize(vec3(-gz.x, gz.y, 1.));
+  vec3 c = pow(aces(env(reflect(vec3(0., 0., -1.), n))), vec3(1. / 2.2)) * vec3(.985, .99, 1.005);
+  c += .22 * ins * pow(max(0., sin(p.x * .011 - p.y * .017 + uT * .55)), 60.);   // a glint that sweeps across, like the hero's ink
+  float m = clamp(S / max(F, 1e-4), 0., 1.), L = dot(c, vec3(.333));
+  c = mix(c, mix(c * vec3(.86, .94, .7), vec3(1.), smoothstep(.86, 1., L)), m * .7);   // matcha chrome, highlights stay white
+  o = vec4(c * a, a) + vec4(0., 0., 0., sh) * (1. - a);
+}`;
+  let U = {};
+  if (gl) {
+    const sh = (t, s) => { const x = gl.createShader(t); gl.shaderSource(x, s); gl.compileShader(x); if (!gl.getShaderParameter(x, gl.COMPILE_STATUS)) console.error(gl.getShaderInfoLog(x)); return x; };
+    const pr = gl.createProgram();
+    gl.attachShader(pr, sh(gl.VERTEX_SHADER, "#version 300 es\nin vec2 a; out vec2 vUv; void main(){ vUv = a * .5 + .5; gl_Position = vec4(a, 0., 1.); }"));
+    gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, FS)); gl.linkProgram(pr); gl.useProgram(pr);
+    gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer()); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+    const loc = gl.getAttribLocation(pr, "a"); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+    for (const n of ["uP", "uQ", "uN", "uView", "uPx", "uT"]) U[n] = gl.getUniformLocation(pr, n);
+  }
+  const bufP = new Float32Array(MAX * 4), bufQ = new Float32Array(MAX * 4);
+
+  // ----- the liquid -----
+  const beads = new Map(), necks = new Map(), drops = [];
+  const ptr = { x: 0, y: 0, on: false }, cur = { x: 0, y: 0, vx: 0, vy: 0, r: 0, v: 0 };
+  let drag = null;
+  function mst(g) {
+    const p = g.map(xy), seen = [0], out = [];
+    while (seen.length < p.length) {
+      let best = null;
+      for (const a of seen) for (let b = 0; b < p.length; b++) if (!seen.includes(b)) { const d = Math.hypot(p[a][0] - p[b][0], p[a][1] - p[b][1]); if (!best || d < best[2]) best = [a, b, d]; }
+      seen.push(best[1]); out.push([g[best[0]], g[best[1]]].sort());
+    }
+    return out;
+  }
+  function retarget() {
+    const groups = cut(hForK(K)), sj = groups.findIndex((g) => g.includes(sel)), keep = new Set();
+    groups.forEach((g, j) => {
+      g.forEach((id) => {
+        let b = beads.get(id);
+        if (!b) { const [x, y] = xy(id); b = { x, y, vx: 0, vy: 0, r: BEAD, v: 0, s: +(j === sj), ph: Math.random() * 6.28, ph2: Math.random() * 6.28 }; beads.set(id, b); }
+        [b.ax, b.ay] = xy(id); b.tr = BEAD * (hover === id ? 1.14 : 1); b.ts = +(j === sj);
+      });
+      mst(g).forEach(([a, b]) => { const k = a + "|" + b; keep.add(k);
+        const n = necks.get(k) || necks.set(k, { a, b, g: 0, v: 0, pg: 0, s: +(j === sj), ph: Math.random() * 6.28 }).get(k);
+        n.rest = Math.hypot(...xy(a).map((v, i) => v - xy(b)[i])); n.tg = 1; n.ts = +(j === sj); });
+    });
+    for (const [k, n] of necks) if (!keep.has(k)) n.tg = 0;
+    kick();
+  }
+  const spring = (o, key, vkey, target, dt, resp, z) => { const w = (2 * Math.PI) / resp; o[vkey] += (w * w * (target - o[key]) - 2 * z * w * o[vkey]) * dt; o[key] += o[vkey] * dt; };
+  // a neck that snaps flings two droplets sideways; each falls back into its own bead
+  function snap(n) {
+    const A = beads.get(n.a), B = beads.get(n.b), dx = B.x - A.x, dy = B.y - A.y, d = Math.hypot(dx, dy) || 1, ux = dx / d, uy = dy / d;
+    for (const [home, s] of [[A, -1], [B, 1]]) {
+      drops.push({ x: (A.x + B.x) / 2, y: (A.y + B.y) / 2, vx: -uy * s * 170 + ux * s * 50, vy: ux * s * 170 + uy * s * 50, r: 22, home, s: n.s });
+      home.vx += ux * s * 70; home.vy += uy * s * 70; home.v += 90;   // recoil and a wobble
+    }
+  }
+  function join(n) {
+    const A = beads.get(n.a), B = beads.get(n.b), dx = B.x - A.x, dy = B.y - A.y, d = Math.hypot(dx, dy) || 1;
+    A.vx += (dx / d) * 45; A.vy += (dy / d) * 45; B.vx -= (dx / d) * 45; B.vy -= (dy / d) * 45; A.v -= 60; B.v -= 60;   // lurch together
+  }
+  function step(dt, t) {
+    for (const [id, b] of beads) {
+      let tx = b.ax + 7 * Math.sin(t * .37 + b.ph) + 3 * Math.sin(t * .91 + b.ph2), ty = b.ay + 6 * Math.sin(t * .43 + b.ph2) + 3 * Math.sin(t * .77 + b.ph);
+      if (drag && drag.on && drag.id === id) { tx = ptr.x - drag.ox; ty = ptr.y - drag.oy; }
+      else if (ptr.on) { const dx = ptr.x - b.x, dy = ptr.y - b.y, d = Math.hypot(dx, dy); if (d < 160) { const f = .3 * (1 - d / 160) ** 2; tx += dx * f; ty += dy * f; } }
+      if (RM) { b.x = tx; b.y = ty; b.r = b.tr; b.s = b.ts; continue; }
+      spring(b, "x", "vx", tx, dt, .9, .42); spring(b, "y", "vy", ty, dt, .9, .42);   // soft and a little bouncy, like jelly
+      spring(b, "r", "v", b.tr, dt, .45, .32); b.s += (b.ts - b.s) * Math.min(1, dt * 7);
+    }
+    for (const [k, n] of necks) {
+      if (RM) { n.g = n.tg; } else spring(n, "g", "v", n.tg, dt, .85, 1);
+      n.s += (n.ts - n.s) * Math.min(1, dt * 7);
+      if (!RM && n.pg >= .6 && n.g < .6 && !n.tg) snap(n);
+      if (!RM && n.pg < .6 && n.g >= .6 && n.tg) join(n);
+      n.pg = n.g;
+      if (!n.tg && n.g < .01) necks.delete(k);
+    }
+    for (let i = drops.length - 1; i >= 0; i--) {
+      const d = drops[i], h = d.home; spring(d, "x", "vx", h.x, dt, .55, .55); spring(d, "y", "vy", h.y, dt, .55, .55);
+      if (Math.hypot(d.x - h.x, d.y - h.y) < 26) d.r -= dt * 90;   // swallowed by its bead
+      if (d.r < 1) drops.splice(i, 1);
+    }
+    const on = ptr.on && !drag?.on;
+    if (RM) { cur.x = ptr.x; cur.y = ptr.y; cur.r = on ? CURSOR : 0; }
+    else { spring(cur, "x", "vx", ptr.x, dt, .22, .7); spring(cur, "y", "vy", ptr.y, dt, .22, .7); spring(cur, "r", "v", on ? CURSOR : 0, dt, .35, .6); }
+  }
+  function render(t) {
+    ptEls.forEach((g) => { const b = beads.get(g.dataset.id); g.setAttribute("transform", `translate(${b.x.toFixed(1)} ${b.y.toFixed(1)})`); });
+    if (!gl) return;
+    let i = 0;
+    const put = (ax, ay, bx, by, re, rb, pinch, s) => { if (i >= MAX) return; bufP.set([ax, ay, bx, by], i * 4); bufQ.set([re, rb, pinch, s], i * 4); i++; };
+    for (const b of beads.values()) put(b.x, b.y, b.x, b.y, b.r, b.r, 0, b.s);
+    for (const n of necks.values()) {
+      // like real liquid: two thin tongues reach out and touch, then the thread thickens into a neck;
+      // pinching off runs it backwards (the neck thins to a thread, snaps, and each half pulls back into its bead)
+      const A = beads.get(n.a), B = beads.get(n.b), g = Math.max(0, Math.min(1, n.g)), mx = (A.x + B.x) / 2, my = (A.y + B.y) / 2;
+      const stretch = Math.sqrt(Math.min(1, Math.max(.45, n.rest / (Math.hypot(B.x - A.x, B.y - A.y) || 1))));   // a pulled neck gets thinner
+      if (g >= .6) { const waist = (THREAD + ((NECK_MID / NECK_END) * (1 + .05 * Math.sin(t * 1.6 + n.ph)) - THREAD) * ((g - .6) / .4)) * stretch; put(A.x, A.y, B.x, B.y, NECK_END, NECK_END, 1 - waist, n.s); continue; }
+      const u = g / .6;
+      if (u > .03) {
+        put(A.x, A.y, A.x + (mx - A.x) * u, A.y + (my - A.y) * u, NECK_END, NECK_END * THREAD, 0, n.s);
+        put(B.x, B.y, B.x + (mx - B.x) * u, B.y + (my - B.y) * u, NECK_END, NECK_END * THREAD, 0, n.s);
+      }
+    }
+    for (const d of drops) put(d.x, d.y, d.x, d.y, d.r, d.r, 0, d.s);
+    if (cur.r > 1) put(cur.x, cur.y, cur.x, cur.y, cur.r, cur.r, 0, 0);
+    gl.viewport(0, 0, cv.width, cv.height); gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.uniform4fv(U.uP, bufP); gl.uniform4fv(U.uQ, bufQ); gl.uniform1i(U.uN, i); gl.uniform2f(U.uView, 640, VH); gl.uniform1f(U.uPx, 640 / cv.width); gl.uniform1f(U.uT, RM ? 0 : t);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+  }
+  function frame(now) {
+    const dt = Math.min(.033, (now - (last || now)) / 1000); last = now;
+    step(dt, now / 1000); render(now / 1000);
+    raf = visible ? requestAnimationFrame(frame) : 0;
+    if (!raf) last = 0;
+  }
+  const kick = () => { if (!raf && visible) raf = requestAnimationFrame(frame); };
+
+  // ----- words, layout, input -----
+  function names() {
+    const groups = cut(hForK(K)), sj = groups.findIndex((g) => g.includes(sel));
+    $("#mNames").innerHTML = groups.map((g, j) => {
+      const nm = nameOf(g); if (!nm) return "";
+      const [x, y, anc] = NAME_AT[nm][+tall];
+      return `<text class="cn${j === sj ? " on" : ""}" x="${x}" y="${y}" text-anchor="${anc}">${nm}</text>`;
+    }).join("");
+    ptEls.forEach((g) => g.classList.toggle("on", g.dataset.id === sel));
+    showCard($("#mCard"), sel, groups[sj]);
+  }
+  function layout() {
+    tall = svg.clientWidth < 520; VH = tall ? 625 : 440;
+    svg.setAttribute("viewBox", `0 0 640 ${VH}`);
+    $("#mPts").innerHTML = ITEMS.map((it) => { const [dx, dy, an] = (tall && LAB_TALL[it.id]) || LAB[it.id];
+      return `<g class="pt" data-id="${it.id}" tabindex="0" role="button" aria-label="${it.t}"><circle class="hit" r="30"/><text x="${dx}" y="${dy}" text-anchor="${an}">${it.s}</text></g>`; }).join("");
+    ptEls = [...$("#mPts").querySelectorAll(".pt")];
+    const dpr = Math.min(2, devicePixelRatio || 1);
+    cv.width = Math.round(svg.clientWidth * dpr); cv.height = Math.round(svg.clientHeight * dpr);
+    beads.clear(); necks.clear(); drops.length = 0; retarget(); necks.forEach((n) => { n.g = n.pg = 1; }); names();
+    render(performance.now() / 1000);
+  }
+  function setK(k) {
+    K = k; retarget();
+    const n = $("#mNames"); n.classList.add("hide"); clearTimeout(nameTimer);
+    nameTimer = setTimeout(() => { names(); n.classList.remove("hide"); }, RM ? 0 : 450);
+  }
+  const choose = (id) => { sel = id; retarget(); names(); const b = beads.get(id); if (b && !RM) b.v += 110; };   // a little plop
+  const local = (e) => { const r = svg.getBoundingClientRect(); ptr.x = ((e.clientX - r.left) / r.width) * 640; ptr.y = ((e.clientY - r.top) / r.height) * VH; };
+  svg.addEventListener("pointermove", (e) => {
+    local(e); ptr.on = e.pointerType !== "touch";
+    if (drag && !drag.on && Math.hypot(e.clientX - drag.cx, e.clientY - drag.cy) > 6) { drag.on = true; svg.setPointerCapture(e.pointerId); svg.classList.add("dragging"); }
+  });
+  svg.addEventListener("pointerleave", () => { if (!drag?.on) ptr.on = false; });
+  svg.addEventListener("pointerdown", (e) => {
+    const g = e.target.closest(".pt"); if (!g || e.button) return;
+    local(e); const b = beads.get(g.dataset.id);
+    drag = { id: g.dataset.id, cx: e.clientX, cy: e.clientY, ox: ptr.x - b.x, oy: ptr.y - b.y, on: false };
+  });
+  const release = (e) => {
+    if (!drag) return;
+    const was = drag; drag = null; svg.classList.remove("dragging");
+    if (e.type === "pointercancel") { ptr.on = false; return; }   // the page scrolled instead: not a tap
+    if (!was.on) choose(was.id); else { const b = beads.get(was.id); b.v += 80; }   // let go: it springs home, wobbling
+    if (e.pointerType === "touch") ptr.on = false;
+  };
+  svg.addEventListener("pointerup", release); svg.addEventListener("pointercancel", release);
+  $("#mPts").addEventListener("keydown", (e) => { const g = e.target.closest(".pt"); if (g && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); choose(g.dataset.id); } });
+  $("#mPts").addEventListener("pointerover", (e) => { const g = e.target.closest(".pt"); if (g && hover !== g.dataset.id) { hover = g.dataset.id; retarget(); } });
+  $("#mPts").addEventListener("pointerout", (e) => { if (!e.relatedTarget?.closest?.(".pt")) { hover = null; retarget(); } });
+  seg($("#mK"), K, setK);
+  new ResizeObserver(() => { if (Math.round(svg.clientWidth * Math.min(2, devicePixelRatio || 1)) !== cv.width) layout(); }).observe(svg);
+  new IntersectionObserver(([en]) => { visible = en.isIntersecting; if (visible) kick(); }).observe(stage);
+  layout();
+})();
+
+// ---------- B · dendrogram ----------
+(() => {
+  const box = $("#dWrap"), svg = $("#dSvg"), hd = $("#dHd"), order = leaves(TREE);
+  let W = 0, ROW = 44, TOP = 46, tw = 0, cutH = hForK(3), sel = "pastry", drag = false, anim = 0, lastK = 0;
+  const X = (h) => tw - h * (tw - 14), hAt = (x) => Math.min(.99, Math.max(.02, (tw - x) / (tw - 14)));
+  const rowY = (i) => TOP + i * ROW + ROW / 2;
+  const pos = (n) => { if (typeof n === "string") return { x: tw, y: rowY(order.indexOf(n)) }; const a = pos(n.kids[0]), b = pos(n.kids[1]); return { x: X(n.h), y: (a.y + b.y) / 2 }; };
+
+  function layout() {
+    W = box.clientWidth; const narrow = W < 520;
+    ROW = narrow ? 42 : 44; tw = Math.round(Math.min(300, Math.max(104, W * (narrow ? .3 : .4))));
+    const H = TOP + ROW * 12 + 6;
+    svg.setAttribute("viewBox", `0 0 ${W} ${H}`); svg.setAttribute("height", H);
+    const z = $("#dZone"); z.setAttribute("x", 0); z.setAttribute("y", 0); z.setAttribute("width", tw + 8); z.setAttribute("height", H);
+    const c = $("#dCut"); c.setAttribute("y1", 32); c.setAttribute("y2", H - 4);
+    $("#dRows").innerHTML = order.map((id, i) => `<g class="row" data-id="${id}" tabindex="0" role="button" aria-label="${BY[id].t}"><rect class="hit" x="${tw + 4}" y="${TOP + i * ROW}" width="${W - tw - 4}" height="${ROW}"/><text x="${tw + 20}" y="${rowY(i) + 6}">${BY[id].s}</text></g>`).join("");
+    lastK = 0; set(cutH);
+  }
+  function set(h) {
+    cutH = h; const cx = X(h), groups = cut(h), k = groups.length, sj = groups.findIndex((g) => g.includes(sel));
+    $("#dCut").setAttribute("x1", cx); $("#dCut").setAttribute("x2", cx);
+    hd.setAttribute("transform", `translate(${Math.min(W - 40, Math.max(40, cx)).toFixed(1)} 0)`);
+    if (k !== lastK) { hd.querySelector("text").textContent = `‹ k = ${k} ›`; hd.setAttribute("aria-valuenow", k); hd.setAttribute("aria-valuetext", `${k} clusters`); lastK = k; }
+    const inSel = new Set(groups[sj]);
+    // Branches: above the cut they fade; inside a cluster they're ink, or matcha for the open one.
+    const paths = [], root = pos(TREE);
+    (function walk(n) {
+      if (typeof n === "string") return;
+      const [a, b] = n.kids.map(pos), p = pos(n), cls = n.h >= h ? "up" : leaves(n).some((id) => inSel.has(id)) ? "on" : "in";
+      paths.push(`<path class="br ${cls}" d="M${a.x.toFixed(1)} ${a.y}H${p.x.toFixed(1)}V${b.y}H${b.x.toFixed(1)}"/>`);
+      n.kids.forEach(walk);
+    })(TREE);
+    paths.unshift(`<path class="br up" d="M${root.x.toFixed(1)} ${root.y}H4"/>`);
+    $("#dTree").innerHTML = paths.join("");
+    $("#dX").innerHTML = groups.map((g, j) => { return `<circle class="x${j === sj ? " on" : ""}" cx="${cx.toFixed(1)}" cy="${cy(g).toFixed(1)}" r="4.5"/>`; }).join("");
+    let i0 = 0;
+    $("#dBands").innerHTML = groups.map((g, j) => { const s = `<rect class="band${j === sj ? " on" : ""}" x="${tw + 6}" y="${TOP + i0 * ROW + 3}" width="${W - tw - 6}" height="${g.length * ROW - 6}" rx="12"/>`; i0 += g.length; return s; }).join("");
+    i0 = 0;
+    $("#dLbls").innerHTML = groups.map((g, j) => { const nm = nameOf(g), y = TOP + i0 * ROW + (g.length > 1 ? Math.floor(g.length / 2) * ROW : ROW / 2) + 5; i0 += g.length; return nm ? `<text class="lbl${j === sj ? " on" : ""}" x="${W - 18}" y="${y}">${nm}</text>` : ""; }).join("");
+    $("#dRows").querySelectorAll(".row").forEach((r) => r.classList.toggle("on", r.dataset.id === sel));
+    showCard($("#dCard"), sel, groups[sj]);
+  }
+  // Where a cluster's branch crosses the cut line: the y of that cluster's root.
+  function cy(g) { let n = TREE; while (typeof n !== "string" && leaves(n).length !== g.length) n = n.kids.find((c) => leaves(c).includes(g[0])); return pos(n).y; }
+  function tween(h) {
+    const h0 = cutH, t0 = performance.now(), my = ++anim;
+    if (RM) return set(h);
+    const f = (now) => { if (my !== anim) return; const u = Math.min(1, Math.max(0, (now - t0) / 280)); set(h0 + (h - h0) * (1 - (1 - u) ** 3)); if (u < 1) requestAnimationFrame(f); };
+    requestAnimationFrame(f);
+  }
+  const lx = (e) => e.clientX - svg.getBoundingClientRect().left;
+  svg.addEventListener("pointerdown", (e) => {
+    if (!e.target.closest("#dZone,#dHd")) return;
+    drag = true; anim++; svg.setPointerCapture(e.pointerId); set(hAt(lx(e)));
+  });
+  svg.addEventListener("pointermove", (e) => { if (drag) set(hAt(lx(e))); });
+  const end = () => { if (!drag) return; drag = false; tween(hForK(cut(cutH).length)); };
+  svg.addEventListener("pointerup", end); svg.addEventListener("pointercancel", end);
+  const pick = (e) => { const r = e.target.closest(".row"); if (r) { sel = r.dataset.id; set(cutH); } };
+  svg.addEventListener("click", pick);
+  svg.addEventListener("keydown", (e) => {
+    if (e.target === hd) {
+      const k = cut(cutH).length, d = { ArrowRight: 1, ArrowUp: 1, ArrowLeft: -1, ArrowDown: -1 }[e.key];
+      if (d) { e.preventDefault(); tween(hForK(Math.min(12, Math.max(1, k + d)))); }
+    } else if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pick(e); }
+  });
+  new ResizeObserver(() => { if (box.clientWidth !== W) layout(); }).observe(box);
+  layout();
+})();
+
+// ---------- C · columns ----------
+(() => {
+  const cols = $("#tCols"), nodes = {};
+  let K = 3, sel = "pastry";
+  ITEMS.forEach((it) => { const b = document.createElement("button"); b.type = "button"; b.className = "ts-n"; b.dataset.id = it.id; b.textContent = it.s; nodes[it.id] = b; });
+  // FLIP: note where each name is, move it into its new column, then animate from the old spot.
+  function draw(animate) {
+    const groups = cut(hForK(K)), sj = groups.findIndex((g) => g.includes(sel));
+    const first = animate ? Object.fromEntries(IDS.map((id) => [id, nodes[id].getBoundingClientRect()])) : null;
+    cols.style.setProperty("--k", K); cols.style.setProperty("--km", Math.min(K, 2));
+    cols.replaceChildren(...groups.map((g, j) => {
+      const c = document.createElement("div"); c.className = "ts-col" + (j === sj ? " on" : "");
+      c.innerHTML = `<p class="ts-h">${nameOf(g)}</p><div class="ts-l"></div>`;
+      g.forEach((id) => c.lastChild.append(nodes[id])); return c;
+    }));
+    IDS.forEach((id) => nodes[id].classList.toggle("on", id === sel));
+    showCard($("#tCard"), sel, groups[sj]);
+    if (!first || RM) return;
+    IDS.forEach((id, i) => {
+      const n = nodes[id], a = first[id], b = n.getBoundingClientRect();
+      n.style.transition = "none"; n.style.transform = `translate(${a.left - b.left}px,${a.top - b.top}px)`; n.style.transitionDelay = `${i * 18}ms`;
+    });
+    requestAnimationFrame(() => requestAnimationFrame(() => IDS.forEach((id) => { nodes[id].style.transition = ""; nodes[id].style.transform = ""; })));
+    setTimeout(() => IDS.forEach((id) => { nodes[id].style.transitionDelay = ""; }), 900);
+  }
+  cols.addEventListener("click", (e) => { const b = e.target.closest(".ts-n"); if (b) { sel = b.dataset.id; draw(false); } });
+  seg($("#tK"), K, (k) => { K = k; draw(true); });
+  draw(false);
+})();
+</script>
+</body>
+</html>

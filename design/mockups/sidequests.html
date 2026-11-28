@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sidequests mockups</title>
+<style>
+@font-face{font-family:"CMS";src:url("../../public/fonts/cmu/cmunrm.woff") format("woff");font-weight:400}
+@font-face{font-family:"CMS";src:url("../../public/fonts/cmu/cmunbx.woff") format("woff");font-weight:700}
+@font-face{font-family:"CMS";src:url("../../public/fonts/cmu/cmunti.woff") format("woff");font-style:italic}
+@font-face{font-family:"CMT";src:url("../../public/fonts/cmu/cmuntt.woff") format("woff");font-weight:400}
+:root{--bg:#fff;--tile:#f5f5f7;--tile-2:#e8e8ed;--ink:#1d1d1f;--ink-2:#5f5f64;--line:#d2d2d7;--matcha:#8a9a5b;--matcha-text:#55633a;--matcha-wash:#eef1e4;
+  --serif:"CMS",Georgia,serif;--mono:"CMT",ui-monospace,Menlo,monospace;--ease:cubic-bezier(.16,1,.3,1);--glide:cubic-bezier(.32,.72,0,1)}
+*{box-sizing:border-box;margin:0}
+html{-webkit-font-smoothing:antialiased}
+body{background:var(--bg);color:var(--ink);font-family:var(--serif);font-size:17px;line-height:1.5}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;touch-action:manipulation}
+:focus-visible{outline:2px solid var(--matcha-text);outline-offset:3px;border-radius:8px}
+svg :focus{outline:none}
+.wrap{max-width:1020px;margin:0 auto;padding:0 22px}
+.top{padding:64px 0 8px}
+.top>p:first-child{font-family:var(--mono);font-size:13px;color:var(--ink-2)}
+.top h1{margin-top:10px;font-size:clamp(40px,5vw,60px);font-weight:700;letter-spacing:-.015em;line-height:1.05}
+.top .sub{margin-top:12px;font-size:19px;color:var(--ink-2);max-width:56ch}
+.jump{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.jump a{font-family:var(--mono);font-size:13px;padding:10px 16px;border-radius:980px;background:var(--tile);color:var(--ink);text-decoration:none}
+.jump a:hover{background:var(--tile-2)}
+section.mock{padding:96px 0 64px;border-bottom:1px solid var(--line)}
+.lab{font-family:var(--mono);font-size:13px;color:var(--matcha-text)}
+.mock h2{margin-top:6px;font-size:clamp(28px,3vw,36px);font-weight:700;letter-spacing:-.005em;line-height:1.14}
+.mock .why{margin-top:8px;color:var(--ink-2);max-width:62ch}
+.two{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:56px;align-items:start;margin-top:40px}
+.stage svg{display:block;width:100%;height:auto;overflow:visible;user-select:none;-webkit-user-select:none;touch-action:manipulation}
+.hint{margin-top:10px;font-family:var(--mono);font-size:12.5px;color:var(--ink-2)}
+.note{margin-top:14px;font-size:14.5px;color:var(--ink-2);max-width:64ch}
+
+/* the card every option shares (same as the live .clu-card) */
+.card{padding-top:8px}
+.card .kind{font-family:var(--mono);font-size:12.5px;color:var(--matcha-text)}
+.card h3{margin-top:6px;font-size:26px;font-weight:700;letter-spacing:-.005em;line-height:1.16;text-wrap:balance}
+.card .org{margin-top:2px;font-size:16.5px;color:var(--ink-2)}
+.card .meta{margin-top:6px;font-size:13.5px;color:var(--ink-2)}
+.card .d{margin-top:16px;font-size:17px;line-height:1.55;text-wrap:pretty}
+.card .in{margin-top:18px;padding-top:14px;border-top:1px solid var(--line);font-size:15px;color:var(--ink-2)}
+.card .in i{color:var(--matcha-text)}
+.card .in button{color:var(--matcha-text);padding:6px 0}
+.card .in button:hover{text-decoration:underline;text-underline-offset:4px}
+.card a{display:inline-block;margin-top:14px;padding:10px 0;color:var(--matcha-text);text-decoration:none}
+.card a:hover{text-decoration:underline;text-underline-offset:4px}
+.num{font-family:var(--mono);font-size:12.5px;color:var(--ink-2)}
+
+/* A · embedding */
+#emb .cells path{fill:transparent;stroke:#e8e8ed;stroke-width:1;cursor:pointer;transition:fill .2s}
+#emb .cells path.hov{fill:var(--tile)}
+#emb .cells path.on{fill:var(--matcha-wash)}
+#emb .ax path{fill:none;stroke:var(--ink-2);stroke-width:1}
+#emb .ax text{font-family:var(--mono);font-size:12.5px;fill:var(--ink-2)}
+#emb .nbl line{stroke:var(--matcha);stroke-width:1.5;stroke-dasharray:3 4}
+#emb .pt{cursor:pointer}
+#emb .pt circle{fill:var(--ink-2);transform-box:fill-box;transform-origin:center;transition:transform .25s var(--ease),fill .2s}
+#emb .pt.hov circle{transform:scale(1.3)}
+#emb .pt.nb circle{fill:#fff;stroke:var(--matcha-text);stroke-width:2}
+#emb .pt.on circle{fill:var(--matcha-text);stroke:none;transform:scale(1.5)}
+#emb .pt text{font-size:16px;fill:var(--ink)}
+#emb .pt.on text{font-weight:700;fill:var(--matcha-text)}
+#emb .pt:focus-visible text{text-decoration:underline;text-underline-offset:3px}
+
+/* B · decision tree */
+#tree .e{fill:none;stroke:var(--line);stroke-width:1.5;transition:stroke .25s}
+#tree .e.on{stroke:var(--matcha-text);stroke-width:2.5}
+#tree .n{fill:#fff;stroke:var(--ink-2);stroke-width:1.5;transition:fill .25s,stroke .25s}
+#tree .n.on{fill:var(--matcha-text);stroke:var(--matcha-text)}
+#tree .ring{fill:none;stroke:var(--matcha);stroke-width:2;transition:transform .45s var(--glide)}
+#tree .lf{cursor:pointer;transition:opacity .3s}
+#tree .lf.out{opacity:.32}
+#tree .lf .hit{fill:transparent}
+#tree .lf circle{fill:var(--ink-2);transition:fill .2s}
+#tree .lf text{font-size:16px;fill:var(--ink);transition:fill .2s}
+#tree .lf:hover text,#tree .lf:focus-visible text{fill:var(--matcha-text)}
+#tree .lf:focus-visible text{text-decoration:underline;text-underline-offset:3px}
+#tree .lf.on circle{fill:var(--matcha-text)}
+#tree .lf.on text{font-weight:700;fill:var(--matcha-text)}
+.ans{display:flex;flex-direction:column;gap:10px;margin-top:22px}
+.ans button{min-height:50px;padding:12px 20px;border-radius:14px;background:var(--tile);text-align:left;font-size:17px;transition:background .2s,transform .1s ease-out}
+.ans button:hover{background:var(--tile-2)}
+.ans button:active{transform:scale(.97)}
+.trail{margin-top:18px;font-size:15px;color:var(--ink-2)}
+.trail i{color:var(--matcha-text)}
+.link{display:block;margin-top:6px;padding:10px 0;color:var(--ink-2);font-size:15px}
+.link:hover{color:var(--ink)}
+
+/* C · similarity matrix */
+.seg{display:inline-flex;gap:4px;padding:4px;border-radius:980px;background:var(--tile)}
+.seg button{min-height:40px;padding:0 16px;border-radius:980px;font-size:15px;color:var(--ink-2);transition:background .2s,color .2s,box-shadow .2s,transform .1s ease-out}
+.seg button:hover{color:var(--ink)}
+.seg button:active{transform:scale(.95)}
+.seg button[aria-pressed=true]{background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.08),0 0 0 .5px rgba(0,0,0,.06)}
+.readout{min-height:44px;margin:18px 0 10px;font-family:var(--mono);font-size:13px;line-height:1.6;color:var(--ink-2)}
+.readout b{font-weight:400;color:var(--ink)}
+#mat .c{cursor:pointer;transition:transform .9s var(--glide)}
+#mat .rl{cursor:pointer;transition:transform .9s var(--glide)}
+#mat .rl .hit{fill:transparent}
+#mat .rl text{font-size:15px;fill:var(--ink);transition:fill .2s}
+#mat .rl.hl text{fill:var(--matcha-text)}
+#mat .rl.on text{font-weight:700;fill:var(--matcha-text)}
+#mat .rl:focus-visible text{text-decoration:underline;text-underline-offset:3px}
+#mat .rowsel{fill:none;stroke:var(--ink);stroke-width:1.25;pointer-events:none;transition:transform .9s var(--glide)}
+#mat .blk,#mat .gn{opacity:0;transition:opacity .25s}
+#mat.sorted .blk,#mat.sorted .gn{opacity:1;transition:opacity .5s .75s}
+#mat .blk{fill:none;stroke:var(--matcha-text);stroke-width:1.5;pointer-events:none}
+#mat .gn line{stroke:var(--line);stroke-width:1.5}
+#mat .gn text{font-style:italic;font-size:15px;fill:var(--ink-2)}
+
+@media (max-width:760px){
+  .two{grid-template-columns:1fr;gap:20px}
+  .q-first .card{order:-1}
+  section.mock{padding:72px 0 48px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header class="top wrap">
+  <p>Sidequests · three new directions</p>
+  <h1>Sidequests, three ways</h1>
+  <p class="sub">The same twelve sidequests and the same words, arranged with three different machine learning ideas. Try each one, then tell me which to build.</p>
+  <nav class="jump" aria-label="Options"><a href="#a">A · Embedding</a><a href="#b">B · Decision tree</a><a href="#c">C · Similarity matrix</a></nav>
+</header>
+
+<main>
+<section class="mock" id="a"><div class="wrap">
+  <p class="lab">A · Embedding</p>
+  <h2>Where each one sits</h2>
+  <p class="why">Every sidequest is a point in a two-dimensional space with axes you can read, so where something sits already tells you about it. Tap anywhere: the nearest sidequest answers, and its two nearest neighbours light up.</p>
+  <div class="two" id="emb">
+    <div class="stage"><svg role="group" aria-label="Sidequests plotted from on my own to with people, and from play to work"></svg>
+      <p class="hint">tap anywhere · arrow keys move between points</p></div>
+    <div class="card" aria-live="polite"></div>
+  </div>
+</div></section>
+
+<section class="mock" id="b"><div class="wrap">
+  <p class="lab">B · Decision tree</p>
+  <h2>Which sidequest are you?</h2>
+  <p class="why">A decision tree trained on <i>n</i> = 1. Answer up to five questions and it sorts you into one of my sidequests. Every leaf opens on its own too, and shows the answers that lead to it.</p>
+  <div class="two q-first" id="tree">
+    <div class="stage"><svg role="group" aria-label="Decision tree of sidequests"></svg></div>
+    <div class="card" aria-live="polite"></div>
+  </div>
+</div></section>
+
+<section class="mock" id="c"><div class="wrap">
+  <p class="lab">C · Similarity matrix</p>
+  <h2>Sorted by an eigenvector</h2>
+  <p class="why">Each cell compares two sidequests by what they have in common. In alphabetical order it looks like noise. Sorted by an eigenvector, the groups surface as blocks down the diagonal, which suits a site built on Λ.</p>
+  <div class="two" id="matwrap">
+    <div>
+      <div class="seg" role="group" aria-label="Row order"><button type="button" data-o="az" aria-pressed="true">A–Z</button><button type="button" data-o="eig" aria-pressed="false">By eigenvector</button></div>
+      <p class="readout" aria-live="polite"></p>
+      <div class="stage"><svg id="mat" role="group" aria-label="Similarity between every pair of sidequests"></svg></div>
+      <p class="note">Similarity is the cosine between two sidequests’ tags. The eigenvector order splits the list on the Fiedler vector (the eigenvector of the second-smallest eigenvalue of the graph Laplacian), then splits each half the same way.</p>
+    </div>
+    <div class="card" aria-live="polite"></div>
+  </div>
+</div></section>
+</main>
+
+<script>
+// ---------- the data (same as interestMap in src/data/site.ts) ----------
+const ITEMS = [
+  { id: "chess", title: "Chess", short: "Chess", kind: "hobby", meta: "1700 puzzles · 1500 rapid · 1100 blitz", desc: "Not very good. Puzzles daily, and games in Harvard Square over the summer.", cta: "Challenge me to a game →" },
+  { id: "league", title: "League of Legends", short: "League", kind: "hobby", meta: "ARAM enjoyer", desc: "Every now and then with friends. Used to be top 1%, and played competitively at university for a bit.", cta: "Queue up an ARAM →" },
+  { id: "matcha", title: "Matcha", short: "Matcha", kind: "hobby", meta: "Whisking · tasting · spending money", desc: "Enjoyer since birth. Let’s connect and have matcha.", cta: "Let’s get matcha →" },
+  { id: "fashion", title: "Fashion", short: "Fashion", kind: "hobby", meta: "Heritage · engineering · trend", desc: "Cool clothes and accessories, and the stories about the people and history behind every piece.", cta: "Talk clothes with me →" },
+  { id: "watches", title: "Vintage watches", short: "Watches", kind: "both", org: "eBay", meta: "eBay business · 2024 – now", desc: "I curate and sell vintage watches and watch parts on eBay.", cta: "Ask me about a watch →" },
+  { id: "pastry", title: "Pastry chef", short: "Pastry chef", kind: "both", org: "Swan Bakery, London", meta: "London · 2023 – 2024", desc: "Pastries, cakes and tarts, and the lesson that professional baking is not all sunshine.", cta: "Ask me for a recipe →" },
+  { id: "bar", title: "Bartender and waiter", short: "Bartender", kind: "job", org: "Noodle and Beer, London", meta: "London · 2023 – 2024", desc: "Behind the bar and on the floor at a noodle bar in London.", cta: "Ask me where to eat in London →" },
+  { id: "consult", title: "Junior associate consultant", short: "Consultant", kind: "job", org: "Global Research &amp; Consulting Group", meta: "2024 – 2025", desc: "Strategic analysis and operational recommendations for international organisations and public-sector clients.", cta: "Ask me about consulting →" },
+  { id: "generate", title: "Data science technical lead", short: "Generate", kind: "job", org: "Generate Product Development Studio", meta: "2025 – 2026", desc: "Technical lead at a student-run product studio building ML and AI software for startups.", cta: "Pitch me your startup →" },
+  { id: "disrupt", title: "Marketing coordinator", short: "Disrupt", kind: "job", org: "Disrupt Fintech Society", meta: "2024 – 2025", desc: "Planned, marketed and ran events for students in fintech: hackathons, panels and research talks.", cta: "Ask me about Disrupt →" },
+  { id: "ambassador", title: "Global program alumni ambassador", short: "Ambassador", kind: "job", org: "Northeastern Office of Global Experience", meta: "2024 – 2025", desc: "Planned and gave talks on Northeastern’s global programs for prospective and incoming students.", cta: "Ask me about studying abroad →" },
+  { id: "mentor", title: "BSIB student mentor", short: "Mentor", kind: "job", org: "D’Amore-McKim School of Business", meta: "2026 – now", desc: "Mentoring undergraduates in the BSIB program on course planning, careers and study abroad.", cta: "Ask me about BSIB →" },
+];
+const KINDS = { hobby: "Hobby", job: "Side job", both: "Hobby and side job" };
+const BY = Object.fromEntries(ITEMS.map((it) => [it.id, it]));
+const IDS = ITEMS.map((it) => it.id);
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+function card(el, it, top, extra = "", tail = "") {
+  el.innerHTML = `<p class="kind">${top}</p><h3>${it.title}</h3>${it.org ? `<p class="org">${it.org}</p>` : ""}<p class="meta">${it.meta}</p><p class="d">${it.desc}</p>${extra}<a href="#" onclick="return false">${it.cta}</a>${tail}`;
+  if (!reduce) el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 200, easing: "ease-out" });
+}
+// calls fn(width) whenever the element's width changes; everything is drawn 1 unit = 1px so text stays legible on phones
+function onWidth(el, fn) {
+  let w = 0;
+  new ResizeObserver(([e]) => { const nw = Math.round(e.contentRect.width); if (nw && nw !== w) { w = nw; fn(nw); } }).observe(el);
+}
+
+// ---------- A · embedding ----------
+(() => {
+  const root = document.getElementById("emb"), svg = root.querySelector("svg"), cardEl = root.querySelector(".card");
+  // x: on my own (0) to with people (1); y: play (0) to work (1). Hand-placed: move these to taste.
+  const P = { chess: [.08, .10], league: [.40, .07], fashion: [.13, .33], matcha: [.42, .30], watches: [.10, .54], pastry: [.44, .60],
+    bar: [.76, .46], generate: [.24, .92], consult: [.46, .76], mentor: [.62, .98], disrupt: [.88, .88], ambassador: [.95, .70] };
+  const LEFT = new Set(["bar", "disrupt", "ambassador"]);
+  let sel = "matcha", px = {}, drawn = false;
+  const near = (id) => IDS.filter((j) => j !== id).map((j) => [Math.hypot(P[j][0] - P[id][0], P[j][1] - P[id][1]), j]).sort((a, b) => a[0] - b[0]).slice(0, 2).map((x) => x[1]);
+
+  // Voronoi cells by clipping the plot box with every perpendicular bisector: the 1-nearest-neighbour regions
+  const clip = (poly, a, b, c) => { // keep a·x + b·y <= c
+    const out = [];
+    poly.forEach((p, i) => {
+      const q = poly[(i + 1) % poly.length], fp = a * p[0] + b * p[1] - c, fq = a * q[0] + b * q[1] - c;
+      if (fp <= 0) out.push(p);
+      if ((fp <= 0) !== (fq <= 0)) { const t = fp / (fp - fq); out.push([p[0] + t * (q[0] - p[0]), p[1] + t * (q[1] - p[1])]); }
+    });
+    return out;
+  };
+  const voronoi = (pts, box) => pts.map((p, i) => pts.reduce((poly, q, j) => i === j ? poly
+    : clip(poly, 2 * (q[0] - p[0]), 2 * (q[1] - p[1]), q[0] ** 2 + q[1] ** 2 - p[0] ** 2 - p[1] ** 2), box));
+
+  function draw(W) {
+    const H = Math.round(W < 520 ? W * 1.3 : W * .68), L = 46, R = W - 4, T = 8, B = H - 30, pad = 22;
+    IDS.forEach((id) => { px[id] = [L + pad + P[id][0] * (R - L - 2 * pad), B - pad - P[id][1] * (B - T - 2 * pad)]; });
+    const cells = voronoi(IDS.map((id) => px[id]), [[L, T], [R, T], [R, B], [L, B]]);
+    svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+    svg.innerHTML = `<g class="cells">${cells.map((c, i) => `<path data-id="${IDS[i]}" d="M${c.map((p) => p.map((v) => v.toFixed(1)).join(",")).join("L")}Z"/>`).join("")}</g>
+      <g class="ax"><path d="M${L},${T}V${B}H${R}"/><text x="${L - 8}" y="${T + 12}" text-anchor="end">work</text><text x="${L - 8}" y="${B}" text-anchor="end">play</text>
+        <text x="${L}" y="${B + 22}">on my own</text><text x="${R}" y="${B + 22}" text-anchor="end">with people</text></g>
+      <g class="nbl"></g>
+      <g class="pts">${IDS.map((id) => { const [x, y] = px[id], l = LEFT.has(id);
+        return `<g class="pt" data-id="${id}" tabindex="-1" role="button" aria-label="${BY[id].title}, ${KINDS[BY[id].kind]}"><circle cx="${x}" cy="${y}" r="5"/><text x="${x + (l ? -12 : 12)}" y="${y + 5}" text-anchor="${l ? "end" : "start"}">${BY[id].short}</text></g>`; }).join("")}</g>`;
+    paint(!drawn); drawn = true;
+  }
+  function paint(withCard = true) {
+    const nb = near(sel), [x, y] = px[sel];
+    svg.querySelectorAll("[data-id]").forEach((e) => e.classList.toggle("on", e.dataset.id === sel));
+    svg.querySelectorAll(".pt").forEach((e) => { e.classList.toggle("nb", nb.includes(e.dataset.id)); e.tabIndex = e.dataset.id === sel ? 0 : -1; });
+    svg.querySelector(".nbl").innerHTML = nb.map((j) => `<line x1="${x}" y1="${y}" x2="${px[j][0]}" y2="${px[j][1]}"/>`).join("");
+    if (withCard) card(cardEl, BY[sel], KINDS[BY[sel].kind], `<p class="in">Nearest neighbours: ${nb.map((j) => `<button type="button" data-go="${j}">${BY[j].short}</button>`).join(" · ")}</p>`);
+  }
+  function choose(id, focus) { if (id !== sel) { sel = id; paint(); } if (focus) svg.querySelector(`.pt[data-id="${id}"]`).focus(); }
+  const hover = (id) => svg.querySelectorAll("[data-id]").forEach((e) => e.classList.toggle("hov", e.dataset.id === id));
+
+  svg.addEventListener("click", (e) => { const g = e.target.closest("[data-id]"); if (g) choose(g.dataset.id); });
+  svg.addEventListener("pointerover", (e) => hover(e.target.closest("[data-id]")?.dataset.id));
+  svg.addEventListener("pointerleave", () => hover(null));
+  svg.addEventListener("keydown", (e) => { // arrows go to the nearest point in that direction
+    const d = { ArrowRight: [1, 0], ArrowLeft: [-1, 0], ArrowUp: [0, 1], ArrowDown: [0, -1] }[e.key];
+    if (!d) return;
+    e.preventDefault();
+    let best = null, bs = Infinity;
+    for (const id of IDS) {
+      const dx = P[id][0] - P[sel][0], dy = P[id][1] - P[sel][1], along = dx * d[0] + dy * d[1], across = Math.abs(dx * d[1] - dy * d[0]);
+      if (id !== sel && along > .01 && along + 2 * across < bs) { bs = along + 2 * across; best = id; }
+    }
+    if (best) choose(best, true);
+  });
+  cardEl.addEventListener("click", (e) => { const b = e.target.closest("[data-go]"); if (b) choose(b.dataset.go, true); });
+  onWidth(root.querySelector(".stage"), draw);
+})();
+
+// ---------- B · decision tree ----------
+(() => {
+  const root = document.getElementById("tree"), svg = root.querySelector("svg"), panel = root.querySelector(".card");
+  const q = (text, a, b) => ({ text, kids: [a, b] }); // a and b are [answer, leaf id or another question]
+  const TREE = q("Pick a Saturday: play or work?",
+    ["Play", q("Do you play to win?",
+      ["Always", q("Pieces or champions?", ["Pieces", "chess"], ["Champions", "league"])],
+      ["Not really", q("Drink it or wear it?", ["Drink it", "matcha"], ["Wear it", "fashion"])])],
+    ["Work", q("Selling something, or building your LinkedIn?",
+      ["Selling something", q("Online or in London?", ["Online", "watches"],
+        ["In London", q("In the kitchen or behind the bar?", ["The kitchen", "pastry"], ["Behind the bar", "bar"])])],
+      ["Building my LinkedIn", q("Fix a problem, or run a room?",
+        ["Fix a problem", q("Slides or models?", ["Slides", "consult"], ["Models", "generate"])],
+        ["Run a room", q("One person, or a hundred?", ["One", "mentor"],
+          ["A hundred", q("Hackathon or info session?", ["Hackathon", "disrupt"], ["Info session", "ambassador"])])])])]);
+
+  const nodes = [];
+  (function walk(n, depth, parent, ans) {
+    const node = { id: nodes.length, depth, parent, ans, leaf: typeof n === "string" ? n : null, text: n.text, kids: [] };
+    nodes.push(node);
+    if (parent != null) nodes[parent].kids.push(node.id);
+    if (!node.leaf) n.kids.forEach(([a, c]) => walk(c, depth + 1, node.id, a));
+  })(TREE, 0, null, null);
+  const leaves = nodes.filter((n) => n.leaf), maxD = Math.max(...nodes.filter((n) => !n.leaf).map((n) => n.depth));
+  const under = (id) => { const n = nodes[id]; return n.leaf ? [n.leaf] : n.kids.flatMap(under); };
+  const chain = (id) => { const c = []; for (let k = id; k != null; k = nodes[k].parent) c.unshift(k); return c; };
+  let path = [0], pos = [], drawn = false;
+
+  function draw(W) {
+    const rh = 36, lx = W - (W < 520 ? 100 : 112), x0 = 12, step = (lx - x0) / (maxD + 1), H = 2 * 18 + (leaves.length - 1) * rh;
+    let li = 0;
+    (function place(id) { // leaves stack down one column; a question sits level with the middle of its two answers
+      const n = nodes[id];
+      if (n.leaf) pos[id] = [lx, 18 + rh * li++];
+      else { n.kids.forEach(place); pos[id] = [x0 + n.depth * step, (pos[n.kids[0]][1] + pos[n.kids[1]][1]) / 2]; }
+    })(0);
+    svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+    const edge = (c) => { const [px, py] = pos[nodes[c].parent], [cx, cy] = pos[c], m = px + step / 2;
+      return `<path class="e" data-n="${c}" d="M${px},${py}C${m},${py} ${m},${cy} ${px + step},${cy}H${cx}"/>`; };
+    svg.innerHTML = `<g>${nodes.slice(1).map((n) => edge(n.id)).join("")}</g>
+      <g>${nodes.filter((n) => !n.leaf).map((n) => `<circle class="n" data-n="${n.id}" cx="${pos[n.id][0]}" cy="${pos[n.id][1]}" r="4.5"/>`).join("")}</g>
+      <circle class="ring" r="10" cx="0" cy="0"/>
+      <g>${leaves.map((n) => { const [x, y] = pos[n.id], it = BY[n.leaf];
+        return `<g class="lf" data-n="${n.id}" tabindex="0" role="button" aria-label="${it.title}"><rect class="hit" x="${x - 14}" y="${y - rh / 2}" width="${W - x + 14}" height="${rh}"/><circle cx="${x}" cy="${y}" r="5"/><text x="${x + 13}" y="${y + 5}">${it.short}</text></g>`; }).join("")}</g>`;
+    paint(!drawn); drawn = true;
+  }
+  function paint(withPanel = true) {
+    const cur = path.at(-1), on = new Set(path), live = new Set(under(cur));
+    svg.querySelectorAll(".e").forEach((e) => e.classList.toggle("on", on.has(+e.dataset.n)));
+    svg.querySelectorAll(".n").forEach((e) => e.classList.toggle("on", on.has(+e.dataset.n)));
+    svg.querySelectorAll(".lf").forEach((e) => { const n = nodes[+e.dataset.n]; e.classList.toggle("out", !live.has(n.leaf)); e.classList.toggle("on", n.id === cur); });
+    svg.querySelector(".ring").style.transform = `translate(${pos[cur][0]}px,${pos[cur][1]}px)`;
+    if (!withPanel) return;
+    const n = nodes[cur], trail = path.slice(1).map((k) => `<i>${nodes[k].ans}</i>`).join(" → ");
+    if (n.leaf) {
+      const it = BY[n.leaf];
+      card(panel, it, `You got · ${KINDS[it.kind]}`, `<p class="in">The path here: ${trail}</p>`, `<button type="button" class="link" data-reset>↺ Start over</button>`);
+    } else {
+      panel.innerHTML = `<p class="kind">Question ${n.depth + 1}</p><h3>${n.text}</h3>
+        <div class="ans">${n.kids.map((k) => `<button type="button" data-n="${k}">${nodes[k].ans}</button>`).join("")}</div>
+        ${path.length > 1 ? `<p class="trail">${trail}</p><button type="button" class="link" data-back>← Back</button>` : ""}`;
+      if (!reduce) panel.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 200, easing: "ease-out" });
+    }
+  }
+  function go(newPath, e) {
+    path = newPath; paint();
+    if (e && e.detail === 0) panel.querySelector("button")?.focus({ preventScroll: true }); // keyboard users keep their place
+  }
+  panel.addEventListener("click", (e) => {
+    const b = e.target.closest("button");
+    if (!b) return;
+    if (b.dataset.n) go([...path, +b.dataset.n], e);
+    else if ("back" in b.dataset) go(path.slice(0, -1), e);
+    else if ("reset" in b.dataset) go([0], e);
+  });
+  const pick = (e) => { const g = e.target.closest(".lf"); if (g) go(chain(+g.dataset.n)); };
+  svg.addEventListener("click", pick);
+  svg.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pick(e); } });
+  onWidth(root.querySelector(".stage"), draw);
+})();
+
+// ---------- C · similarity matrix ----------
+(() => {
+  const root = document.getElementById("matwrap"), svg = document.getElementById("mat"), out = root.querySelector(".readout"), cardEl = root.querySelector(".card");
+  // Tags are my reading of each description: edit them and the matrix and the eigenvector order follow.
+  const TAGS = {
+    chess: ["competitive", "ranked", "strategy", "online", "for fun"], league: ["competitive", "ranked", "strategy", "online", "with friends", "for fun"],
+    matcha: ["taste", "buying", "ritual", "for fun"], fashion: ["taste", "buying", "history", "for fun"], watches: ["taste", "history", "selling", "business"],
+    pastry: ["taste", "making", "selling", "London", "hospitality"], bar: ["selling", "London", "hospitality", "people"],
+    consult: ["clients", "analysis", "strategy", "on LinkedIn", "team"], generate: ["clients", "analysis", "building", "on LinkedIn", "team"],
+    disrupt: ["events", "people", "on LinkedIn", "team"], ambassador: ["events", "talks", "people", "on LinkedIn", "abroad"], mentor: ["advising", "people", "on LinkedIn", "abroad"],
+  };
+  const GROUPS = [[["chess", "league"], "games with a ladder"], [["matcha", "fashion"], "things I buy"], [["watches", "pastry", "bar"], "things I’ve sold"],
+    [["consult", "generate"], "other people’s problems"], [["disrupt", "ambassador", "mentor"], "rooms full of people"]];
+  const n = IDS.length, shared = (a, b) => TAGS[IDS[a]].filter((t) => TAGS[IDS[b]].includes(t));
+  const S = IDS.map((_, a) => IDS.map((_, b) => shared(a, b).length / Math.sqrt(TAGS[IDS[a]].length * TAGS[IDS[b]].length)));
+
+  // symmetric eigen-decomposition (Jacobi rotations), then recursive spectral bisection on the similarity graph
+  function eig(M) {
+    const m = M.length, A = M.map((r) => r.slice()), V = A.map((_, i) => A.map((_, j) => +(i === j)));
+    for (let sweep = 0; sweep < 60; sweep++) {
+      let off = 0;
+      for (let i = 0; i < m; i++) for (let j = i + 1; j < m; j++) off += A[i][j] ** 2;
+      if (off < 1e-18) break;
+      for (let p = 0; p < m; p++) for (let r = p + 1; r < m; r++) {
+        if (Math.abs(A[p][r]) < 1e-15) continue;
+        const th = (A[r][r] - A[p][p]) / (2 * A[p][r]), t = Math.sign(th || 1) / (Math.abs(th) + Math.sqrt(th * th + 1)), c = 1 / Math.sqrt(t * t + 1), s = t * c;
+        for (let k = 0; k < m; k++) { const kp = A[k][p], kr = A[k][r]; A[k][p] = c * kp - s * kr; A[k][r] = s * kp + c * kr; }
+        for (let k = 0; k < m; k++) { const pk = A[p][k], rk = A[r][k]; A[p][k] = c * pk - s * rk; A[r][k] = s * pk + c * rk; }
+        for (let k = 0; k < m; k++) { const kp = V[k][p], kr = V[k][r]; V[k][p] = c * kp - s * kr; V[k][r] = s * kp + c * kr; }
+      }
+    }
+    return { vals: A.map((r, i) => r[i]), V };
+  }
+  function bisect(idx) {
+    if (idx.length <= 2) return idx;
+    const W = idx.map((a) => idx.map((b) => a === b ? 0 : S[a][b])), d = W.map((r) => r.reduce((x, y) => x + y, 0) + 1e-9);
+    const { vals, V } = eig(W.map((r, i) => r.map((x, j) => (i === j ? 1 : 0) - x / Math.sqrt(d[i] * d[j])))); // normalised Laplacian
+    const f = vals.map((v, i) => [v, i]).sort((a, b) => a[0] - b[0])[1][1];
+    const z = idx.map((id, i) => [V[i][f] / Math.sqrt(d[i]), id]).sort((a, b) => a[0] - b[0]);
+    let cut = 1;
+    for (let k = 2; k < z.length; k++) if (z[k][0] - z[k - 1][0] > z[cut][0] - z[cut - 1][0]) cut = k; // split at the widest gap
+    return [...bisect(z.slice(0, cut).map((x) => x[1])), ...bisect(z.slice(cut).map((x) => x[1]))];
+  }
+  const AZ = IDS.map((_, i) => i).sort((a, b) => ITEMS[a].short.localeCompare(ITEMS[b].short)), EIG = bisect(IDS.map((_, i) => i));
+  const at = (order) => { const p = []; order.forEach((it, k) => { p[it] = k; }); return p; };
+  const epos = at(EIG);
+  const blocks = GROUPS.map(([g, name]) => { const ps = g.map((id) => epos[IDS.indexOf(id)]); return [Math.min(...ps), Math.max(...ps), name, g.length]; })
+    .filter(([a, b, , len]) => b - a + 1 === len); // only label a group if the eigenvector put it in one run
+
+  let order = AZ, sel = IDS.indexOf("matcha"), c = 0, Lw = 0, touched = false;
+  function draw(W) {
+    Lw = W < 520 ? 90 : 104;
+    const Gw = W >= 600 ? 180 : 0;
+    c = Math.floor(Math.min(34, (W - Lw - Gw) / n));
+    const H = n * c, mx = Lw + n * c;
+    svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+    let cells = "";
+    for (let i = 0; i < n; i++) for (let j = 0; j < n; j++) {
+      const s = S[i][j], fill = s === 0 ? "#f3f3f5" : `rgba(85,99,58,${(.14 + .86 * s).toFixed(3)})`;
+      cells += `<rect class="c" data-i="${i}" data-j="${j}" width="${c - 2}" height="${c - 2}" rx="3" fill="${fill}"/>`;
+    }
+    svg.innerHTML = `${cells}
+      ${IDS.map((id, i) => `<g class="rl" data-i="${i}" tabindex="-1" role="button" aria-label="${BY[id].title}"><rect class="hit" x="0" y="0" width="${Lw}" height="${c}"/><text x="${Lw - 10}" y="${c / 2 + 5}" text-anchor="end">${BY[id].short}</text></g>`).join("")}
+      <rect class="rowsel" x="${Lw - 1}" y="-1" width="${n * c}" height="${c}" rx="4"/>
+      ${blocks.map(([a, b]) => `<rect class="blk" x="${Lw + a * c - 1.5}" y="${a * c - 1.5}" width="${(b - a + 1) * c + 1}" height="${(b - a + 1) * c + 1}" rx="5"/>`).join("")}
+      ${Gw ? blocks.map(([a, b, name]) => `<g class="gn"><line x1="${mx + 12}" y1="${a * c + 3}" x2="${mx + 12}" y2="${(b + 1) * c - 5}"/><text x="${mx + 22}" y="${((a + b + 1) / 2) * c + 5}">${name}</text></g>`).join("") : ""}`;
+    place();
+  }
+  function place() {
+    if (!c) return; // not drawn yet
+    const p = at(order);
+    svg.classList.toggle("sorted", order === EIG);
+    svg.querySelectorAll(".c").forEach((r) => { r.style.transform = `translate(${Lw + p[+r.dataset.j] * c}px,${p[+r.dataset.i] * c}px)`; });
+    svg.querySelectorAll(".rl").forEach((g) => { g.style.transform = `translateY(${p[+g.dataset.i] * c}px)`; g.classList.toggle("on", +g.dataset.i === sel); g.tabIndex = +g.dataset.i === sel ? 0 : -1; });
+    svg.querySelector(".rowsel").style.transform = `translateY(${p[sel] * c}px)`;
+    root.querySelectorAll(".seg button").forEach((b) => b.setAttribute("aria-pressed", String((b.dataset.o === "eig") === (order === EIG))));
+  }
+  const IDLE = "Hover or tap a cell to compare two sidequests.";
+  function read(i, j) {
+    svg.querySelectorAll(".rl").forEach((g) => g.classList.toggle("hl", i != null && (+g.dataset.i === i || +g.dataset.i === j)));
+    if (i == null) { out.textContent = IDLE; return; }
+    const sh = shared(i, j);
+    out.innerHTML = i === j ? `<b>${ITEMS[i].short}</b> · 1.00 · itself`
+      : `<b>${ITEMS[i].short} × ${ITEMS[j].short}</b> · ${S[i][j].toFixed(2)}<br>${sh.length ? `shared: ${sh.join(", ")}` : "nothing in common"}`;
+  }
+  function choose(i, focus) {
+    sel = i; place();
+    const top = IDS.map((_, j) => [S[i][j], j]).filter(([s, j]) => j !== i && s > 0).sort((a, b) => b[0] - a[0]).slice(0, 3);
+    card(cardEl, ITEMS[i], KINDS[ITEMS[i].kind], `<p class="in">Most similar: ${top.map(([s, j]) => `<button type="button" data-go="${j}">${ITEMS[j].short}</button> <span class="num">${s.toFixed(2)}</span>`).join(" · ")}</p>`);
+    if (focus) svg.querySelector(`.rl[data-i="${i}"]`).focus();
+  }
+  function sort(o) { order = o; place(); }
+
+  svg.addEventListener("pointerover", (e) => { const r = e.target.closest(".c"); const l = e.target.closest(".rl"); if (r) read(+r.dataset.i, +r.dataset.j); else if (l) read(+l.dataset.i, +l.dataset.i); });
+  svg.addEventListener("pointerleave", () => read(null));
+  svg.addEventListener("click", (e) => { const g = e.target.closest(".c, .rl"); if (g) { choose(+g.dataset.i); if (g.matches(".c")) read(+g.dataset.i, +g.dataset.j); } });
+  svg.addEventListener("keydown", (e) => { // up and down walk the rows in their current order
+    const step = { ArrowDown: 1, ArrowUp: -1 }[e.key], k = order.indexOf(sel);
+    if (step && order[k + step] != null) { e.preventDefault(); choose(order[k + step], true); }
+  });
+  cardEl.addEventListener("click", (e) => { const b = e.target.closest("[data-go]"); if (b) choose(+b.dataset.go); });
+  root.querySelector(".seg").addEventListener("click", (e) => { const b = e.target.closest("button"); if (b) { touched = true; sort(b.dataset.o === "eig" ? EIG : AZ); } });
+  // the first time it scrolls into view, sort it once so the blocks visibly emerge
+  if (reduce) order = EIG;
+  else new IntersectionObserver(([en], ob) => { if (en.isIntersecting) { ob.disconnect(); setTimeout(() => { if (!touched) sort(EIG); }, 700); } }, { threshold: .6 }).observe(svg);
+  onWidth(root.querySelector(".stage"), draw);
+  read(null);
+  choose(sel);
+})();
+</script>
+</body>
+</html>

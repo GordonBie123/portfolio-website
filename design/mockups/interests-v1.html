@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Interests mockups</title>
+<style>
+@font-face{font-family:"CMS";src:url("../../public/fonts/cmu/cmunrm.woff") format("woff");font-weight:400}
+@font-face{font-family:"CMS";src:url("../../public/fonts/cmu/cmunbx.woff") format("woff");font-weight:700}
+@font-face{font-family:"CMS";src:url("../../public/fonts/cmu/cmunti.woff") format("woff");font-style:italic}
+@font-face{font-family:"CMT";src:url("../../public/fonts/cmu/cmuntt.woff") format("woff");font-weight:400}
+@font-face{font-family:"CMT";src:url("../../public/fonts/cmu/cmuntb.woff") format("woff");font-weight:700}
+:root{--bg:#fff;--tile:#f5f5f7;--ink:#1d1d1f;--ink-2:#5f5f64;--line:#d2d2d7;--matcha:#8a9a5b;--matcha-text:#55633a;--matcha-wash:#eef1e4;
+  --serif:"CMS",Georgia,serif;--mono:"CMT",ui-monospace,Menlo,monospace;--ease:cubic-bezier(.16,1,.3,1)}
+*{box-sizing:border-box;margin:0}
+html{-webkit-font-smoothing:antialiased}
+body{background:var(--bg);color:var(--ink);font-family:var(--serif);font-size:17px;line-height:1.5}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--matcha-text);outline-offset:3px;border-radius:8px}
+.wrap{max-width:980px;margin:0 auto;padding:0 22px}
+.top{padding:64px 0 8px}
+.top p{font-family:var(--mono);font-size:13px;color:var(--ink-2)}
+.top h1{margin-top:10px;font-size:clamp(40px,5vw,60px);font-weight:700;letter-spacing:-.015em;line-height:1.05}
+.top .sub{margin-top:12px;font-family:var(--serif);font-size:19px;color:var(--ink-2);max-width:46ch}
+.jump{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.jump a{font-family:var(--mono);font-size:13px;padding:8px 14px;border-radius:980px;background:var(--tile);color:var(--ink);text-decoration:none}
+section.mock{padding:88px 0 24px;border-bottom:1px solid var(--line)}
+.lab{display:flex;gap:10px;align-items:baseline;font-family:var(--mono);font-size:13px;color:var(--matcha-text)}
+.mock h2{margin-top:6px;font-size:clamp(28px,3vw,36px);font-weight:700;letter-spacing:-.005em;line-height:1.14}
+.mock .why{margin-top:8px;color:var(--ink-2);max-width:60ch}
+.stage{margin-top:36px}
+.k{font-family:var(--mono);font-size:12.5px;color:var(--matcha-text)}
+.card h3{margin-top:6px;font-size:26px;font-weight:700;letter-spacing:-.005em;line-height:1.15}
+.card .m{margin-top:4px;font-family:var(--mono);font-size:12.5px;color:var(--ink-2)}
+.card .d{margin-top:14px;font-size:17px;line-height:1.55;color:var(--ink);text-wrap:pretty}
+.swap{animation:swap .45s var(--ease)}
+@keyframes swap{from{opacity:0;transform:translateY(8px)}}
+.seg{display:inline-flex;flex-wrap:wrap;gap:4px;padding:4px;border-radius:980px;background:var(--tile)}
+.seg button{padding:8px 14px;min-height:36px;border-radius:980px;font-size:15px;color:var(--ink-2);transition:background .2s,color .2s}
+.seg button[aria-pressed=true]{background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.08),0 0 0 .5px rgba(0,0,0,.06)}
+.btn{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 22px;border-radius:980px;background:var(--ink);color:#fff;font-size:15px;transition:background .2s,transform .1s}
+.btn:hover{background:#3a3a3c}.btn:active{transform:scale(.97)}
+.btn.ghost{background:var(--tile);color:var(--ink)}.btn.ghost:hover{background:#e8e8ed}
+a.cta{display:inline-block;margin-top:16px;color:var(--matcha-text);text-decoration:none;font-size:17px}
+a.cta:hover{text-decoration:underline;text-underline-offset:4px}
+
+/* A · latent space */
+.emb{display:grid;grid-template-columns:1fr 290px;gap:40px;align-items:start}
+.emb svg{width:100%;height:auto;display:block;border-radius:22px;background:#fbfbfc;touch-action:manipulation}
+.emb .grid line{stroke:#eeeef1;stroke-width:1}
+.emb .blob{fill:var(--tile)}
+.emb .ctext{font-family:var(--mono);font-size:12px;fill:var(--ink-2)}
+.emb .axis{font-family:var(--mono);font-size:13px;fill:var(--ink-2)}
+.emb .pt{cursor:pointer}
+.emb .pt circle.dot{fill:#fff;stroke:var(--ink);stroke-width:1.5;transition:fill .25s,r .25s}
+.emb .pt circle.halo{fill:var(--matcha);opacity:0;transition:opacity .3s}
+.emb .pt.on circle.dot{fill:var(--matcha);stroke:var(--matcha-text)}
+.emb .pt.on circle.halo{opacity:.22}
+.emb .pt:hover circle.dot{r:9}
+.emb .pt text{font-family:var(--serif);font-size:17px;fill:var(--ink)}
+.emb .nnl{stroke:var(--matcha-text);stroke-width:1.5;stroke-dasharray:4 4}
+.emb .nnv rect{fill:#fff;stroke:var(--line)}
+.emb .nnv text{font-family:var(--mono);font-size:12px;fill:var(--matcha-text);text-anchor:middle;dominant-baseline:central}
+.emb .nn{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.emb .nn button{display:inline-flex;gap:8px;align-items:baseline;min-height:36px;padding:7px 14px;border-radius:980px;background:var(--tile);font-size:15px}
+.emb .nn button span{font-family:var(--mono);font-size:12px;color:var(--matcha-text)}
+.emb .nn button:hover{background:#e8e8ed}
+.emb .card .k + .nn{margin-top:8px}
+.emb .card .k.gap{margin-top:22px}
+
+/* B · sampling */
+.smp-ctrl{display:flex;flex-wrap:wrap;gap:18px 28px;align-items:center}
+.temp{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:13px;color:var(--ink-2)}
+.temp input{width:150px;accent-color:var(--ink)}
+.temp output{min-width:4.5em;color:var(--ink)}
+.formula{margin-top:22px;font-family:var(--mono);font-size:13px;color:var(--ink-2)}
+.bars{margin-top:18px;border-top:1px solid var(--line)}
+.bar{display:grid;grid-template-columns:170px 1fr 56px;gap:18px;align-items:center;padding:12px 10px;border-bottom:1px solid var(--line);border-radius:10px;transition:background .12s}
+.bar .n{font-size:17px}
+.bar .t,.bar .f{display:block}
+.bar .t{height:10px;border-radius:5px;background:var(--tile);overflow:hidden}
+.bar .f{height:100%;background:var(--matcha);border-radius:5px;transform-origin:left;transition:transform .55s var(--ease)}
+.bar .p{font-family:var(--mono);font-size:13px;text-align:right;font-variant-numeric:tabular-nums}
+.bar.hot{background:var(--matcha-wash)}
+.bar.won{background:var(--matcha-wash)}.bar.won .n{font-weight:700}
+.smp-go{display:flex;gap:14px;align-items:center;margin-top:26px}
+.smp-go .k{color:var(--ink-2)}
+.smp-out{margin-top:26px;min-height:150px}
+
+/* C · attention */
+.att-top{display:flex;flex-wrap:wrap;gap:14px 24px;align-items:center}
+.att{display:grid;grid-template-columns:minmax(0,560px) 1fr;gap:48px;margin-top:28px;align-items:start}
+.viz{display:grid;grid-template-columns:150px 1fr 150px}
+.viz .col{display:grid;grid-auto-rows:46px}
+.viz .q{justify-self:end;display:flex;align-items:center;gap:8px;padding:0 12px;border-radius:980px;font-size:16px;color:var(--ink-2);transition:background .2s,color .2s}
+.viz .q:hover{color:var(--ink)}
+.viz .q.on{background:var(--ink);color:#fff}
+.viz .kk{display:flex;align-items:center;gap:10px;padding-left:12px;font-size:16px}
+.viz .kk span{font-family:var(--mono);font-size:12px;color:var(--matcha-text);font-variant-numeric:tabular-nums;min-width:3.2em}
+.viz svg{width:100%;display:block;align-self:start}
+.viz svg line{stroke:var(--matcha-text);stroke-linecap:round;transition:stroke-width .4s var(--ease),opacity .4s}
+.viz .hd{font-family:var(--mono);font-size:12px;color:var(--ink-2);padding:0 12px 10px}
+.viz .hd.r{text-align:left}.viz .hd.l{text-align:right}
+
+/* D · decision tree */
+.tree-q{display:flex;flex-wrap:wrap;gap:14px 28px;align-items:center;justify-content:space-between}
+.tree-q h3{font-size:clamp(24px,2.6vw,30px);font-weight:700;letter-spacing:-.005em;line-height:1.2}
+.tree-q .acts{display:flex;gap:10px}
+.tree{margin-top:28px}
+.tree svg{width:100%;height:auto;display:block}
+.tree .edge{stroke:var(--line);stroke-width:1.5;fill:none;transition:stroke .3s}
+.tree .edge.on{stroke:var(--matcha-text);stroke-width:2.5}
+.tree .el{font-family:var(--mono);font-size:12px;fill:var(--ink-2)}
+.tree .node rect{fill:#fff;stroke:var(--line);stroke-width:1.2;transition:fill .3s,stroke .3s}
+.tree .node text{font-family:var(--mono);font-size:12.5px;fill:var(--ink-2)}
+.tree .node text.h{font-family:var(--serif);font-size:15px;fill:var(--ink)}
+.tree .node.leaf rect{fill:var(--tile)}
+.tree .node.next{cursor:pointer}.tree .node.next rect{stroke:var(--ink)}
+.tree .node.on rect{fill:var(--matcha-wash);stroke:var(--matcha-text)}
+.tree .node.dim{opacity:.45}
+.crumbs{display:none;margin-top:14px;font-family:var(--mono);font-size:12.5px;color:var(--ink-2)}
+.tree-out{margin-top:30px;min-height:120px}
+
+.foot{padding:56px 0 96px;font-family:var(--mono);font-size:13px;color:var(--ink-2)}
+
+@media (max-width:760px){
+  .emb,.att{grid-template-columns:1fr;gap:28px}
+  .emb .pt text{font-size:25px}.emb .ctext{font-size:17px}.emb .axis{font-size:18px}
+  .bar{grid-template-columns:118px 1fr 48px;gap:12px;padding:12px 6px}.bar .n{font-size:15px}
+  .viz{grid-template-columns:118px 1fr 118px}.viz .q,.viz .kk{font-size:14px}.viz .kk{flex-direction:row-reverse;justify-content:flex-end;gap:6px;padding-left:8px}
+  .viz .kk span{min-width:0}
+  .tree{display:none}.crumbs{display:block}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <p>design/mockups/interests.html · Interests page</p>
+    <h1>Four ML takes on my interests</h1>
+    <p class="sub">Each replaces the six tiles. All four are live: click around, then pick one.</p>
+    <nav class="jump"><a href="#a">A · Latent space</a><a href="#b">B · Sampling</a><a href="#c">C · Attention</a><a href="#d">D · Decision tree</a></nav>
+  </header>
+
+  <section class="mock" id="a">
+    <div class="lab">A</div>
+    <h2>Latent space</h2>
+    <p class="why">My interests embedded in 2D. Pick a point to see it, its cluster, and its nearest neighbours by cosine similarity.</p>
+    <div class="stage emb">
+      <svg id="embMap" viewBox="0 0 640 430" role="img" aria-label="Interests plotted as an embedding"></svg>
+      <div class="card" id="embCard" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section class="mock" id="b">
+    <div class="lab">B</div>
+    <h2>What is Gordon doing right now?</h2>
+    <p class="why">A softmax over my interests. Pick a context, turn the temperature up or down, then sample one.</p>
+    <div class="stage">
+      <div class="smp-ctrl">
+        <div class="seg" id="ctx" aria-label="Context"></div>
+        <label class="temp">T<input type="range" id="temp" min="0.1" max="3" step="0.1" value="1" aria-label="Temperature"><output id="tempV">T = 1.0</output></label>
+      </div>
+      <p class="formula">p<sub>i</sub> = exp(z<sub>i</sub> / T) / Σ<sub>j</sub> exp(z<sub>j</sub> / T)</p>
+      <div class="bars" id="bars"></div>
+      <div class="smp-go"><button class="btn" id="sample" type="button">Sample an interest</button><span class="k" id="seed"></span></div>
+      <div class="smp-out card" id="smpOut" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section class="mock" id="c">
+    <div class="lab">C</div>
+    <h2>Self-attention</h2>
+    <p class="why">Each interest attends to the others. Switch heads to see a different reason they connect.</p>
+    <div class="stage">
+      <div class="att-top"><div class="seg" id="heads" aria-label="Attention head"></div><span class="k">softmax(QK<sup>T</sup> / √d)</span></div>
+      <div class="att">
+        <div class="viz">
+          <div class="hd l">query</div><div></div><div class="hd r">key</div>
+          <div class="col" id="qs"></div>
+          <svg id="attSvg" preserveAspectRatio="none" aria-hidden="true"></svg>
+          <div class="col" id="ks"></div>
+        </div>
+        <div class="card" id="attCard" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mock" id="d">
+    <div class="lab">D</div>
+    <h2>What should we do together?</h2>
+    <p class="why">A decision tree, sklearn style. Answer a few questions and it classifies you into the interest we should share.</p>
+    <div class="stage">
+      <div class="tree-q"><h3 id="treeQ"></h3><div class="acts" id="treeActs"></div></div>
+      <p class="crumbs" id="crumbs"></p>
+      <div class="tree"><svg id="treeSvg" viewBox="0 0 900 420" aria-hidden="true"></svg></div>
+      <div class="tree-out card" id="treeOut" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <p class="foot">The “Also” list below the interests stays as it is in every option.</p>
+</div>
+
+<script>
+const EMAIL = "gordonbie2@gmail.com";
+const I = [
+  { n: "Matcha", d: "Enjoyer since birth. Let’s connect and have matcha.", m: "Whisking · tasting · spending money", cta: "Let’s get matcha" },
+  { n: "Fashion", d: "Cool clothes and accessories, and the stories about the people and history behind every piece.", m: "Heritage · engineering · trend", cta: "Talk clothes with me" },
+  { n: "Vintage watches", d: "I curate and sell vintage watches and watch parts on eBay.", m: "eBay business · 2024 – now", cta: "Ask me about a watch" },
+  { n: "Pastry", d: "Pastry chef at Swan Bakery in London. Pastries, cakes and tarts, and the lesson that professional baking is not all sunshine.", m: "London · 2023 – 2024", cta: "Swap recipes with me" },
+  { n: "Chess", d: "Not very good. Puzzles daily, and games in Harvard Square over the summer.", m: "1700 puzzles · 1500 rapid · 1100 blitz", cta: "Challenge me to a game" },
+  { n: "League of Legends", d: "Every now and then with friends. Used to be top 1%, and played competitively at university for a bit.", m: "ARAM enjoyer", cta: "Queue up an ARAM" },
+];
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const $ = (id) => document.getElementById(id);
+const NS = "http://www.w3.org/2000/svg";
+const el = (tag, attrs = {}, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); parent && parent.appendChild(e); return e; };
+const swap = (node, html) => { node.innerHTML = html; node.classList.remove("swap"); void node.offsetWidth; node.classList.add("swap"); };
+const softmax = (z, T = 1) => { const m = Math.max(...z), e = z.map((v) => Math.exp((v - m) / T)), s = e.reduce((a, b) => a + b, 0); return e.map((v) => v / s); };
+
+/* ---------- A · latent space ---------- */
+(() => {
+  const svg = $("embMap"), card = $("embCard");
+  const P = [[128, 150], [392, 98], [500, 178], [212, 252], [372, 300], [512, 372]];
+  const S = [ // cosine similarity, symmetric
+    [1, .44, .31, .81, .22, .12], [.44, 1, .86, .29, .18, .21], [.31, .86, 1, .38, .41, .15],
+    [.81, .29, .38, 1, .19, .08], [.22, .18, .41, .19, 1, .79], [.12, .21, .15, .08, .79, 1]];
+  const C = [
+    { x: 170, y: 200, rx: 128, ry: 92, r: 38, t: "cluster 0 · made by hand", tx: 46, ty: 70 },
+    { x: 446, y: 138, rx: 118, ry: 70, r: 30, t: "cluster 1 · things with a story", tx: 330, ty: 40 },
+    { x: 442, y: 336, rx: 128, ry: 62, r: 22, t: "cluster 2 · games with a ladder", tx: 316, ty: 262 },
+  ];
+  const cl = [0, 1, 1, 0, 2, 2];
+  const g = el("g", { class: "grid" }, svg);
+  for (let x = 40; x < 640; x += 40) el("line", { x1: x, y1: 0, x2: x, y2: 430 }, g);
+  for (let y = 40; y < 430; y += 40) el("line", { x1: 0, y1: y, x2: 640, y2: y }, g);
+  C.forEach((c) => { el("ellipse", { class: "blob", cx: c.x, cy: c.y, rx: c.rx, ry: c.ry, transform: `rotate(${c.r} ${c.x} ${c.y})` }, svg); el("text", { class: "ctext", x: c.tx, y: c.ty }, svg).textContent = c.t; });
+  el("text", { class: "axis", x: 612, y: 418 }, svg).textContent = "z₁";
+  el("text", { class: "axis", x: 14, y: 26 }, svg).textContent = "z₂";
+  const links = el("g", {}, svg);
+  const pts = I.map((it, i) => {
+    const p = el("g", { class: "pt", tabindex: 0, role: "button", "aria-label": it.n }, svg);
+    el("circle", { class: "halo", r: 18 }, p); el("circle", { class: "dot", r: 7 }, p);
+    const right = P[i][0] < 440, t = el("text", { x: right ? 14 : -14, y: 6, "text-anchor": right ? "start" : "end" }, p);
+    t.textContent = it.n;
+    p.addEventListener("click", () => pick(i));
+    p.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pick(i); } });
+    return p;
+  });
+  let cur = 0;
+  const nn = (i) => S[i].map((v, j) => [v, j]).filter(([, j]) => j !== i).sort((a, b) => b[0] - a[0]).slice(0, 2);
+  const pos = (i, t) => reduce ? P[i] : [P[i][0] + 3 * Math.sin(t * .6 + i * 1.7), P[i][1] + 3 * Math.cos(t * .5 + i * 2.3)];
+  function draw(t) {
+    pts.forEach((p, i) => { const [x, y] = pos(i, t); p.setAttribute("transform", `translate(${x.toFixed(1)} ${y.toFixed(1)})`); });
+    links.innerHTML = "";
+    const [x0, y0] = pos(cur, t);
+    nn(cur).forEach(([v, j]) => {
+      const [x1, y1] = pos(j, t), mx = (x0 + x1) / 2, my = (y0 + y1) / 2;
+      el("line", { class: "nnl", x1: x0, y1: y0, x2: x1, y2: y1 }, links);
+      const b = el("g", { class: "nnv" }, links);
+      el("rect", { x: mx - 22, y: my - 11, width: 44, height: 22, rx: 11 }, b);
+      el("text", { x: mx, y: my }, b).textContent = v.toFixed(2);
+    });
+  }
+  function pick(i) {
+    cur = i; pts.forEach((p, j) => p.classList.toggle("on", j === i));
+    const it = I[i];
+    swap(card, `<p class="k">encode("${it.n.toLowerCase()}") · cluster ${cl[i]}</p><h3>${it.n}</h3><p class="m">${it.m}</p><p class="d">${it.d}</p>
+      <p class="k gap">nearest neighbours</p><div class="nn">${nn(i).map(([v, j]) => `<button type="button" data-j="${j}">${I[j].n}<span>${v.toFixed(2)}</span></button>`).join("")}</div>`);
+    card.querySelectorAll("[data-j]").forEach((b) => b.addEventListener("click", () => pick(+b.dataset.j)));
+    if (reduce) draw(0);
+  }
+  pick(0);
+  const loop = (ms) => { draw(ms / 1000); requestAnimationFrame(loop); };
+  reduce ? draw(0) : requestAnimationFrame(loop);
+})();
+
+/* ---------- B · sampling ---------- */
+(() => {
+  const CTX = [
+    { n: "Saturday morning", z: [2.2, 1.0, 0.8, 1.6, 0.6, -0.5] },
+    { n: "Weeknight", z: [0.6, 0.3, 1.0, -0.4, 1.4, 1.6] },
+    { n: "Summer in Boston", z: [1.2, 1.0, 0.3, 0.4, 2.0, -0.2] },
+    { n: "Exam week", z: [1.8, -0.2, 0.2, -0.8, 0.5, 1.5] },
+  ];
+  let c = 0, T = 1, busy = false;
+  const bars = $("bars"), out = $("smpOut"), seg = $("ctx");
+  seg.innerHTML = CTX.map((x, i) => `<button type="button" aria-pressed="${!i}">${x.n}</button>`).join("");
+  bars.innerHTML = I.map((it) => `<div class="bar"><span class="n">${it.n}</span><span class="t"><span class="f"></span></span><span class="p"></span></div>`).join("");
+  const rows = [...bars.children];
+  const probs = () => softmax(CTX[c].z, T);
+  function render() {
+    const p = probs();
+    rows.forEach((r, i) => { r.querySelector(".f").style.transform = `scaleX(${p[i]})`; r.querySelector(".p").textContent = p[i].toFixed(2); });
+    $("tempV").textContent = `T = ${T.toFixed(1)}`;
+    $("seed").textContent = T < .5 ? "low T: nearly always the top one" : T > 2 ? "high T: anything goes" : "";
+  }
+  [...seg.children].forEach((b, i) => b.addEventListener("click", () => { c = i; [...seg.children].forEach((x, j) => x.setAttribute("aria-pressed", j === i)); rows.forEach((r) => r.classList.remove("won")); render(); }));
+  $("temp").addEventListener("input", (e) => { T = +e.target.value; render(); });
+  function show(k) {
+    rows.forEach((r, i) => { r.classList.toggle("won", i === k); r.classList.remove("hot"); });
+    const it = I[k];
+    swap(out, `<p class="k">sampled · p = ${probs()[k].toFixed(2)} · ${CTX[c].n.toLowerCase()}</p><h3>${it.n}</h3><p class="m">${it.m}</p><p class="d">${it.d}</p><a class="cta" href="mailto:${EMAIL}">${it.cta} →</a>`);
+    busy = false;
+  }
+  $("sample").addEventListener("click", () => {
+    if (busy) return;
+    const p = probs(); let u = Math.random(), k = 0;
+    while (k < p.length - 1 && (u -= p[k]) > 0) k++;
+    if (reduce) return show(k);
+    busy = true; rows.forEach((r) => r.classList.remove("won"));
+    const hops = 12 + k; let h = 0; // ends on row k
+    const step = () => {
+      rows.forEach((r, i) => r.classList.toggle("hot", i === h % 6));
+      if (h === hops) return setTimeout(() => show(k), 120);
+      h++; setTimeout(step, 30 + h * h * 0.35);
+    };
+    step();
+  });
+  render();
+  out.innerHTML = `<p class="k">press sample to draw from the distribution</p>`;
+})();
+
+/* ---------- C · attention ---------- */
+(() => {
+  const H = [
+    { n: "Head 1 · craft", s: [[3, 1, 1, 3, 0, 0], [1, 3, 2.5, 1, 0, 0], [1, 2.5, 3, 2, 1, 0], [3, 1, 2, 3, 0, 0], [0, 0, 1, 0, 3, 1], [0, 0, 0, 0, 1, 3]], why: "Things made slowly, by hand, with a lot of care." },
+    { n: "Head 2 · competition", s: [[2, 0, 0, 1, 0, 0], [0, 2, 1, 0, 0, 1], [0, 1, 2, 0, 1, 0], [1, 0, 0, 2, 1, 0], [0, 0, 1, 1, 2, 3.2], [0, 1, 0, 0, 3.2, 2]], why: "Ladders, ratings and professional kitchens." },
+    { n: "Head 3 · where my money goes", s: [[2, 2.5, 2, 0, 0, 1], [2.5, 2, 3, 0, 0, 1.5], [2, 3, 2, 0, 0, 1], [1, 1, 1, 1.5, 0, 0], [0, 0, 1, 0, 2, 1], [1, 2, 1, 0, 1, 2]], why: "Whisks, tins, straps and skins." },
+  ];
+  const W = H.map((h) => h.s.map((r) => softmax(r.map((v) => v * 1.1))));
+  let hd = 0, q = 0;
+  const seg = $("heads"), qs = $("qs"), ks = $("ks"), svg = $("attSvg"), card = $("attCard");
+  seg.innerHTML = H.map((h, i) => `<button type="button" aria-pressed="${!i}">${h.n}</button>`).join("");
+  qs.innerHTML = I.map((it) => `<button type="button" class="q">${it.n === "League of Legends" ? "League" : it.n === "Vintage watches" ? "Watches" : it.n}</button>`).join("");
+  ks.innerHTML = I.map((it) => `<div class="kk"><span></span>${it.n === "League of Legends" ? "League" : it.n === "Vintage watches" ? "Watches" : it.n}</div>`).join("");
+  const RH = 46, N = I.length;
+  svg.setAttribute("viewBox", `0 0 100 ${RH * N}`); svg.style.height = RH * N + "px";
+  const lines = I.map((_, j) => el("line", { x1: 2, x2: 98, "vector-effect": "non-scaling-stroke" }, svg));
+  function render() {
+    const w = W[hd][q], mx = Math.max(...w);
+    lines.forEach((l, j) => {
+      l.setAttribute("y1", RH * q + RH / 2); l.setAttribute("y2", RH * j + RH / 2);
+      l.style.strokeWidth = (1 + 11 * w[j]).toFixed(1) + "px"; l.style.opacity = (.12 + .88 * w[j] / mx).toFixed(2);
+    });
+    [...qs.children].forEach((b, i) => b.classList.toggle("on", i === q));
+    [...ks.children].forEach((k, j) => k.querySelector("span").textContent = w[j].toFixed(2));
+    const top = w.map((v, j) => [v, j]).filter(([, j]) => j !== q).sort((a, b) => b[0] - a[0])[0];
+    const it = I[q];
+    swap(card, `<p class="k">${H[hd].n.toLowerCase()} · attends most to ${I[top[1]].n.toLowerCase()} (${top[0].toFixed(2)})</p><h3>${it.n}</h3><p class="m">${it.m}</p><p class="d">${it.d}</p><p class="m" style="margin-top:14px">${H[hd].why}</p>`);
+  }
+  [...seg.children].forEach((b, i) => b.addEventListener("click", () => { hd = i; [...seg.children].forEach((x, j) => x.setAttribute("aria-pressed", j === i)); render(); }));
+  [...qs.children].forEach((b, i) => { b.addEventListener("click", () => { q = i; render(); }); b.addEventListener("mouseenter", () => { q = i; render(); }); });
+  render();
+})();
+
+/* ---------- D · decision tree ---------- */
+(() => {
+  const N = {
+    root: { q: "Feeling competitive?", r: "competitive?", gini: ".833", s: 6, x: 375, y: 40, yes: "screen", no: "edible" },
+    screen: { q: "On a screen?", r: "on_screen?", gini: ".500", s: 2, x: 150, y: 150, yes: "L5", no: "L4" },
+    edible: { q: "Something to eat or drink?", r: "edible?", gini: ".750", s: 4, x: 600, y: 150, yes: "oven", no: "ticks" },
+    oven: { q: "Does it need an oven?", r: "needs_oven?", gini: ".500", s: 2, x: 450, y: 260, yes: "L3", no: "L0" },
+    ticks: { q: "Does it tick?", r: "ticks?", gini: ".500", s: 2, x: 750, y: 260, yes: "L2", no: "L1" },
+    L5: { leaf: 5, x: 75, y: 260 }, L4: { leaf: 4, x: 225, y: 260 },
+    L3: { leaf: 3, x: 375, y: 370 }, L0: { leaf: 0, x: 525, y: 370 }, L2: { leaf: 2, x: 675, y: 370 }, L1: { leaf: 1, x: 825, y: 370 },
+  };
+  const short = ["matcha", "fashion", "watches", "pastry", "chess", "league"];
+  const svg = $("treeSvg"), BW = 134, BH = 62;
+  const edges = {}, nodes = {};
+  for (const id in N) for (const side of ["yes", "no"]) if (N[id][side]) {
+    const a = N[id], b = N[N[id][side]], y0 = a.y + BH / 2, y1 = b.y - BH / 2, ym = (y0 + y1) / 2;
+    edges[id + side] = el("path", { class: "edge", d: `M${a.x} ${y0} C${a.x} ${ym} ${b.x} ${ym} ${b.x} ${y1}` }, svg);
+    const t = el("text", { class: "el", x: a.x + (b.x - a.x) * .22 + (side === "yes" ? -8 : 8), y: y0 + 18, "text-anchor": side === "yes" ? "end" : "start" }, svg);
+    t.textContent = side;
+  }
+  for (const id in N) {
+    const n = N[id], g = el("g", { class: "node" + (n.leaf !== undefined ? " leaf" : ""), transform: `translate(${n.x - BW / 2} ${n.y - BH / 2})` }, svg);
+    el("rect", { width: BW, height: BH, rx: 10 }, g);
+    const lines = n.leaf !== undefined ? [["h", I[n.leaf].n === "League of Legends" ? "League" : I[n.leaf].n], ["", "gini = 0.0"], ["", `class = ${short[n.leaf]}`]] : [["", n.r], ["", `gini = ${n.gini}`], ["", `samples = ${n.s}`]];
+    lines.forEach(([c, s], i) => { const t = el("text", { x: BW / 2, y: 20 + i * 15, "text-anchor": "middle", class: c }, g); t.textContent = s; });
+    g.addEventListener("click", () => { const cur = N[path.at(-1)]; if (cur.yes === id) go("yes"); else if (cur.no === id) go("no"); });
+    nodes[id] = g;
+  }
+  let path = ["root"], ans = [];
+  function go(side) { path.push(N[path.at(-1)][side]); ans.push(side); render(); }
+  function render() {
+    const id = path.at(-1), n = N[id], leaf = n.leaf !== undefined;
+    for (const k in nodes) {
+      const on = path.includes(k), nx = !leaf && (n.yes === k || n.no === k);
+      nodes[k].classList.toggle("on", on); nodes[k].classList.toggle("next", nx); nodes[k].classList.toggle("dim", path.length > 1 && !on && !nx);
+    }
+    for (const k in edges) edges[k].classList.remove("on");
+    path.slice(0, -1).forEach((p, i) => edges[p + ans[i]].classList.add("on"));
+    $("crumbs").textContent = path.slice(0, -1).map((p, i) => `${N[p].r} ${ans[i]}`).join("  →  ") || "samples = 6 · gini = 0.833";
+    const acts = $("treeActs");
+    if (leaf) {
+      const it = I[n.leaf];
+      $("treeQ").textContent = "Classified.";
+      acts.innerHTML = `<button class="btn ghost" type="button">Start over</button>`;
+      acts.firstChild.addEventListener("click", () => { path = ["root"]; ans = []; render(); });
+      swap($("treeOut"), `<p class="k">class = ${short[n.leaf]} · gini = 0.0 · depth ${path.length - 1}</p><h3>${it.n}</h3><p class="m">${it.m}</p><p class="d">${it.d}</p><a class="cta" href="mailto:${EMAIL}">${it.cta} →</a>`);
+    } else {
+      $("treeQ").textContent = n.q;
+      acts.innerHTML = `<button class="btn" type="button">Yes</button><button class="btn ghost" type="button">No</button>`;
+      acts.children[0].addEventListener("click", () => go("yes"));
+      acts.children[1].addEventListener("click", () => go("no"));
+      $("treeOut").innerHTML = `<p class="k">${path.length - 1} of up to 3 questions</p>`;
+    }
+  }
+  render();
+})();
+</script>
+</body>
+</html>
